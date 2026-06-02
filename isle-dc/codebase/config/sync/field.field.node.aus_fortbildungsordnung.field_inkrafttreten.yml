@@ -1,0 +1,21 @@
+uuid: a4a1d464-9597-4984-ad1d-d0f71d068b56
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_inkrafttreten
+    - node.type.aus_fortbildungsordnung
+  module:
+    - datetime
+id: node.aus_fortbildungsordnung.field_inkrafttreten
+field_name: field_inkrafttreten
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Inkrafttreten
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

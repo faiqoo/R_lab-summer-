@@ -1,0 +1,23 @@
+uuid: 3dde1e4c-3c4b-4b1a-bda4-dfe6cb680e08
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_file_size
+    - media.type.tei_xml
+id: media.tei_xml.field_file_size
+field_name: field_file_size
+entity_type: media
+bundle: tei_xml
+label: 'File size'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

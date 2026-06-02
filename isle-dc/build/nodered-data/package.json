@@ -1,0 +1,10 @@
+{
+    "name": "node-red-project",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "node-red-contrib-simple-message-queue": "~0.3.2",
+        "node-red-node-stomp": "~1.0.6"
+    }
+}

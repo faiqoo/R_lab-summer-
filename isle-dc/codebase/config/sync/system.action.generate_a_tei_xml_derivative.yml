@@ -1,0 +1,20 @@
+uuid: 77825afa-62d2-48cf-b388-d8e5c32a4575
+langcode: de
+status: true
+dependencies:
+  module:
+    - islandora_fits
+id: generate_a_tei_xml_derivative
+label: 'Generate a TEI XML File for Document Attachment'
+type: node
+plugin: generate_fits_derivative
+configuration:
+  queue: berufearchiv-tei-derivative
+  event: 'Generate Derivative'
+  source_term_uri: 'http://pcdm.org/use#OriginalFile'
+  derivative_term_uri: 'http://pcdm.org/use#Transcript'
+  mimetype: application/xml
+  args: null
+  destination_media_type: tei_xml
+  scheme: webdav
+  path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].xml'

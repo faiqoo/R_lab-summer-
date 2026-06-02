@@ -1,0 +1,14 @@
+uuid: 09f0a968-3e3c-4712-bbdb-5e94b6482b80
+langcode: de
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - views_bulk_edit
+_core:
+  default_config_hash: b5BETc7ATggsTs4n0jHuPnUbl-QJ5Y4obwjOAsAjMU0
+id: taxonomy_term_edit_action
+label: 'Taxonomiebegriffe bearbeiten'
+type: taxonomy_term
+plugin: 'entity:edit_action:taxonomy_term'
+configuration: {  }

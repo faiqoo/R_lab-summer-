@@ -1,0 +1,11 @@
+FROM existdb/existdb:release
+
+COPY build/exist-data/setup.xq /tmp/setup.xq
+COPY build/exist-data/autodeploy/*.xar /exist/autodeploy
+COPY secrets/live/EXISTDB_PASSWORD /run/secrets/adminpw
+
+ENV JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS} -Dorg.exist.webdav.PROPFIND_METHOD_XML_SIZE=EXACT -Dorg.exist.webdav.GET_METHOD_XML_SIZE=NULL"
+
+RUN ["java", "-Dorg.exist.webdav.PROPFIND_METHOD_XML_SIZE=EXACT", "-Dorg.exist.webdav.GET_METHOD_XML_SIZE=NULL", "org.exist.start.Main", "client", "-l", "-s", "-u", "admin", "-P", "", "-F", "/tmp/setup.xq"]
+
+# CMD [ "java", "org.exist.start.Main", "jetty" ]

@@ -1,0 +1,10 @@
+vendor
+web/*
+.idea
+config/sync/.htaccess
+private
+!web/modules/
+!web/modules/custom/
+!web/modules/custom/**
+web/modules/contrib
+web/modules/README.txt

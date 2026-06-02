@@ -1,0 +1,21 @@
+uuid: ad176544-9af3-4991-acdf-799c7afc35a3
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_erlassdatum
+    - node.type.aus_fortbildungsordnung
+  module:
+    - datetime
+id: node.aus_fortbildungsordnung.field_erlassdatum
+field_name: field_erlassdatum
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Erlassdatum
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,30 @@
+uuid: 126bb24d-0329-470f-a572-18bfeb417eb2
+langcode: de
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_papierformat
+field_name: field_papierformat
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: a4
+      label: A4
+    -
+      value: a5
+      label: A5
+    -
+      value: sonderformat_einlegeblaetter
+      label: 'Sonderformat / Einlegeblätter'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

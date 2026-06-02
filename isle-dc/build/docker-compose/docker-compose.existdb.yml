@@ -1,0 +1,53 @@
+networks:
+  default:
+    internal: true
+volumes:
+  data:
+    driver: local
+    name: exist-data
+  config:
+    driver: local
+    name: exist-config
+services:
+  existdb:
+    build:
+      context: ../../
+      dockerfile: build/exist-data/Dockerfile.exist
+      secrets:
+        - adminpw
+    # image: existdb/existdb:release
+    secrets:
+      - adminpw
+    restart: ${RESTART_POLICY:-unless-stopped}
+    volumes:
+      - type: volume
+        source: data
+        target: /exist/data
+      #- type: volume
+      #  source: config
+      #  target: ${EXIST_HOME}/${EXIST_CONFIG_DIR}
+      - ../exist-data/conf.xml:/exist/etc/conf.xml
+      - ../exist-data/autodeploy:/exist/autodeploy
+      - ../exist-data/eXist-islandora:/eXist-islandora
+      - ../exist-data/setup.xq:/db/system/autostart/setup.xq
+      - ../exist-data/lib/xquery-versioning-module-1.1.6-SNAPSHOT-exist.jar:/exist/lib/user/xquery-versioning-module-1.1.6-SNAPSHOT-exist.jar
+    labels:
+      # Do not expose in production.
+      - traefik.enable=${EXPOSE_EXISTDB:-false}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-existdb.loadbalancer.server.port=8080
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-existdb_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-existdb
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-existdb_https.entrypoints=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-existdb_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-existdb_https.tls=true
+      # Neue Änderungen ab hier
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-existdb_https.rule=Host(`${DOMAIN}`) && PathPrefix(`/exist`)
+      - traefik.http.middlewares.existdb-strip-prefix.stripprefix.prefixes=/exist
+      # - traefik.http.middlewares.existdb-custom-request-headers.headers.customrequestheaders.X-Forwarded-Path=/exist
+      - traefik.http.middlewares.existdb.chain.middlewares=cantaloupe-strip-prefix
+      # ,existdb-custom-request-headers
+    env_file: "../env/.env.existdb"
+    networks:
+      default:
+secrets:
+  adminpw:
+    file: ../../secrets/live/EXISTDB_PASSWORD

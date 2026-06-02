@@ -1,0 +1,19 @@
+uuid: c1ad7de4-3ff6-41ce-99fc-3de62f3e8e0f
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_verlag
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_verlag
+field_name: field_verlag
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Verlag
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

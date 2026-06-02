@@ -1,0 +1,23 @@
+uuid: 106c1996-c34a-42b8-b402-1e5c9389800a
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_erscheinungsjahr
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_erscheinungsjahr
+field_name: field_erscheinungsjahr
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Erscheinungsjahr
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,4 @@
+label: 'Index Node in Fedora'
+configuration:
+  queue: islandora-indexing-fcrepo-content
+  event: Update

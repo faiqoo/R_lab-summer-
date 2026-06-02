@@ -1,0 +1,19 @@
+uuid: 3149c845-633f-42b7-b5fc-f74cd354cea3
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_digitalisierer
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_digitalisierer
+field_name: field_digitalisierer
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Digitalisierer
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

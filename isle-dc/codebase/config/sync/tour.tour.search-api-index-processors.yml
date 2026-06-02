@@ -1,0 +1,42 @@
+uuid: 92088203-577a-47cb-ab14-c0fa3ddf602b
+langcode: de
+status: true
+dependencies:
+  module:
+    - search_api
+_core:
+  default_config_hash: LqXAZO_yZPho3Pueh85e-NzQ3DmI5rNBf6_q8McKUqc
+id: search-api-index-processors
+label: 'Für diesen Index verwendete Prozessoren'
+module: search_api
+routes:
+  -
+    route_name: entity.search_api_index.processors
+tips:
+  search-api-index-processors-introduction:
+    id: search-api-index-processors-introduction
+    plugin: text
+    label: 'Für diesen Index verwendete Prozessoren'
+    weight: 1
+    body: 'Prozessoren passen bestimmte Aspekte der Funktionalität eines Index an. Sie können verhindern, dass Elemente indiziert werden, ändern, wie bestimmte Felder indiziert werden und Suchen beeinflussen.'
+  search-api-index-processors-enable:
+    id: search-api-index-processors-enable
+    plugin: text
+    label: 'Prozessoren aktivieren'
+    weight: 2
+    selector: '#edit-status'
+    body: 'Listet alle für diesen Index verfügbaren Prozessoren auf und lässt Sie diejenigen auswählen, die aktiv sein sollten. (Hinweis: Einige Prozessoren können nicht deaktiviert werden.)'
+  search-api-index-processors-weights:
+    id: search-api-index-processors-weights
+    plugin: text
+    label: 'Reihenfolge der Bearbeitung'
+    weight: 3
+    selector: '#edit-weights'
+    body: 'Zeigt Ihnen, welche aktivierten Prozessoren in den verschiedenen Teilen des Workflows zum Indizieren und Suchen verwendet werden und lässt Sie sie neu ordnen. Das sollte gewöhnlich nicht erforderlich sein und nur von erfahrenen Benutzern vorgenommen werden, da einige Prozessoren in der falschen Reihenfolge zu unerwarteten Ergebnissen führen können.'
+  search-api-index-processors-settings:
+    id: search-api-index-processors-settings
+    plugin: text
+    label: Prozessoreinstellungen
+    weight: 4
+    selector: .form-type-vertical-tabs
+    body: 'Einige Prozessoren stellen zusätzliche Konfigurationen zur Verfügung. Diese Konfigurationen können hier angepasst werden.'

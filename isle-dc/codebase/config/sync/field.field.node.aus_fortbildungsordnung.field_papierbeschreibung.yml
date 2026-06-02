@@ -1,0 +1,21 @@
+uuid: 04c6aa7e-2761-4b1c-a0a7-efe734a89d69
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_papierbeschreibung
+    - node.type.aus_fortbildungsordnung
+  module:
+    - options
+id: node.aus_fortbildungsordnung.field_papierbeschreibung
+field_name: field_papierbeschreibung
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Papierbeschreibung
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

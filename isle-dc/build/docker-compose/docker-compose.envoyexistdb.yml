@@ -1,0 +1,36 @@
+networks:
+  default:
+    internal: true
+services:
+  envoyexistdb:
+    user: root
+    image: envoyproxy/envoy:dev-c8cfd7b017ecc42755b3d0d975f970d29af06395
+    restart: ${RESTART_POLICY:-unless-stopped}
+    volumes:
+      - ../exist-data/envoy-override.yaml.tmpl:/etc/envoy/envoy-override.yaml.tmpl
+      - ../exist-data/entrypoint.sh:/etc/envoy/entrypoint.sh
+    secrets:
+        - source: JWT_PUBLIC_KEY
+        - source: EXISTDB_PASSWORD
+        - source: JWT_JWKS
+    entrypoint: ["/etc/envoy/entrypoint.sh"]
+    labels:
+      - traefik.enable=${EXPOSE_EXISTDB:-false}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-envoyexistdb.loadbalancer.server.port=11000
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-envoyexistdb_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-envoyexistdb
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-envoyexistdb_https.entrypoints=envoyexistdb
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-envoyexistdb.loadbalancer.server.scheme=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-envoyexistdb_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-envoyexistdb_https.tls=true
+    environment:
+      UPSTREAM_HOST: existdb
+      #172.19.0.1
+      #existdb
+      UPSTREAM_PORT: 8080
+      #11001
+      #8080
+      TOKEN_ISSUER: ${SITE}
+    networks:
+      default:
+      gateway:
+

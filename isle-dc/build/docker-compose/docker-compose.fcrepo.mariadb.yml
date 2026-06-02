@@ -1,0 +1,5 @@
+services:
+  # Override defaults so Mariadb is used as the database for this service.
+  fcrepo:
+    environment:
+      FCREPO_PERSISTENCE_TYPE: mysql

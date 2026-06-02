@@ -1,0 +1,29 @@
+uuid: b69e46c2-715b-4eaa-88a8-eb23790e5595
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_model
+    - node.type.aus_fortbildungsordnung
+    - taxonomy.vocabulary.islandora_models
+id: node.aus_fortbildungsordnung.field_model
+field_name: field_model
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Model
+description: 'The internal-to-Islandora category of the resource. Affects how the item is displayed/viewed.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:filter_existing_terms'
+  handler_settings:
+    target_bundles:
+      islandora_models: islandora_models
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

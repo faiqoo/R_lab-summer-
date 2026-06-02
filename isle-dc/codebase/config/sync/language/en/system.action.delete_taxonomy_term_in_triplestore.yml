@@ -1,0 +1,4 @@
+label: 'Delete Taxonomy Term in Triplestore'
+configuration:
+  queue: islandora-indexing-triplestore-delete
+  event: Delete

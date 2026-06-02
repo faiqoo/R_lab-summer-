@@ -1,0 +1,24 @@
+settings:
+  allowed_values:
+    -
+      label: 'Organizational Unit'
+    -
+      label: Airline
+    -
+      label: Corporation
+    -
+      label: 'Educational Organization'
+    -
+      label: 'Government Organization'
+    -
+      label: 'Local Business'
+    -
+      label: 'Medical Organization'
+    -
+      label: 'Non-Governmental Organization'
+    -
+      label: 'Performing Group'
+    -
+      label: 'Sports Organization'
+    -
+      label: 'Sports Team'

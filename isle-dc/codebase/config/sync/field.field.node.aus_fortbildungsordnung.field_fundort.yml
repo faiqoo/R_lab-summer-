@@ -1,0 +1,19 @@
+uuid: d1a44425-6c44-411b-8c1a-9dfa4428e8df
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_fundort
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_fundort
+field_name: field_fundort
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Fundort
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 486ec269-4527-4577-810a-120467f23892
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_beruf
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_beruf
+field_name: field_beruf
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Beruf
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

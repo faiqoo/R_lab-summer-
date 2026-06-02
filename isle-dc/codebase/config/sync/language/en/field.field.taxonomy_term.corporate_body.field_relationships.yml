@@ -1,0 +1,14 @@
+label: 'Related Entities'
+settings:
+  rel_types:
+    'schema:alumni': Alumni
+    'schema:department': Department
+    'schema:employee': Employee
+    'schema:founder': Founder
+    'schema:funder': Funder
+    'schema:knowsAbout': 'Knows about'
+    'schema:member': Member
+    'schema:memberOf': 'Member of'
+    'schema:parentOrganization': 'Parent Organization'
+    'schema:sponsor': Sponsor
+    'schema:subOrganization': Sub-organization

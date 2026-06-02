@@ -1,0 +1,4 @@
+label: 'Technical Metadata on Ingest'
+conditions:
+  media_has_term:
+    uri: 'http://pcdm.org/use#OriginalFile'

@@ -1,0 +1,21 @@
+uuid: 08c031ec-dda7-4910-8b1f-77eadca581d5
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_kategorie
+    - node.type.aus_fortbildungsordnung
+  module:
+    - options
+id: node.aus_fortbildungsordnung.field_kategorie
+field_name: field_kategorie
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Kategorie
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,4 @@
+label: 'Delete Media from Triplestore'
+configuration:
+  queue: islandora-indexing-triplestore-delete
+  event: Delete

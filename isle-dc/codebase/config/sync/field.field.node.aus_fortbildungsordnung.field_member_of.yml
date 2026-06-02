@@ -1,0 +1,30 @@
+uuid: a065774e-0de3-42c4-bb6b-2088453e571c
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_member_of
+    - node.type.aus_fortbildungsordnung
+    - node.type.islandora_object
+id: node.aus_fortbildungsordnung.field_member_of
+field_name: field_member_of
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: 'Member of'
+description: "This item's parent item in Islandora. Usually this will be a collection or compound object."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      aus_fortbildungsordnung: aus_fortbildungsordnung
+      islandora_object: islandora_object
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: aus_fortbildungsordnung
+field_type: entity_reference

@@ -1,0 +1,29 @@
+uuid: ee307f5a-ab6b-4910-8e51-23804b179c69
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_of
+    - media.type.tei_xml
+    - node.type.aus_fortbildungsordnung
+id: media.tei_xml.field_media_of
+field_name: field_media_of
+entity_type: media
+bundle: tei_xml
+label: 'Media of'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      aus_fortbildungsordnung: aus_fortbildungsordnung
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,246 @@
+uuid: 549ecf87-72fc-41ca-9a7a-4fb8d0e9997d
+langcode: de
+status: true
+dependencies:
+  config:
+    - core.entity_view_display.comment.comment.default
+    - field.field.node.aus_fortbildungsordnung.body
+    - field.field.node.aus_fortbildungsordnung.field_anmerkung
+    - field.field.node.aus_fortbildungsordnung.field_beruf
+    - field.field.node.aus_fortbildungsordnung.field_bestandserweiterung
+    - field.field.node.aus_fortbildungsordnung.field_charge
+    - field.field.node.aus_fortbildungsordnung.field_digitalisierer
+    - field.field.node.aus_fortbildungsordnung.field_dublette
+    - field.field.node.aus_fortbildungsordnung.field_erlassdatum
+    - field.field.node.aus_fortbildungsordnung.field_erscheinungsjahr
+    - field.field.node.aus_fortbildungsordnung.field_erscheinungsort
+    - field.field.node.aus_fortbildungsordnung.field_fundort
+    - field.field.node.aus_fortbildungsordnung.field_herausgeber
+    - field.field.node.aus_fortbildungsordnung.field_inkrafttreten
+    - field.field.node.aus_fortbildungsordnung.field_kategorie
+    - field.field.node.aus_fortbildungsordnung.field_lfd_nr
+    - field.field.node.aus_fortbildungsordnung.field_member_of
+    - field.field.node.aus_fortbildungsordnung.field_model
+    - field.field.node.aus_fortbildungsordnung.field_papierbeschreibung
+    - field.field.node.aus_fortbildungsordnung.field_papierformat
+    - field.field.node.aus_fortbildungsordnung.field_schlagwoerter
+    - field.field.node.aus_fortbildungsordnung.field_seitenzahl
+    - field.field.node.aus_fortbildungsordnung.field_titelzusatz
+    - field.field.node.aus_fortbildungsordnung.field_transkript
+    - field.field.node.aus_fortbildungsordnung.field_verlag
+    - node.type.aus_fortbildungsordnung
+  module:
+    - comment
+    - datetime
+    - link
+    - options
+    - text
+    - user
+id: node.aus_fortbildungsordnung.default
+targetEntityType: node
+bundle: aus_fortbildungsordnung
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_anmerkung:
+    type: comment_default
+    label: above
+    settings:
+      view_mode: default
+      pager_id: 0
+    third_party_settings: {  }
+    weight: 123
+    region: content
+  field_beruf:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_bestandserweiterung:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 121
+    region: content
+  field_charge:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 122
+    region: content
+  field_digitalisierer:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 120
+    region: content
+  field_dublette:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_erlassdatum:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: olivero_medium
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_erscheinungsjahr:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_erscheinungsort:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_fundort:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 119
+    region: content
+  field_herausgeber:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_inkrafttreten:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_kategorie:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_lfd_nr:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 118
+    region: content
+  field_member_of:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_papierbeschreibung:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_papierformat:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_schlagwoerter:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 117
+    region: content
+  field_seitenzahl:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_titelzusatz:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_transkript:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_verlag:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  islandora_fits_checksum:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  did_image: true
+  field_model: true
+  langcode: true
+  search_api_excerpt: true

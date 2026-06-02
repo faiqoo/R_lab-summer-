@@ -1,0 +1,11 @@
+uuid: 320baa8a-523c-44a7-9c6a-8fcfffc2f457
+langcode: de
+status: true
+dependencies:
+  config:
+    - media.type.tei_xml
+id: media.tei_xml
+target_entity_type_id: media
+target_bundle: tei_xml
+default_langcode: site_default
+language_alterable: false

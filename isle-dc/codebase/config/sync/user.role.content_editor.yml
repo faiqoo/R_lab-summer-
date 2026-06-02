@@ -1,0 +1,129 @@
+uuid: 2262c52c-b1b6-43ab-8ecc-a86fa9353b1f
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.audio
+    - media.type.document
+    - media.type.extracted_text
+    - media.type.file
+    - media.type.fits_technical_metadata
+    - media.type.image
+    - media.type.remote_video
+    - media.type.tei_xml
+    - media.type.video
+    - node.type.article
+    - node.type.aus_fortbildungsordnung
+    - node.type.page
+    - taxonomy.vocabulary.tags
+  module:
+    - comment
+    - contextual
+    - file
+    - help
+    - islandora
+    - media
+    - node
+    - path
+    - system
+    - taxonomy
+    - toolbar
+    - tour
+_core:
+  default_config_hash: Wur9kcEOwY1Jal81NssKnz3RhVJxAvBwyWQBGcA_1Go
+id: content_editor
+label: 'Content editor'
+weight: -7
+is_admin: false
+permissions:
+  - 'access administration pages'
+  - 'access content'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access files overview'
+  - 'access help pages'
+  - 'access media overview'
+  - 'access toolbar'
+  - 'access tour'
+  - 'administer media'
+  - 'administer url aliases'
+  - 'create article content'
+  - 'create audio media'
+  - 'create aus_fortbildungsordnung content'
+  - 'create document media'
+  - 'create extracted_text media'
+  - 'create file media'
+  - 'create fits_technical_metadata media'
+  - 'create image media'
+  - 'create media'
+  - 'create page content'
+  - 'create remote_video media'
+  - 'create tei_xml media'
+  - 'create terms in tags'
+  - 'create url aliases'
+  - 'create video media'
+  - 'delete article revisions'
+  - 'delete media'
+  - 'delete own article content'
+  - 'delete own audio media'
+  - 'delete own aus_fortbildungsordnung content'
+  - 'delete own document media'
+  - 'delete own extracted_text media'
+  - 'delete own file media'
+  - 'delete own fits_technical_metadata media'
+  - 'delete own image media'
+  - 'delete own page content'
+  - 'delete own remote_video media'
+  - 'delete own tei_xml media'
+  - 'delete own video media'
+  - 'delete page revisions'
+  - 'edit any audio media'
+  - 'edit any aus_fortbildungsordnung content'
+  - 'edit any document media'
+  - 'edit any extracted_text media'
+  - 'edit any file media'
+  - 'edit any fits_technical_metadata media'
+  - 'edit any image media'
+  - 'edit any remote_video media'
+  - 'edit any tei_xml media'
+  - 'edit any video media'
+  - 'edit own article content'
+  - 'edit own audio media'
+  - 'edit own aus_fortbildungsordnung content'
+  - 'edit own comments'
+  - 'edit own document media'
+  - 'edit own extracted_text media'
+  - 'edit own file media'
+  - 'edit own fits_technical_metadata media'
+  - 'edit own image media'
+  - 'edit own page content'
+  - 'edit own remote_video media'
+  - 'edit own tei_xml media'
+  - 'edit own video media'
+  - 'edit terms in tags'
+  - 'manage media'
+  - 'post comments'
+  - 'revert all revisions'
+  - 'revert any document media revisions'
+  - 'revert any extracted_text media revisions'
+  - 'revert any file media revisions'
+  - 'revert any fits_technical_metadata media revisions'
+  - 'revert any image media revisions'
+  - 'revert any remote_video media revisions'
+  - 'revert any tei_xml media revisions'
+  - 'revert any video media revisions'
+  - 'update media'
+  - 'view all revisions'
+  - 'view any audio media revisions'
+  - 'view any document media revisions'
+  - 'view any extracted_text media revisions'
+  - 'view any file media revisions'
+  - 'view any fits_technical_metadata media revisions'
+  - 'view any image media revisions'
+  - 'view any remote_video media revisions'
+  - 'view any tei_xml media revisions'
+  - 'view any video media revisions'
+  - 'view media'
+  - 'view own unpublished content'
+  - 'view own unpublished media'
+  - 'view the administration theme'

@@ -1,0 +1,65 @@
+uuid: 4d072e61-7e4b-47d4-aa7b-bdd56035a854
+langcode: de
+status: true
+dependencies:
+  module:
+    - search_api
+_core:
+  default_config_hash: TK3PjpP4I6WFh5JDY_L_c5XCiTyAZBBA9z0M9pcGjzo
+id: search-api-index-form
+label: 'Hinzufügen oder Bearbeiten eines Such-API-Indexes'
+module: search_api
+routes:
+  -
+    route_name: entity.search_api_index.add_form
+  -
+    route_name: entity.search_api_index.edit_form
+tips:
+  search-api-index-form-introduction:
+    id: search-api-index-form-introduction
+    plugin: text
+    label: 'Hinzufügen oder Bearbeiten eines Index'
+    weight: 1
+    body: 'Mit diesem Formular kann ein bestehender Index bearbeitet oder ein neuer Index zur Website hinzugefügt werden. Indizes definieren einen Datensatz, der indiziert wird und dann durchsucht werden kann.'
+  search-api-index-form-name:
+    id: search-api-index-form-name
+    plugin: text
+    label: Index-Name
+    weight: 2
+    selector: '#edit-name'
+    body: 'Einen Namen eingeben, um diesen Index zu identifizieren. Zum Beispiel "Inhaltsindex". Dieser wird nur in der Admin-Benutzeroberfläche angezeigt.'
+  search-api-index-form-datasources:
+    id: search-api-index-form-datasources
+    plugin: text
+    label: Datenquellen
+    weight: 3
+    selector: '#edit-datasources'
+    body: 'Datenquellen definieren die Element-Typen, die in diesem Index indiziert werden. Standardmäßig sind hier alle Inhalts-Elemente (wie Inhalt, Kommentare und Taxonomie-Begriffe) verfügbar, aber Module können auch ihre eigenen hinzufügen.'
+  search-api-index-form-tracker:
+    id: search-api-index-form-tracker
+    plugin: text
+    label: Tracker
+    weight: 4
+    selector: '#edit-tracker'
+    body: 'verfolgt, welche Elemente für den Index verfügbar sind und welche noch indiziert werden müssen. Das Ändern des Trackers eines bestehenden Index führt zur Neuindizierung aller Elemente.'
+  search-api-index-form-server:
+    id: search-api-index-form-server
+    plugin: text
+    label: Server
+    weight: 5
+    selector: '#edit-server'
+    body: 'Der Suchserver, den der Index für die Indizierung und Suche verwenden soll. Wenn hier kein Server ausgewählt ist, kann der Index nicht aktiviert werden. Ein Index kann nur einen Server haben, aber ein Server kann beliebig viele Indizes haben.'
+  search-api-index-form-description:
+    id: search-api-index-form-description
+    plugin: text
+    label: Index-Beschreibung
+    weight: 6
+    selector: '#edit-description'
+    body: 'Optional kann eine Beschreibung eingegeben werden, um die Funktion des Index näher zu erläutern. Dies wird nur in der Admin-Benutzeroberfläche angezeigt.'
+  search-api-index-form-options:
+    id: search-api-index-form-options
+    plugin: text
+    label: 'Erweiterte Optionen'
+    weight: 7
+    selector: '#edit-options'
+    body: 'Diese Optionen ermöglichen eine detailliertere Konfiguration des Indexverhaltens, können jedoch von unerfahrenen Benutzern normalerweise problemlos ignoriert werden.'

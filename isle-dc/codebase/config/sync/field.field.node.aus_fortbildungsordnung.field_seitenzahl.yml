@@ -1,0 +1,23 @@
+uuid: 25e85595-87d3-435b-a411-90ce0cbcf76e
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seitenzahl
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_seitenzahl
+field_name: field_seitenzahl
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Seitenzahl
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,19 @@
+uuid: 94b038d2-ff6e-488c-adc6-c829c071feb0
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_erscheinungsort
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_erscheinungsort
+field_name: field_erscheinungsort
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Erscheinungsort
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

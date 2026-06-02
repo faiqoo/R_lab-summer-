@@ -1,0 +1,83 @@
+uuid: b9700b31-1ec1-47c6-821b-0fe4be54780d
+langcode: de
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.aus_fortbildungsordnung.body
+    - field.field.node.aus_fortbildungsordnung.field_anmerkung
+    - field.field.node.aus_fortbildungsordnung.field_beruf
+    - field.field.node.aus_fortbildungsordnung.field_bestandserweiterung
+    - field.field.node.aus_fortbildungsordnung.field_charge
+    - field.field.node.aus_fortbildungsordnung.field_digitalisierer
+    - field.field.node.aus_fortbildungsordnung.field_dublette
+    - field.field.node.aus_fortbildungsordnung.field_erlassdatum
+    - field.field.node.aus_fortbildungsordnung.field_erscheinungsjahr
+    - field.field.node.aus_fortbildungsordnung.field_erscheinungsort
+    - field.field.node.aus_fortbildungsordnung.field_fundort
+    - field.field.node.aus_fortbildungsordnung.field_herausgeber
+    - field.field.node.aus_fortbildungsordnung.field_inkrafttreten
+    - field.field.node.aus_fortbildungsordnung.field_kategorie
+    - field.field.node.aus_fortbildungsordnung.field_lfd_nr
+    - field.field.node.aus_fortbildungsordnung.field_member_of
+    - field.field.node.aus_fortbildungsordnung.field_model
+    - field.field.node.aus_fortbildungsordnung.field_papierbeschreibung
+    - field.field.node.aus_fortbildungsordnung.field_papierformat
+    - field.field.node.aus_fortbildungsordnung.field_schlagwoerter
+    - field.field.node.aus_fortbildungsordnung.field_seitenzahl
+    - field.field.node.aus_fortbildungsordnung.field_titelzusatz
+    - field.field.node.aus_fortbildungsordnung.field_transkript
+    - field.field.node.aus_fortbildungsordnung.field_verlag
+    - node.type.aus_fortbildungsordnung
+  module:
+    - user
+id: node.aus_fortbildungsordnung.search_result
+targetEntityType: node
+bundle: aus_fortbildungsordnung
+mode: search_result
+content:
+  field_member_of:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  islandora_fits_checksum:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  body: true
+  did_image: true
+  field_anmerkung: true
+  field_beruf: true
+  field_bestandserweiterung: true
+  field_charge: true
+  field_digitalisierer: true
+  field_dublette: true
+  field_erlassdatum: true
+  field_erscheinungsjahr: true
+  field_erscheinungsort: true
+  field_fundort: true
+  field_herausgeber: true
+  field_inkrafttreten: true
+  field_kategorie: true
+  field_lfd_nr: true
+  field_model: true
+  field_papierbeschreibung: true
+  field_papierformat: true
+  field_schlagwoerter: true
+  field_seitenzahl: true
+  field_titelzusatz: true
+  field_transkript: true
+  field_verlag: true
+  langcode: true
+  search_api_excerpt: true

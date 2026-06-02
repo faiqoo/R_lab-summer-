@@ -1,0 +1,42 @@
+uuid: 43acb9d4-f9c3-4245-9fcf-79d66b4c5375
+langcode: de
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.media_library
+    - field.field.media.tei_xml.field_file_size
+    - field.field.media.tei_xml.field_media_file_1
+    - field.field.media.tei_xml.field_media_of
+    - field.field.media.tei_xml.field_media_use
+    - field.field.media.tei_xml.field_mime_type
+    - image.style.medium
+    - media.type.tei_xml
+  module:
+    - image
+id: media.tei_xml.media_library
+targetEntityType: media
+bundle: tei_xml
+mode: media_library
+content:
+  thumbnail:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  created: true
+  field_file_size: true
+  field_media_file_1: true
+  field_media_of: true
+  field_media_use: true
+  field_mime_type: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  uid: true

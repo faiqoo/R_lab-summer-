@@ -1,0 +1,57 @@
+uuid: 0c2ab02e-4c4c-4a53-874e-1a1c051c8cb8
+langcode: de
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_papierbeschreibung
+field_name: field_papierbeschreibung
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: im_text_gelocht
+      label: 'im Text gelocht'
+    -
+      value: frakturschrift
+      label: Frakturschrift
+    -
+      value: risse
+      label: Risse
+    -
+      value: papierqualitaet
+      label: Papierqualität
+    -
+      value: kopie
+      label: Kopie
+    -
+      value: beschriftet
+      label: beschriftet
+    -
+      value: bruechig
+      label: brüchig
+    -
+      value: geheftet_gebunden_ineinandergelegt
+      label: 'geheftet / gebunden / ineinandergelegt'
+    -
+      value: doppelseitig_bedruckt
+      label: 'doppelseitig bedruckt'
+    -
+      value: einseitig_bedruckt
+      label: 'einseitig bedruckt'
+    -
+      value: braeunung_fleckig_schwer_lesbar
+      label: 'Bräunung / fleckig / schwer lesbar'
+    -
+      value: post_it_notizzettel
+      label: 'Post-It / Notizzettel'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,79 @@
+label: 'Manage media'
+description: 'Manage media belonging to a piece of content'
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Apply
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Items per page'
+            items_per_page_options_all_label: '- All -'
+            offset_label: Offset
+          tags:
+            previous: ‹‹
+            next: ››
+      fields:
+        name:
+          label: Name
+          separator: ', '
+        bundle:
+          label: 'Media type'
+          separator: ', '
+        field_mime_type:
+          label: 'MIME type'
+          separator: ', '
+        changed:
+          label: Changed
+          separator: ', '
+      title: 'Manage Media'
+      arguments:
+        field_media_of_target_id:
+          exception:
+            title: All
+  page_1:
+    display_title: Page
+    display_options:
+      menu:
+        title: Media
+        description: 'Lists all media belonging to this content'
+      fields:
+        media_bulk_form:
+          action_title: Action
+        name:
+          label: Name
+          separator: ', '
+        bundle:
+          label: 'Media type'
+          separator: ', '
+        field_mime_type:
+          label: 'MIME type'
+          separator: ', '
+        field_media_use:
+          label: 'Media Use'
+          separator: ', '
+        changed:
+          label: Changed
+          separator: ', '
+  rest_export_1:
+    display_title: 'REST export'
+    display_options:
+      fields:
+        name:
+          label: Name
+          separator: ', '
+        bundle:
+          separator: ', '
+        field_mime_type:
+          label: 'MIME type'
+          separator: ', '
+        changed:
+          label: Changed
+          separator: ', '

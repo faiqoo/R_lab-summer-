@@ -1,0 +1,33 @@
+uuid: ab860616-8a11-48a2-b691-5d32a231eef3
+langcode: de
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_charge
+field_name: field_charge
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: probe_scans
+      label: Probe-Scans
+    -
+      value: vergabe_mik_center
+      label: 'Vergabe MIK-Center'
+    -
+      value: hausintern
+      label: Hausintern
+    -
+      value: rahmenvertrag_oder_vergabeverfahren
+      label: 'Rahmenvertrag oder Vergabeverfahren'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

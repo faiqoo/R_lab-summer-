@@ -1,0 +1,21 @@
+uuid: e0f21b67-5455-4e3c-8f7f-5afc2dceb25e
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_bestandserweiterung
+    - node.type.aus_fortbildungsordnung
+  module:
+    - options
+id: node.aus_fortbildungsordnung.field_bestandserweiterung
+field_name: field_bestandserweiterung
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Bestandserweiterung
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,81 @@
+uuid: 590a3059-24f1-42ea-baed-eb861db4dae3
+langcode: de
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_kategorie
+field_name: field_kategorie
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: rahmenlehrplan
+      label: Rahmenlehrplan
+    -
+      value: ausbildungsordnung
+      label: Ausbildungsordnung
+    -
+      value: aenderungsverordnung
+      label: Änderungsverordnung
+    -
+      value: berichtigung
+      label: Berichtigung
+    -
+      value: fortbildungsregelung_bund
+      label: 'Fortbildungsregelung Bund'
+    -
+      value: fortbildungsregelung_land
+      label: 'Fortbildungsregelung Land'
+    -
+      value: fortbildungsregelung_zustaendige_stelle
+      label: 'Fortbildungsregelung zuständige Stelle'
+    -
+      value: laenderrechtliche_ausbildung_gesundheitswesen
+      label: 'Länderrechtliche Ausbildung Gesundheitswesen'
+    -
+      value: laenderrechtliche_fortbildung_gesundheitswesen
+      label: 'Länderrechtliche Fortbildung Gesundheitswesen'
+    -
+      value: erlasse_vor_bbig_1969
+      label: 'Erlasse vor BBiG 1969'
+    -
+      value: erlasse_vor_bbig_1969_anlernberuf
+      label: 'Erlasse vor BBiG 1969: Anlernberuf'
+    -
+      value: erlasse_vor_bbig_1969_lehrberuf
+      label: 'Erlasse vor BBiG 1969: Lehrberuf'
+    -
+      value: erlasse_vor_bbig_1969_lehrmeister_ausbildung
+      label: 'Erlasse vor BBiG 1969: Lehrmeister-Ausbildung'
+    -
+      value: erlasse_vor_bbig_1969_aufbauberuf
+      label: 'Erlasse vor BBiG 1969: Aufbauberuf'
+    -
+      value: erlasse_vor_bbig_1969_meister
+      label: 'Erlasse vor BBiG 1969: Meister'
+    -
+      value: ddr_ausbildung
+      label: 'DDR: Ausbildung'
+    -
+      value: ddr_fortbildung
+      label: 'DDR: Fortbildung'
+    -
+      value: regelungen_der_zustaendigen_stellen_fuer_die_berufsausbildung_von_menschen_mit_behinderungen
+      label: 'Regelungen der zuständigen Stellen für die Berufsausbildung von Menschen mit Behinderungen'
+    -
+      value: umschulung
+      label: Umschulung
+    -
+      value: sonstiges
+      label: Sonstiges
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,17 @@
+label: Relationships
+settings:
+  rel_types:
+    'schema:knows': Knows
+    'schema:alumniOf': 'Alumni of'
+    'schema:children': Children
+    'schema:colleague': Colleague
+    'schema:follows': Follows
+    'schema:funder': Funder
+    'schema:knowsAbout': 'Knows about'
+    'schema:memberOf': 'Member of'
+    'schema:parent': Parent
+    'schema:relatedTo': 'Related to'
+    'schema:sibling': Sibling
+    'schema:sponsor': Sponsor
+    'schema:spouse': Spouse
+    'schema:worksFor': 'Works for'

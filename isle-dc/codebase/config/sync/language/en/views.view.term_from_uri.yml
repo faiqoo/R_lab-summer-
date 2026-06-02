@@ -1,0 +1,43 @@
+label: 'Term from URI'
+description: 'REST output of a term, from a request like /term_from_uri?_format=json&uri=http://pcdm.org/use%23ThumbnailImage or "/term_from_authority_link?_format=json&authority_link=http://1234.org". Used by Islandora Workbench.'
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Apply
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Items per page'
+            items_per_page_options_all_label: '- All -'
+            offset_label: Offset
+          tags:
+            previous: ‹‹
+            next: ››
+      fields:
+        name:
+          separator: ', '
+      arguments:
+        field_external_uri_uri:
+          exception:
+            title: All
+  rest_export_1:
+    display_title: 'REST export (external URI)'
+    display_options:
+      arguments:
+        field_external_uri_uri:
+          exception:
+            title: All
+  rest_export_2:
+    display_title: 'REST export (authority link)'
+    display_options:
+      arguments:
+        field_authority_link_uri:
+          exception:
+            title: All

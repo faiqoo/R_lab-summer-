@@ -1,0 +1,19 @@
+uuid: 88f5de34-f8c9-4026-b2d8-40fb9192f6a7
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_mime_type
+    - media.type.tei_xml
+id: media.tei_xml.field_mime_type
+field_name: field_mime_type
+entity_type: media
+bundle: tei_xml
+label: 'MIME type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

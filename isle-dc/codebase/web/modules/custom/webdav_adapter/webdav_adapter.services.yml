@@ -1,0 +1,8 @@
+#services:
+#  webdav_adapter.file_system:
+#    decorates: file_system
+#    class: Drupal\webdav_adapter\WebdavFileSystem
+#    arguments:
+#      - '@webdav_adapter.file_system.inner' # The inner/original file_system service
+#      - '@stream_wrapper_manager'
+#      - '@settings'

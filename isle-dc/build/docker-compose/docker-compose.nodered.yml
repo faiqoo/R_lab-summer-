@@ -1,0 +1,25 @@
+networks:
+  default:
+    internal: true
+services:
+  nodered:
+    image: nodered/node-red:latest
+    restart: ${RESTART_POLICY:-unless-stopped}
+    volumes:
+      - type: bind
+        source: ../nodered-data/
+        target: /data
+    labels:
+      # Do not expose in production.
+      - traefik.enable=${EXPOSE_NODERED:-false}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-nodered.loadbalancer.server.port=1880
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-nodered_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-nodered
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-nodered_https.entrypoints=nodered
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-nodered.loadbalancer.server.scheme=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-nodered_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-nodered_https.tls=true
+    environment:
+      - TZ=Europe/Amsterdam
+    networks:
+      default:
+

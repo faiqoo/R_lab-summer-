@@ -1,0 +1,20 @@
+uuid: 811d93ea-9818-4406-8993-178672ab2e31
+langcode: de
+status: true
+dependencies:
+  module:
+    - datetime
+    - node
+id: node.field_inkrafttreten
+field_name: field_inkrafttreten
+entity_type: node
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

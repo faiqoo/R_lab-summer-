@@ -1,0 +1,19 @@
+uuid: 8f1acddc-c367-48f2-86af-4b59e6b8e5e1
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_schlagwoerter
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_schlagwoerter
+field_name: field_schlagwoerter
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Schlagwörter
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

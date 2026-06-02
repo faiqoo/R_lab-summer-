@@ -1,0 +1,30 @@
+uuid: 3dae5b95-c74e-4a3b-9d5d-9cf5c9a64658
+langcode: de
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_bestandserweiterung
+field_name: field_bestandserweiterung
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: neu
+      label: neu
+    -
+      value: ausgetauscht
+      label: ausgetauscht
+    -
+      value: ausgemustert
+      label: ausgemustert
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

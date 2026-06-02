@@ -1,0 +1,23 @@
+uuid: de9085f6-1667-40a7-8518-77fc2bf32adb
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lfd_nr
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_lfd_nr
+field_name: field_lfd_nr
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: 'Lfd. Nr.'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

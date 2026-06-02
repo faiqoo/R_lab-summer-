@@ -1,0 +1,9 @@
+label: 'Related Entities'
+settings:
+  rel_types:
+    'schema:member': Member
+    'schema:founder': Founder
+    'schema:funder': Funder
+    'schema:knowsAbout': 'Knows about'
+    'schema:memberOf': 'Member of'
+    'schema:sponsor': Sponsor

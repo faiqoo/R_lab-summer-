@@ -1,0 +1,35 @@
+label: 'Media EVAs'
+description: "Displays media for content as EVA's per model."
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Apply
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      fields:
+        name:
+          separator: ', '
+      arguments:
+        field_media_of_target_id:
+          exception:
+            title: All
+  entity_view_1:
+    display_title: 'Preservation Master - Download'
+    display_options:
+      display_description: 'Best quality representation of the Object appropriate for long-term preservation.'
+      title: 'Preservation Master'
+  service_file:
+    display_title: 'Service File'
+    display_options:
+      display_description: 'A medium quality representation of the Object appropriate for serving to users.'
+      title: 'Service File'
+  thumbnail:
+    display_title: Thumbnail
+    display_options:
+      display_description: 'A low resolution image representation of the Object appropriate for using as an icon.'
+      title: Thumbnail

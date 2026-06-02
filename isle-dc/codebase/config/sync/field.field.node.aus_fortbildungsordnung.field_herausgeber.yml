@@ -1,0 +1,19 @@
+uuid: b45f738c-686a-4947-bff6-84c84f4c4990
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_herausgeber
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung.field_herausgeber
+field_name: field_herausgeber
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Herausgeber
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

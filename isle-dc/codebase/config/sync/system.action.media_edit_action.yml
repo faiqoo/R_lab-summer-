@@ -1,0 +1,14 @@
+uuid: f84bcb65-12d2-41b6-be5a-23bb50650ab0
+langcode: de
+status: true
+dependencies:
+  module:
+    - media
+    - views_bulk_edit
+_core:
+  default_config_hash: xN0kWpQZeiYp9xWNycp37rmLmAcnEyS9LDjPPTPce2w
+id: media_edit_action
+label: 'Medien bearbeiten'
+type: media
+plugin: 'entity:edit_action:media'
+configuration: {  }

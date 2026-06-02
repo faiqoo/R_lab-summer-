@@ -1,0 +1,25 @@
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/ssl/traefik/cert.pem
+        keyFile: /etc/ssl/traefik/privkey.pem
+  certificates:
+    - certFile: /etc/ssl/traefik/cert.pem
+      keyFile: /etc/ssl/traefik/privkey.pem
+
+providers:
+  docker:
+    tls:
+      insecureSkipVerify: true
+http:
+  serversTransports:
+    isle-dc-nifi:
+      insecureSkipVerify: true
+#      tls:
+#        insecureSkipVerify: true
+#    services:
+#      isle-dc-nifi_http:
+#        loadBalancer:
+#          servers:
+#            - url: "https://localhost:8444"

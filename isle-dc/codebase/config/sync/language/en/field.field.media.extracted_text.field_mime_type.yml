@@ -1,0 +1,4 @@
+label: 'MIME type'
+default_value:
+  -
+    value: text/plain

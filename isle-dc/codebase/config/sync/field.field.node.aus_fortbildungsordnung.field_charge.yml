@@ -1,0 +1,21 @@
+uuid: 64eb8f30-e264-4767-9834-246550df8e4c
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_charge
+    - node.type.aus_fortbildungsordnung
+  module:
+    - options
+id: node.aus_fortbildungsordnung.field_charge
+field_name: field_charge
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Charge
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

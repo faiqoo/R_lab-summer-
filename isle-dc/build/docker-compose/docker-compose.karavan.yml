@@ -1,0 +1,47 @@
+name: karavan
+services:
+  karavan:
+    image: ghcr.io/apache/camel-karavan:4.10.2
+    environment:
+      - KARAVAN_GIT_REPOSITORY=${KARAVAN_GIT_REPOSITORY}
+      - KARAVAN_GIT_USERNAME=${KARAVAN_GIT_USERNAME}
+      - KARAVAN_GIT_PASSWORD=${KARAVAN_GIT_PASSWORD}
+      - KARAVAN_GIT_BRANCH=main
+      - KARAVAN_CONTAINER_IMAGE_REGISTRY=registry:5000
+      - KARAVAN_CONTAINER_IMAGE_REGISTRY_USERNAME=
+      - KARAVAN_CONTAINER_IMAGE_REGISTRY_PASSWORD=
+      - KARAVAN_CONTAINER_IMAGE_GROUP=karavan
+      #- KARAVAN_DOCKER_NETWORK=karavan
+      - KARAVAN_DOCKER_NETWORK=${COMPOSE_PROJECT_NAME}_gateway
+      #gateway
+      # This is a custom variable, not specified by Karavan
+      # - KARAVAN_CONTAINERS_NETWORK=${COMPOSE_PROJECT_NAME}_default
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    labels:
+      - "org.apache.camel.karavan/type=internal"
+      - traefik.enable=${EXPOSE_KARAVAN:-false}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-karavan.loadbalancer.server.port=8080
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-karavan_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-karavan
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-karavan_https.entrypoints=karavan
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-karavan.loadbalancer.server.scheme=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-karavan_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-karavan_https.tls=true
+    networks:
+      default:
+      gateway:
+  registry:
+    # container_name: registry
+    image: registry:2
+    restart: always
+    ports:
+      - "5555:5000"
+    labels:
+      - "org.apache.camel.karavan/type=internal"
+    networks:
+      default:
+    extra_hosts:
+      - ${DOMAIN}:host-gateway
+networks:
+  karavan:
+    name: karavan

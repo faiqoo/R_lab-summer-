@@ -1,0 +1,21 @@
+uuid: 32cb6354-3822-4ded-989b-e09d0bbf414c
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_papierformat
+    - node.type.aus_fortbildungsordnung
+  module:
+    - options
+id: node.aus_fortbildungsordnung.field_papierformat
+field_name: field_papierformat
+entity_type: node
+bundle: aus_fortbildungsordnung
+label: Papierformat
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

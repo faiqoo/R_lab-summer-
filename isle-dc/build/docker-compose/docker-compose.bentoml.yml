@@ -1,0 +1,18 @@
+networks:
+  default:
+    internal: true
+services:
+  bentoml:
+    image: th0m4sr/bibb-aipipeline:latest
+    restart: ${RESTART_POLICY:-unless-stopped}
+    labels:
+      # Do not expose in production.
+      - traefik.enable=${EXPOSE_BENTOML:-false}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-bentoml.loadbalancer.server.port=3000
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-bentoml_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-bentoml
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-bentoml_https.entrypoints=bentoml
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-bentoml_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-bentoml_https.tls=true
+    networks:
+      default:
+      gateway:

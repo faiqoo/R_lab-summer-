@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+
+// TODO add TEI publisher components
+/**
+function webdav_adapter_theme($existing, $type, $theme, $path) {
+  return [
+    'media__tei_xml' => [
+      'variables' => []
+    ]
+  ];
+}
+*/

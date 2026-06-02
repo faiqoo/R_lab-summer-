@@ -1,0 +1,53 @@
+x-ca-cert: &ca-cert
+    secrets:
+        - source: CERT_PUBLIC_KEY
+        - source: CERT_AUTHORITY
+networks:
+  default:
+    internal: true
+services:
+  homarus:
+    <<: [*ca-cert]
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${HOMARUS_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M
+  houdini:
+    <<: [*ca-cert]
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${HOUDINI_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M
+  hypercube:
+    <<: [*ca-cert]
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${HYPERCUBE_MEMORY_LIMIT:-512M}
+          reservations:
+            memory: 256M
+  milliner:
+    <<: [*ca-cert]
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
+    environment:
+      MILLINER_FEDORA6: ${FEDORA_6}
+    networks:
+      default:
+      gateway:
+    deploy:
+      resources:
+          limits:
+            memory: ${MILLINER_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M

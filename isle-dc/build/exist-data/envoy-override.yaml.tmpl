@@ -1,0 +1,110 @@
+static_resources:
+  listeners:
+  - name: existdb_listener
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 11000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          access_log:
+          - name: envoy.access_loggers.stdout
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog
+          http_filters:
+          # New HTTP filter
+          - name: envoy.filters.http.jwt_authn
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
+              providers:
+                provider1:
+                  issuer: __TOKEN_ISSUER__
+                  audiences:
+                    - islandora
+                  local_jwks:
+                  # TODO Pruefen, ob es hier auch die Möglichkeit mit filename gibt
+                    inline_string: >-
+                      __JWT_JWKS_CONTENT__
+                  forward: true
+              rules:
+              - match:
+                  prefix: /
+                requires:
+                  provider_name: provider1
+          # Add basic auth behind envoy
+          - name: envoy.filters.http.lua
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+              stat_prefix: basic_auth_injection
+              default_source_code:
+                inline_string: |
+                  local secret_path = "/run/secrets/EXISTDB_PASSWORD"
+                  local function read_secret(path)
+                      local file = io.open(path, "r")
+                      if not file then
+                          error("Cannot open secret file: " .. path)
+                      end
+                      local content = file:read("*all")
+                      file:close()
+                      content = content:gsub("%s+", "")
+                      return content
+                  end
+                  -- TODO IMPORTANT REMOVE HARDCODED PASSWORD
+                  local password = read_secret(secret_path)
+                  local username = "islandora"
+
+                  -- Base64 encode credentials
+                  local credentials = username .. ":" .. password
+                  function envoy_on_request(request_handle)
+                      request_handle:logInfo("Auth before Lua: " .. (request_handle:headers():get("Authorization") or "nil"))
+                      local encoded = request_handle:base64Escape(credentials)
+                      request_handle:headers():replace("authorization", "Basic " .. encoded)
+                      request_handle:logInfo("Auth after Lua: " .. (request_handle:headers():get("Authorization") or "nil"))
+                  end
+          # Existing filter
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains: ["*"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  # host_rewrite_literal: existdb
+                  cluster: service_existdb
+                           #service_envoyproxy_io
+
+  clusters:
+  - name: service_existdb
+    type: LOGICAL_DNS
+    # Comment out the following line to test on v6 networks
+    dns_lookup_family: V4_ONLY
+    load_assignment:
+      cluster_name: service_existdb_cluster
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: __UPSTREAM_HOST__
+                port_value: __UPSTREAM_PORT__
+                #443
+    #transport_socket:
+    #  name: envoy.transport_sockets.tls
+    #  typed_config:
+    #    "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+    #    sni: www.envoyproxy.io
+
+admin:
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9902

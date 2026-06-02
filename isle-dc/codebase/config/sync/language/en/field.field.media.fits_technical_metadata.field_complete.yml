@@ -1,0 +1,4 @@
+label: Complete
+settings:
+  on_label: Complete
+  off_label: Incomplete

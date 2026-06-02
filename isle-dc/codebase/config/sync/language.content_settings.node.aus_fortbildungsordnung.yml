@@ -1,0 +1,11 @@
+uuid: c701aed5-884b-4d90-be75-ab3aea8dc1d1
+langcode: de
+status: true
+dependencies:
+  config:
+    - node.type.aus_fortbildungsordnung
+id: node.aus_fortbildungsordnung
+target_entity_type_id: node
+target_bundle: aus_fortbildungsordnung
+default_langcode: site_default
+language_alterable: false

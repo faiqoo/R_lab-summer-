@@ -1,0 +1,85 @@
+uuid: a75db55d-af06-48cf-9bfd-e3f0824374d3
+langcode: de
+status: true
+dependencies:
+  config:
+    - node.type.aus_fortbildungsordnung
+  module:
+    - node
+id: node.aus_fortbildungsordnung
+targetEntityType: node
+bundle: aus_fortbildungsordnung
+types:
+  - 'pcdm:Object'
+fieldMappings:
+  title:
+    properties:
+      - 'dcterms:title'
+  field_anmerkung:
+    properties:
+      - 'dcterms:description'
+  field_beruf:
+    properties:
+      - 'dcterms:subject'
+  field_bestandserweiterung:
+    properties:
+      - 'dcterms:description'
+  field_charge:
+    properties:
+      - 'dcterms:description'
+  field_digitalisierer:
+    properties:
+      - 'dcterms:contributor'
+  field_dublette:
+    properties:
+      - 'dcterms:isVersionOf'
+    mapping_type: rel
+  field_erlassdatum:
+    properties:
+      - 'dcterms:issued'
+  field_erscheinungsjahr:
+    properties:
+      - 'dcterms:available'
+  field_erscheinungsort:
+    properties:
+      - 'dcterms:spatial'
+  field_fundort:
+    properties:
+      - 'dcterms:provenance'
+  field_heruausgeber:
+    properties:
+      - 'dcterms:creator'
+  field_inkrafttreten:
+    properties:
+      - 'dcterms:valid'
+  field_kategorie:
+    properties:
+      - 'dcterms:type'
+  field_lfd_nr:
+    properties:
+      - 'dcterms:identifier'
+  field_papierbeschreibung:
+    properties:
+      - 'dcterms:description'
+  field_papierformat:
+    properties:
+      - 'dcterms:format'
+  field_scan:
+    properties:
+      - 'dcterms:source'
+    mapping_type: rel
+  field_schlagwoerter:
+    properties:
+      - 'dcterms:description'
+  field_seitenzahl:
+    properties:
+      - 'dcterms:SizeOrDuration'
+  field_titelzusatz:
+    properties:
+      - 'dcterms:alternative'
+  field_transkript:
+    properties:
+      - 'dcterms:hasFormat'
+  field_verlag:
+    properties:
+      - 'dcterms:publisher'

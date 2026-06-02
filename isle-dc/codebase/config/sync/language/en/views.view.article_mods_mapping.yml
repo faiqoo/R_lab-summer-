@@ -1,0 +1,27 @@
+label: 'Article MODS Mapping'
+description: 'An example MODS mapping view for Articles.'
+display:
+  default:
+    display_title: Default
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Apply
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      fields:
+        title:
+          label: title
+          separator: ', '
+        body:
+          label: description
+          separator: ', '
+        field_tags:
+          label: subject_topic
+          separator: ', '
+      arguments:
+        nid:
+          exception:
+            title: All

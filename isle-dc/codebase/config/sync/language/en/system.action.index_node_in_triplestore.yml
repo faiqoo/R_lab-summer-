@@ -1,0 +1,4 @@
+label: 'Index Node in Triplestore'
+configuration:
+  queue: islandora-indexing-triplestore-index
+  event: Update

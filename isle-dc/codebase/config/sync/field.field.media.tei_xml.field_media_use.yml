@@ -1,0 +1,29 @@
+uuid: 21de88ac-2782-4b3c-afc6-2d61538c5bde
+langcode: de
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_use
+    - media.type.tei_xml
+    - taxonomy.vocabulary.islandora_media_use
+id: media.tei_xml.field_media_use
+field_name: field_media_use
+entity_type: media
+bundle: tei_xml
+label: 'Media Use'
+description: "Defined by <a href=\"https://pcdm.org/2015/05/12/use\">Portland Common Data Model: Use Extension</a>. 'Original File' will trigger creation of derivatives. 'Service File' will be shown on the node. Selecting multiple values is accepted. Derivatives where both the source and target terms are on the same media will be skipped."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:filter_existing_terms'
+  handler_settings:
+    target_bundles:
+      islandora_media_use: islandora_media_use
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

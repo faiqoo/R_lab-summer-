@@ -1,0 +1,444 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "TEI XML Transcription",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "40a953807c955dff",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "4dba9aae15fceeda",
+        "type": "stomp-server",
+        "server": "activemq",
+        "port": 61613,
+        "protocolversion": "1.0",
+        "vhost": "",
+        "reconnectretries": "10",
+        "reconnectdelay": 1,
+        "name": "ActiveMQ"
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "cbf4d64b72d4774e",
+        "type": "stomp in",
+        "z": "f6f2187d.f17ca8",
+        "name": "Consume ActiveMQ Message",
+        "server": "4dba9aae15fceeda",
+        "ack": "auto",
+        "topic": "/queue/berufearchiv-tei-derivative",
+        "x": 160,
+        "y": 380,
+        "wires": [
+            [
+                "3651e42a20674a9d"
+            ]
+        ]
+    },
+    {
+        "id": "e31f9984e4066a86",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "name": "Parse ActiveMQ message to JS Object",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 670,
+        "y": 480,
+        "wires": [
+            [
+                "fafd58bbc895e0bf",
+                "9871785a0e135a91"
+            ]
+        ]
+    },
+    {
+        "id": "f13eb8f8f91b61b1",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "Request Media",
+        "method": "use",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "40a953807c955dff",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "authorization"
+            }
+        ],
+        "x": 1020,
+        "y": 480,
+        "wires": [
+            [
+                "b9f3c4c9696da3dc",
+                "44951acb56720f23"
+            ]
+        ]
+    },
+    {
+        "id": "9871785a0e135a91",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Prepare Media Request Query",
+        "func": "// Extract the URL from the JSON payload\nlet url = msg.payload.attachment.content.source_uri;\n\n// Extract the authorization header from STOMP headers\nlet authHeader = msg.headers['Authorization'] || msg.headers['authorization'] || '';\n\n// Prepare msg for HTTP request\nmsg.url = url;\nmsg.authorization = authHeader\n\n// Optionally, set method or body\nmsg.method = \"GET\"; // or \"POST\" depending on the API\n\nflow.set(\"destinationUrl\", msg.payload.attachment.content.destination_uri);\nflow.set(\"fileUploadUri\", msg.payload.attachment.content.file_upload_uri);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 380,
+        "wires": [
+            [
+                "4b14a842294c4cff",
+                "9fab0ebade8e31c9",
+                "f13eb8f8f91b61b1"
+            ]
+        ]
+    },
+    {
+        "id": "b9f3c4c9696da3dc",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Debug Media Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1210,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "4b14a842294c4cff",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Debug Media URL",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "url",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "9fab0ebade8e31c9",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Debug JWT Token",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "authorization",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "b4954fe26121444e",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "Send Files to BentoML",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "multipart/form-data"
+            }
+        ],
+        "x": 1360,
+        "y": 480,
+        "wires": [
+            [
+                "f7bdf8b2dd0ed378",
+                "668c379933ab59f1"
+            ]
+        ]
+    },
+    {
+        "id": "f7bdf8b2dd0ed378",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Debug TEI XML",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1500,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "44951acb56720f23",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Prepare BentoML query",
+        "func": "// Node-RED Function node snippet\n// Assumes msg.payload contains the PDF as a binary Buffer\n\nmsg.method = \"POST\";\nmsg.url = \"http://bentoml:3000/transcribe_document\";\n\n// Construct the multipart/form-data payload\nmsg.headers = {\n    \"accept\": \"text/plain\"\n};\n\nmsg.payload = {\n    input_data: {\n            value: msg.payload,\n            options: {\n                filename: \"file.pdf\",\n                contentType: \"application/pdf\"\n            }\n        }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 380,
+        "wires": [
+            [
+                "b4954fe26121444e"
+            ]
+        ]
+    },
+    {
+        "id": "668c379933ab59f1",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Prepare XML Upload Request",
+        "func": "// Assume msg.payload contains XML from BentoML\nconst contentLocation = flow.get(\"fileUploadUri\")\nmsg.headers = {\n    \"Content-Type\": \"application/xml\",\n    \"Content-Location\": contentLocation,\n    \"Content-type\": \"application/xml\"\n};\nmsg.url = flow.get(\"destinationUrl\");\nmsg.method = \"PUT\";\nmsg.contentLocation = contentLocation;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1550,
+        "y": 380,
+        "wires": [
+            [
+                "093f9b57b42a7b74",
+                "e69859b5c0fbc81d"
+            ]
+        ]
+    },
+    {
+        "id": "093f9b57b42a7b74",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Debug existdb Request",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1790,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "e69859b5c0fbc81d",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "Upload Transcript to Islandora",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "40a953807c955dff",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "authorization"
+            },
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/xml",
+                "valueValue": ""
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Location",
+                "valueType": "msg",
+                "valueValue": "contentLocation"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-type",
+                "valueType": "other",
+                "valueValue": "application/xml"
+            }
+        ],
+        "x": 1770,
+        "y": 480,
+        "wires": [
+            [
+                "8b02d951cca40140",
+                "34d5302fe3cf9ff2"
+            ]
+        ]
+    },
+    {
+        "id": "8b02d951cca40140",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Debug XML Upload Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1990,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "fafd58bbc895e0bf",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Debug message payload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "c0d8be5a1f3f5eb4",
+        "type": "link in",
+        "z": "f6f2187d.f17ca8",
+        "name": "link in 1",
+        "links": [
+            "34d5302fe3cf9ff2"
+        ],
+        "x": 55,
+        "y": 540,
+        "wires": [
+            [
+                "c7aceabcd5fc8f59"
+            ]
+        ]
+    },
+    {
+        "id": "34d5302fe3cf9ff2",
+        "type": "link out",
+        "z": "f6f2187d.f17ca8",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "c0d8be5a1f3f5eb4"
+        ],
+        "x": 2045,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "c7aceabcd5fc8f59",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "trigger",
+                "pt": "msg",
+                "to": "trigger",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 210,
+        "y": 540,
+        "wires": [
+            [
+                "3651e42a20674a9d"
+            ]
+        ]
+    },
+    {
+        "id": "3651e42a20674a9d",
+        "type": "simple-queue",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "firstMessageBypass": true,
+        "bypassInterval": "0",
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "e31f9984e4066a86"
+            ]
+        ]
+    }
+]

@@ -1,0 +1,29 @@
+uuid: 30953fc6-41fd-4d82-ac17-05af1139af90
+langcode: de
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.media.media_library
+    - field.field.media.tei_xml.field_file_size
+    - field.field.media.tei_xml.field_media_file_1
+    - field.field.media.tei_xml.field_media_of
+    - field.field.media.tei_xml.field_media_use
+    - field.field.media.tei_xml.field_mime_type
+    - media.type.tei_xml
+id: media.tei_xml.media_library
+targetEntityType: media
+bundle: tei_xml
+mode: media_library
+content: {  }
+hidden:
+  created: true
+  field_file_size: true
+  field_media_file_1: true
+  field_media_of: true
+  field_media_use: true
+  field_mime_type: true
+  langcode: true
+  name: true
+  path: true
+  status: true
+  uid: true
