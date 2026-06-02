@@ -1,0 +1,613 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+]{article}
+\usepackage{xcolor}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% ─────────────────────────────────────────────────────────────────────────
+% latex-header.tex — academic house style for the project's design docs.
+% Injected into a standalone .tex by md2tex.sh (pandoc --include-in-header -s).
+% Target: Overleaf with the default pdfLaTeX engine (no system fonts, no
+% fontspec). Classic scholarly look: Palatino (newpx) body, navy headings,
+% booktabs tables (pandoc emits these by default), microtype, A4.
+% ─────────────────────────────────────────────────────────────────────────
+
+% Fonts — Palatino-style serif via newpx (bundled with TeX Live / Overleaf).
+\usepackage[T1]{fontenc}
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+\usepackage[scaled=0.92]{helvet}   % Helvetica-like sans
+\usepackage{inconsolata}           % clean monospace
+
+\usepackage{microtype}             % refined spacing / justification
+\usepackage{xcolor}
+\definecolor{headingnavy}{HTML}{1F3864}
+\definecolor{rulegray}{HTML}{2F2F2F}
+
+% Navy, serif section headings (matches the Word template).
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{headingnavy}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{headingnavy}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{headingnavy}}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.4ex plus 0.4ex}{0.7ex}
+\titlespacing*{\subsection}{0pt}{1.1ex plus 0.3ex}{0.5ex}
+
+% Booktabs rules in the same gray as the Word version.
+\usepackage{booktabs}
+\usepackage{colortbl}              % enables \arrayrulecolor
+\arrayrulecolor{rulegray}
+\setlength{\heavyrulewidth}{1.1pt}
+\setlength{\lightrulewidth}{0.5pt}
+\renewcommand{\arraystretch}{1.25}
+\usepackage{ragged2e}
+
+% Unicode glyph that pdfLaTeX/newpx doesn't render on its own.
+% (≤ and ≥ are already provided, so we don't redefine them here.)
+\usepackage{newunicodechar}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+
+% NOTE: link colours are set via pandoc -V variables (colorlinks/linkcolor/
+% urlcolor) — NOT \hypersetup here, because pandoc loads hyperref *after*
+% this header, so calling \hypersetup here would be an undefined command.
+
+% Report-style spacing: blank line between paragraphs, no indent.
+\usepackage{parskip}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  colorlinks=true,
+  linkcolor={headingnavy},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={headingnavy},
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\section{Requirements Specification}\label{requirements-specification}
+
+\textbf{Project:} RAG-Based Retrieval for Archival Systems\\
+\textbf{Version:} 1.0\\
+\textbf{Date:} 2026-06-01\\
+\textbf{Status:} Draft
+
+\subsection{1. Introduction}\label{introduction}
+
+\subsubsection{1.1 Purpose}\label{purpose}
+
+This document specifies the functional requirements for a
+Retrieval-Augmented Generation (RAG) system that provides
+natural-language access to institutional archival document collections.
+Users query a conversational interface; the system retrieves relevant
+document chunks and returns a grounded, cited response generated by a
+locally hosted LLM.
+
+The system is built as a \textbf{microservices architecture}, with
+pipeline flows orchestrated by \textbf{Node-RED} and \textbf{Islandora}
+(via Drupal) as the archival repository.
+
+\subsubsection{1.2 Scope}\label{scope}
+
+\textbf{In scope:}
+
+\begin{itemize}
+\tightlist
+\item
+  Document ingestion (text extraction, chunking, embedding, indexing via
+  Islandora)
+\item
+  Natural language query processing and hybrid retrieval
+\item
+  LLM-based response generation with source attribution
+\item
+  Chat-based front-end (web extension and mobile)
+\end{itemize}
+
+\textbf{Out of scope:}
+
+\begin{itemize}
+\tightlist
+\item
+  OCR processing of scanned/image-based documents
+\item
+  LLM fine-tuning
+\item
+  Handwritten document processing
+\item
+  Cloud inference APIs (all inference is on-premises)
+\end{itemize}
+
+\subsubsection{1.3 Glossary}\label{glossary}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Term
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Definition
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RAG & Retrieval-Augmented Generation: combines LLM generation with
+external document retrieval \\
+Chunk & A semantically bounded segment of a source document stored as a
+retrievable unit \\
+Embedding & A dense numerical vector representing the semantic meaning
+of a text chunk \\
+Dense Retrieval & Vector similarity search using embeddings \\
+Sparse Retrieval & Keyword-based search (e.g., BM25) \\
+Hybrid Retrieval & Combination of dense and sparse retrieval
+strategies \\
+Reranker & A model that re-scores retrieved candidates by relevance to
+the query \\
+Source Attribution & Tracing a generated response back to the specific
+source document(s) it was grounded in \\
+Contextual Chunk & A chunk enriched with structural metadata (section
+heading, document hierarchy, date) \\
+Islandora & Open-source digital repository framework (via Drupal) used
+as the archival backend \\
+Node-RED & Flow-based orchestration tool used to wire the microservices
+into ingestion and query pipelines \\
+Microservice & An independently deployable service implementing one
+stage of the RAG pipeline \\
+\end{longtable}
+}
+
+\subsection{2. Functional Requirements}\label{functional-requirements}
+
+\subsubsection{FR-01: Natural Language Query
+Interface}\label{fr-01-natural-language-query-interface}
+
+\textbf{Description:} The system shall accept natural language queries
+from users through a chat interface (web and mobile). Queries may be
+phrased as questions, keywords, or conversational prompts.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Submit a natural language question; verify the
+system returns a textual response within acceptable latency.
+
+\subsubsection{FR-02: Query
+Preprocessing}\label{fr-02-query-preprocessing}
+
+\textbf{Description:} The system shall preprocess each incoming query
+before retrieval:
+
+\begin{itemize}
+\tightlist
+\item
+  Language detection
+\item
+  Query normalisation (lowercasing, punctuation handling)
+\item
+  Keyword expansion where applicable
+\end{itemize}
+
+\textbf{Priority:} Medium\\
+\textbf{Testability:} Submit queries in multiple languages and verify
+correct language detection; verify normalised forms are used in
+retrieval.
+
+\subsubsection{FR-03: Embedding Generation for
+Queries}\label{fr-03-embedding-generation-for-queries}
+
+\textbf{Description:} The system shall generate a dense vector embedding
+for each preprocessed query using a multilingual sentence transformer
+model.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Verify embedding dimensions match the vector
+database schema; semantically similar queries must produce geometrically
+close vectors.
+
+\subsubsection{FR-04: Hybrid Retrieval}\label{fr-04-hybrid-retrieval}
+
+\textbf{Description:} The system shall retrieve candidate chunks using a
+combination of:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Dense vector search}: semantic similarity via embeddings
+\item
+  \textbf{Sparse keyword search}: BM25 or equivalent
+\item
+  \textbf{Metadata / filter search}: document type, date range,
+  collection tag
+\end{itemize}
+
+All three strategies shall be configurable and combinable.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Run identical queries with each strategy
+enabled/disabled; verify recall improves with hybrid mode active.
+
+\subsubsection{FR-05: Re-ranking of Retrieved
+Candidates}\label{fr-05-re-ranking-of-retrieved-candidates}
+
+\textbf{Description:} The system shall apply a re-ranking model to the
+initial set of retrieved chunks to improve precision before context
+assembly.
+
+\textbf{Priority:} Medium\\
+\textbf{Testability:} Compare ranked vs.~unranked output; top-k results
+after reranking must be more relevant than naive retrieval order.
+
+\subsubsection{FR-06: Context Assembly}\label{fr-06-context-assembly}
+
+\textbf{Description:} The system shall select and assemble the
+top-ranked chunks into a coherent context window for prompt
+construction, respecting the LLM's token limit. Chunks shall be ordered
+by relevance score.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Verify total assembled token count does not exceed
+the configured context budget.
+
+\subsubsection{FR-07: LLM Response
+Generation}\label{fr-07-llm-response-generation}
+
+\textbf{Description:} The system shall pass the assembled context and
+user query to a locally hosted open-weight LLM (via OLLAMA or vLLM) and
+return the generated response to the user. No external inference API may
+be used.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Verify responses are generated without external
+API calls; verify the response is grounded in the provided context.
+
+\subsubsection{FR-08: Source
+Attribution}\label{fr-08-source-attribution}
+
+\textbf{Description:} Every generated response shall include citations
+identifying the source document(s), section, and page (where available)
+from which the supporting evidence was retrieved.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} For any factual claim in the response, the cited
+document must contain text that supports that claim.
+
+\subsubsection{FR-09: Structured JSON Chunk
+Storage}\label{fr-09-structured-json-chunk-storage}
+
+\textbf{Description:} The ingestion pipeline shall store document chunks
+as structured JSON objects preserving the document's semantic hierarchy
+with at minimum the following fields:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{context\_heading}: the section/chapter title the chunk belongs
+  to
+\item
+  \texttt{context\_content}: the chunk's actual text
+\item
+  \texttt{context\_links}: references or related source identifiers
+\item
+  \texttt{metadata}: document ID, date, language, collection tag
+\end{itemize}
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Inspect stored chunks in the vector DB; all
+required fields must be populated.
+
+\subsubsection{FR-10: Document Ingestion
+Pipeline}\label{fr-10-document-ingestion-pipeline}
+
+\textbf{Description:} The system shall support ingestion of new
+documents from the Islandora archival repository through an automated
+pipeline that:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Extracts text from structured digital documents (PDF, plain text,
+  HTML)
+\item
+  Detects document language
+\item
+  Splits the document into contextual chunks using structure-aware
+  chunking (not naive character-count splitting)
+\item
+  Generates embeddings for each chunk
+\item
+  Stores chunks with metadata in ChromaDB
+\end{enumerate}
+
+\textbf{Note:} OCR processing of scanned image documents is out of
+scope.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Ingest a known PDF; verify all chunks appear in
+ChromaDB with correct fields and no mid-sentence chunk boundaries.
+
+\subsubsection{FR-11: Islandora Repository
+Integration}\label{fr-11-islandora-repository-integration}
+
+\textbf{Description:} The system shall integrate with Islandora (via
+Drupal) as the primary archival document store. New documents added to
+Islandora shall automatically trigger the ingestion pipeline.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Add a document to Islandora; verify the ingestion
+pipeline is triggered and the document appears in ChromaDB within the
+defined SLA.
+
+\subsubsection{FR-12: Microservices
+Architecture}\label{fr-12-microservices-architecture}
+
+\textbf{Description:} Each stage of the RAG pipeline (text extraction,
+chunking, embedding, retrieval, reranking, LLM generation) shall be
+implemented as an independently deployable microservice. Each service
+shall be independently replaceable without requiring changes to other
+services beyond its defined interface.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Stop or replace any single service (e.g., swap the
+embedding service) and verify the rest of the pipeline continues to
+operate against the defined interface contract.
+
+\subsubsection{FR-13: Node-RED Pipeline
+Orchestration}\label{fr-13-node-red-pipeline-orchestration}
+
+\textbf{Description:} The system shall use Node-RED to orchestrate the
+microservices into two flows:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ingestion flow}: Islandora trigger → text extraction →
+  language detection → chunking → embedding → indexing
+\item
+  \textbf{Query flow}: query preprocessing → hybrid retrieval →
+  reranking → context assembly → LLM generation → source attribution
+\end{itemize}
+
+Node-RED shall handle inter-service routing, triggering, and
+retry-on-failure.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Inspect the Node-RED flow; verify each pipeline
+stage maps to a node, and that a failed service invocation triggers the
+configured retry behaviour.
+
+\subsubsection{FR-14: Multilingual
+Support}\label{fr-14-multilingual-support}
+
+\textbf{Description:} The system shall support retrieval and generation
+across multiple languages using multilingual sentence transformer models
+for embedding.
+
+\textbf{Priority:} Medium\\
+\textbf{Testability:} Ingest documents in German and English; submit
+queries in both languages; verify relevant results are returned for
+each.
+
+\subsubsection{FR-15: Session Context / Follow-Up
+Questions}\label{fr-15-session-context-follow-up-questions}
+
+\textbf{Description:} The system shall maintain conversational context
+within a session so that follow-up questions can reference prior turns
+without the user restating context.
+
+\textbf{Priority:} Medium\\
+\textbf{Testability:} Ask a follow-up question referencing a prior
+answer in the same session; verify the system resolves the reference
+correctly.
+
+\subsubsection{FR-16: Drupal Front-End (AI
+Chatblock)}\label{fr-16-drupal-front-end-ai-chatblock}
+
+\textbf{Description:} The system shall provide a chat-based front-end
+within \textbf{Drupal} (the same platform that hosts Islandora) using
+the \textbf{AI Chatblock} module (or its successor
+\texttt{ai\_assistant\_ui}). Responses shall be \textbf{streamed to the
+user via Server-Sent Events (SSE)} so replies appear progressively as
+they are generated.
+
+Because AI Chatblock integrates through Drupal's \texttt{drupal/ai}
+AI-Assistant framework rather than accepting an arbitrary backend URL,
+the query microservice shall expose an \textbf{OpenAI-compatible,
+SSE-streaming endpoint} so it can be wired in via a Drupal AI provider
+pointed at the system's own endpoint.
+
+\textbf{Priority:} Medium\\
+\textbf{Testability:} Submit a query from the Drupal front-end; verify
+the response streams progressively (SSE), citations render correctly,
+and the backend receives the request via the query flow.
+
+\subsubsection{FR-20: Streaming Query API
+(OpenAI-Compatible)}\label{fr-20-streaming-query-api-openai-compatible}
+
+\textbf{Description:} The query flow shall be exposed as an HTTP service
+(served via \textbf{Uvicorn / ASGI}) that:
+
+\begin{itemize}
+\tightlist
+\item
+  Accepts chat-style requests in an \textbf{OpenAI-compatible} request
+  format
+\item
+  Streams the generated response token-by-token via \textbf{Server-Sent
+  Events (SSE)}
+\item
+  Returns source-attribution metadata alongside the streamed content
+\end{itemize}
+
+This contract is the integration surface for the Drupal front-end
+(FR-16).
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Send an OpenAI-format chat request to the
+endpoint; verify an SSE stream is returned and that an OpenAI-compatible
+client (or the Drupal AI provider) can consume it.
+
+\subsubsection{FR-21: Front-End Integration
+Spike}\label{fr-21-front-end-integration-spike}
+
+\textbf{Description:} Before committing to the AI Chatblock integration,
+the team shall validate the integration with a \textbf{dummy query
+endpoint/bot} implementing the agreed \textbf{dummy API contract}
+(OpenAI-compatible chat-completions + SSE). The spike shall confirm AI
+Chatblock can communicate with the dummy endpoint end-to-end.
+
+\textbf{Rationale:} If AI Chatblock cannot integrate with the system's
+endpoint, the fallback is a \textbf{custom Drupal plugin/widget}, which
+widens project scope and must be flagged before commitment.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Configure AI Chatblock against the dummy endpoint;
+verify a streamed response is rendered in the Drupal chat widget without
+any custom plugin code.
+
+\subsubsection{FR-17: Vocabulary Mismatch
+Bridging}\label{fr-17-vocabulary-mismatch-bridging}
+
+\textbf{Description:} The retrieval layer shall surface documents
+containing historical or domain-specific terminology when queried with
+modern equivalent phrasing (e.g., a query for ``aviation'' retrieves
+documents using ``flying machines''). This shall be achieved through
+semantic dense retrieval without requiring user configuration.
+
+\textbf{Priority:} High\\
+\textbf{Testability:} Define a vocabulary-mismatch test set; verify
+recall@10 ≥ 0.8 for paired modern/historical query equivalents.
+
+\subsubsection{FR-18: Document Removal from
+Index}\label{fr-18-document-removal-from-index}
+
+\textbf{Description:} The system shall support removing a document from
+the retrieval index (deleting all its chunks from ChromaDB and the
+metadata index) so that deprecated or restricted content is no longer
+returned in responses.
+
+\textbf{Priority:} Medium\\
+\textbf{Testability:} Remove a document; verify no subsequent query
+returns content from that document.
+
+\subsubsection{FR-19: Ingestion Status
+Visibility}\label{fr-19-ingestion-status-visibility}
+
+\textbf{Description:} The system shall expose per-document ingestion
+status to archivist/admin users: pending, processing, indexed, or
+failed. Failed ingestions shall include a human-readable error message.
+
+\textbf{Priority:} Low\\
+\textbf{Testability:} Submit a document; observe status transitions from
+pending → processing → indexed in the admin interface.
+
+\subsection{3. Constraints}\label{constraints}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Constraint
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+C-01 & OCR for scanned/image-based documents is out of scope; only
+machine-readable text documents are ingested. \\
+C-02 & LLM fine-tuning is out of scope; retrieval compensates for domain
+knowledge gaps. \\
+C-03 & All inference and document storage must remain on-premises; no
+public cloud APIs for document content. \\
+C-04 & Hardware target is a single GPU node with 24 GB VRAM (NVIDIA L4
+or RTX 4090 equivalent). \\
+C-05 & Python services use \texttt{pyproject.toml} for dependency/build
+configuration and are served with Uvicorn (ASGI). \\
+C-06 & The Drupal front-end uses the AI Chatblock module; integration
+must work without a custom plugin, or scope expands (see FR-21). \\
+C-07 & The LLM / inference runtime runs on the university GPU server,
+accessed over SSH (e.g., an SSH tunnel to the model endpoint). The 24 GB
+GPU node (C-04) refers to this server. \\
+\end{longtable}
+}
+
+\subsection{4. Research Gaps (Future
+Scope)}\label{research-gaps-future-scope}
+
+The following are identified research gaps and are \textbf{not} part of
+v1.0:
+
+\begin{itemize}
+\tightlist
+\item
+  Evaluation benchmarks specific to archival retrieval tasks
+\item
+  Handwritten and multimodal archival material processing
+\item
+  Provenance-aware answer generation
+\item
+  Privacy-preserving RAG
+\item
+  Explainable retrieval interfaces
+\item
+  Agentic archival research assistants (multi-step autonomous research)
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,498 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+]{article}
+\usepackage{xcolor}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% ─────────────────────────────────────────────────────────────────────────
+% latex-header.tex — academic house style for the project's design docs.
+% Injected into a standalone .tex by md2tex.sh (pandoc --include-in-header -s).
+% Target: Overleaf with the default pdfLaTeX engine (no system fonts, no
+% fontspec). Classic scholarly look: Palatino (newpx) body, navy headings,
+% booktabs tables (pandoc emits these by default), microtype, A4.
+% ─────────────────────────────────────────────────────────────────────────
+
+% Fonts — Palatino-style serif via newpx (bundled with TeX Live / Overleaf).
+\usepackage[T1]{fontenc}
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+\usepackage[scaled=0.92]{helvet}   % Helvetica-like sans
+\usepackage{inconsolata}           % clean monospace
+
+\usepackage{microtype}             % refined spacing / justification
+\usepackage{xcolor}
+\definecolor{headingnavy}{HTML}{1F3864}
+\definecolor{rulegray}{HTML}{2F2F2F}
+
+% Navy, serif section headings (matches the Word template).
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{headingnavy}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{headingnavy}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{headingnavy}}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.4ex plus 0.4ex}{0.7ex}
+\titlespacing*{\subsection}{0pt}{1.1ex plus 0.3ex}{0.5ex}
+
+% Booktabs rules in the same gray as the Word version.
+\usepackage{booktabs}
+\usepackage{colortbl}              % enables \arrayrulecolor
+\arrayrulecolor{rulegray}
+\setlength{\heavyrulewidth}{1.1pt}
+\setlength{\lightrulewidth}{0.5pt}
+\renewcommand{\arraystretch}{1.25}
+\usepackage{ragged2e}
+
+% Unicode glyph that pdfLaTeX/newpx doesn't render on its own.
+% (≤ and ≥ are already provided, so we don't redefine them here.)
+\usepackage{newunicodechar}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+
+% NOTE: link colours are set via pandoc -V variables (colorlinks/linkcolor/
+% urlcolor) — NOT \hypersetup here, because pandoc loads hyperref *after*
+% this header, so calling \hypersetup here would be an undefined command.
+
+% Report-style spacing: blank line between paragraphs, no indent.
+\usepackage{parskip}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  colorlinks=true,
+  linkcolor={headingnavy},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={headingnavy},
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\section{User Stories}\label{user-stories}
+
+\textbf{Project:} RAG-Based Retrieval for Archival Systems\\
+\textbf{Version:} 1.0\\
+\textbf{Date:} 2026-06-01\\
+\textbf{Status:} Draft
+
+\subsection{Roles}\label{roles}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Role
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Researcher} & Academic or graduate student querying the archive
+for primary sources, historical data, or literature. Needs precise,
+citable answers. \\
+\textbf{Professional} & Practitioner (e.g., lawyer, journalist, museum
+curator) who needs to quickly locate specific archival records or
+policies. Needs fast, trustworthy responses. \\
+\textbf{General Public User} & Member of the public exploring archival
+content. Needs accessible, plain-language responses without domain
+expertise. \\
+\textbf{Archivist / Admin} & Institutional staff managing the Islandora
+repository, approving ingestions, and maintaining collection quality. \\
+\textbf{System Administrator} & Engineer responsible for deploying,
+monitoring, and maintaining the RAG infrastructure. \\
+\end{longtable}
+}
+
+\subsection{Epic 1: Natural Language Document
+Retrieval}\label{epic-1-natural-language-document-retrieval}
+
+\emph{Users can ask questions in natural language and receive grounded,
+cited answers from the archival collection.}
+
+\subsubsection{US-01: Ask a Natural Language
+Question}\label{us-01-ask-a-natural-language-question}
+
+\textbf{As a} researcher,\\
+\textbf{I want to} type a question in natural language\\
+\textbf{so that} I can find relevant archival information without
+learning a query syntax or search operators.
+
+\textbf{Priority:} High\\
+\textbf{Effort:} L
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  The chat interface accepts free-text input
+\item
+  A response is returned within 10 seconds
+\item
+  The response directly addresses the question's intent
+\end{itemize}
+
+\subsubsection{US-02: Receive Source-Attributed
+Response}\label{us-02-receive-source-attributed-response}
+
+\textbf{As a} researcher,\\
+\textbf{I want} every response to include citations naming the source
+document, section, and page\\
+\textbf{so that} I can verify the answer independently and use it in
+academic work.
+
+\textbf{Priority:} High\\
+\textbf{Effort:} M
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  Each factual claim in the response is accompanied by a citation
+\item
+  The citation identifies at minimum the document name and section/page
+\item
+  Clicking or tapping a citation opens or highlights the source passage
+\end{itemize}
+
+\subsubsection{US-03: Ask Follow-Up
+Questions}\label{us-03-ask-follow-up-questions}
+
+\textbf{As a} researcher,\\
+\textbf{I want to} ask follow-up questions that reference my earlier
+query\\
+\textbf{so that} I can explore a topic iteratively without restating
+context every time.
+
+\textbf{Priority:} Medium\\
+\textbf{Effort:} M
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  A follow-up such as ``Can you elaborate on the second point?''
+  resolves correctly to prior context
+\item
+  Session history is maintained for the duration of the session
+\item
+  The system does not mix context from different sessions
+\end{itemize}
+
+\subsubsection{US-04: Query in My Own
+Language}\label{us-04-query-in-my-own-language}
+
+\textbf{As a} general public user whose primary language is not
+English,\\
+\textbf{I want to} submit queries in my native language (e.g., German)\\
+\textbf{so that} I can access archival content without being fluent in
+the archive's primary language.
+
+\textbf{Priority:} Medium\\
+\textbf{Effort:} L
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  Queries in supported languages are correctly understood and answered
+\item
+  Results from source documents in different languages are returned when
+  relevant
+\item
+  The response language matches the query language
+\end{itemize}
+
+\subsubsection{US-05: Filter by Document
+Metadata}\label{us-05-filter-by-document-metadata}
+
+\textbf{As a} professional,\\
+\textbf{I want to} narrow my search by date range, collection, or
+document type\\
+\textbf{so that} I get results from the specific subset of the archive
+relevant to my task.
+
+\textbf{Priority:} Medium\\
+\textbf{Effort:} M
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  The interface exposes date range, collection tag, and document type
+  filters
+\item
+  Retrieval respects applied filters without the user embedding them in
+  query text
+\item
+  Filters can be combined
+\end{itemize}
+
+\subsubsection{US-06: Get Results Despite Historical
+Terminology}\label{us-06-get-results-despite-historical-terminology}
+
+\textbf{As a} researcher working with pre-20th century archives,\\
+\textbf{I want} the system to find relevant documents even when I use
+modern vocabulary\\
+\textbf{so that} vocabulary mismatch between my query and historical
+source language does not cause gaps in results.
+
+\textbf{Priority:} High\\
+\textbf{Effort:} L
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  A query for ``aviation'' returns documents containing ``flying
+  machines'' where relevant
+\item
+  Hybrid retrieval (dense + sparse) is active by default
+\item
+  No user configuration is required to benefit from semantic bridging
+\end{itemize}
+
+\subsubsection{US-07: Query from the Drupal
+Front-End}\label{us-07-query-from-the-drupal-front-end}
+
+\textbf{As a} general public user,\\
+\textbf{I want to} query the archive directly within the Drupal
+repository site\\
+\textbf{so that} I can access institutional knowledge without leaving
+the platform I'm already browsing.
+
+\textbf{Priority:} Medium\\
+\textbf{Effort:} L
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  The Drupal front-end provides a chat interface for submitting queries
+\item
+  Responses and citations render correctly within the Drupal page
+\item
+  The front-end connects to the backend query flow orchestrated by
+  Node-RED
+\end{itemize}
+
+\subsection{Epic 2: Document Ingestion \& Collection
+Management}\label{epic-2-document-ingestion-collection-management}
+
+\emph{Archivists can add new documents to the collection and have them
+become immediately queryable.}
+
+\subsubsection{US-08: Ingest a New Document via
+Islandora}\label{us-08-ingest-a-new-document-via-islandora}
+
+\textbf{As an} archivist,\\
+\textbf{I want to} add a new digitised document to Islandora\\
+\textbf{so that} it becomes searchable by all users without requiring
+developer intervention.
+
+\textbf{Priority:} High\\
+\textbf{Effort:} L
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  Uploading a document to Islandora triggers automatic pipeline
+  processing
+\item
+  The document's text is extracted, chunked, embedded, and indexed in
+  ChromaDB
+\item
+  The document is queryable within 15 minutes for a 100-page document
+\end{itemize}
+
+\subsubsection{US-09: Preserve Document Structure During
+Ingestion}\label{us-09-preserve-document-structure-during-ingestion}
+
+\textbf{As an} archivist,\\
+\textbf{I want} document section headings, hierarchy, and metadata
+preserved in each chunk\\
+\textbf{so that} retrieved passages can be correctly understood in
+context by the LLM.
+
+\textbf{Priority:} High\\
+\textbf{Effort:} M
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  Each stored chunk includes \texttt{context\_heading},
+  \texttt{context\_content}, \texttt{context\_links}, and metadata
+  fields
+\item
+  No chunk boundary splits a sentence mid-phrase or separates a table
+  row from its header
+\item
+  Structure-aware chunking is used, not naive character-count splitting
+\end{itemize}
+
+\subsubsection{US-10: Track Ingestion
+Status}\label{us-10-track-ingestion-status}
+
+\textbf{As an} archivist,\\
+\textbf{I want to} see the ingestion status of each document I submit\\
+\textbf{so that} I know when it is available for queries and can
+investigate failures.
+
+\textbf{Priority:} Low\\
+\textbf{Effort:} M
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  The admin interface shows per-document status: pending, processing,
+  indexed, failed
+\item
+  Failed ingestions display a human-readable error message
+\item
+  Successful ingestions show a timestamp and chunk count
+\end{itemize}
+
+\subsubsection{US-11: Remove a Document from the
+Index}\label{us-11-remove-a-document-from-the-index}
+
+\textbf{As an} archivist,\\
+\textbf{I want to} remove a document from the retrieval index\\
+\textbf{so that} users cannot receive responses grounded in outdated,
+incorrect, or restricted content.
+
+\textbf{Priority:} Medium\\
+\textbf{Effort:} M
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  Removing a document triggers deletion of its chunks from ChromaDB
+\item
+  Subsequent queries no longer return content from that document
+\item
+  The operation does not require a full re-index of the collection
+\end{itemize}
+
+\subsection{Epic 3: System Operations}\label{epic-3-system-operations}
+
+\emph{The system administrator can deploy and maintain the pipeline on a
+single GPU node.}
+
+\subsubsection{US-12: Deploy on a Single 24 GB
+GPU}\label{us-12-deploy-on-a-single-24-gb-gpu}
+
+\textbf{As a} system administrator,\\
+\textbf{I want to} run the full stack on a single NVIDIA L4 or RTX
+4090\\
+\textbf{so that} the prototype can be deployed without a multi-GPU
+cluster or cloud infrastructure.
+
+\textbf{Priority:} High\\
+\textbf{Effort:} L
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  LLM inference, embedding model, and reranker run within 24 GB VRAM
+\item
+  VRAM usage is documented for the recommended model sizes (7B--14B
+  quantized)
+\item
+  RAGDoll-style offloading is configured to handle memory contention
+\end{itemize}
+
+\subsubsection{US-13: Keep All Data
+On-Premises}\label{us-13-keep-all-data-on-premises}
+
+\textbf{As a} system administrator,\\
+\textbf{I want} all inference and document storage to remain
+on-premises\\
+\textbf{so that} institutional data sovereignty and privacy requirements
+are met.
+
+\textbf{Priority:} High\\
+\textbf{Effort:} M
+
+\textbf{Acceptance Criteria:}
+
+\begin{itemize}
+\tightlist
+\item
+  No document content, query text, or generated response is transmitted
+  to an external API
+\item
+  LLM runs via OLLAMA or vLLM on local hardware
+\item
+  All dependencies are open-source with no mandatory cloud licensing
+\end{itemize}
+
+\end{document}
