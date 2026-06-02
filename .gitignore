@@ -35,3 +35,11 @@ Thumbs.db
 *.swp
 .idea/
 .vscode/
+
+# Build tooling and templates
+*.sh
+/templates/
+
+# Generated documents (pandoc outputs from *.md)
+/*.tex
+/*.docx
