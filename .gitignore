@@ -38,6 +38,7 @@ Thumbs.db
 
 # Build tooling and templates
 *.sh
+!scripts/*.sh
 /templates/
 
 # Generated documents (pandoc outputs from *.md)

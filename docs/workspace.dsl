@@ -105,8 +105,8 @@ workspace "Islandora RAG Chatbot" "C4 model for the LLM-based chatbot extension 
             autolayout lr
         }
 
-        component islandora.drupal "DrupalComponents" "The Chatbot UI as a component inside the Drupal container." {
-            include *
+        component islandora.drupal "DrupalComponents" "The new Chatbot UI component added to Drupal." {
+            include islandora.drupal.chatUI
             autolayout lr
         }
 
