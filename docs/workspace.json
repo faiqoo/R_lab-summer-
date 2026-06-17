@@ -1,0 +1,529 @@
+{
+  "configuration" : { },
+  "description" : "C4 model for the LLM-based chatbot extension to Islandora (Summer 2026 lab).",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedDate" : "2026-06-11T08:54:07Z",
+  "model" : {
+    "people" : [ {
+      "description" : "Browses the digital repository, uploads content, and asks the chatbot questions about the collection.",
+      "id" : "1",
+      "name" : "Researcher / User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "researcher"
+      },
+      "relationships" : [ {
+        "description" : "Browses & uploads content",
+        "destinationId" : "3",
+        "id" : "17",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Browses & uploads content",
+        "destinationId" : "2",
+        "id" : "18",
+        "linkedRelationshipId" : "17",
+        "sourceId" : "1",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Asks questions, receives answers",
+        "destinationId" : "4",
+        "id" : "19",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Chat interface embedded in the repository UI; forwards questions to the RAG Chatbot Service.",
+          "documentation" : { },
+          "id" : "4",
+          "name" : "Chatbot UI",
+          "properties" : {
+            "structurizr.dsl.identifier" : "islandora.drupal.chatUI"
+          },
+          "relationships" : [ {
+            "description" : "Forwards user question, receives answer",
+            "destinationId" : "16",
+            "id" : "32",
+            "sourceId" : "4",
+            "tags" : "Relationship",
+            "technology" : "HTTP / JSON"
+          } ],
+          "tags" : "Element,Component,New",
+          "technology" : "Drupal module"
+        } ],
+        "description" : "Repository front-end, content model, and event publishing. Hosts the chatbot module.",
+        "documentation" : { },
+        "group" : "Main Application",
+        "id" : "3",
+        "name" : "Drupal",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.drupal"
+        },
+        "relationships" : [ {
+          "description" : "Stores TEI XML",
+          "destinationId" : "5",
+          "id" : "20",
+          "sourceId" : "3",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Stores metadata",
+          "destinationId" : "6",
+          "id" : "21",
+          "sourceId" : "3",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Stores files / binaries",
+          "destinationId" : "7",
+          "id" : "22",
+          "sourceId" : "3",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Publishes media-created events",
+          "destinationId" : "8",
+          "id" : "23",
+          "sourceId" : "3",
+          "tags" : "Relationship,Async",
+          "technology" : "STOMP"
+        }, {
+          "description" : "Forwards user question, receives answer",
+          "destinationId" : "16",
+          "id" : "33",
+          "linkedRelationshipId" : "32",
+          "sourceId" : "3",
+          "technology" : "HTTP / JSON"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Drupal / PHP"
+      }, {
+        "description" : "Stores TEI XML documents.",
+        "documentation" : { },
+        "group" : "Storage",
+        "id" : "5",
+        "name" : "eXistdb",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.existdb"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "eXist-db"
+      }, {
+        "description" : "Stores Drupal content metadata.",
+        "documentation" : { },
+        "group" : "Storage",
+        "id" : "6",
+        "name" : "MariaDB",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.mariadb"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "MariaDB"
+      }, {
+        "description" : "Stores binary files and original assets.",
+        "documentation" : { },
+        "group" : "Storage",
+        "id" : "7",
+        "name" : "Fedora (FCRepo)",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.fcrepo"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "Fedora Commons"
+      }, {
+        "description" : "Message broker. Publishes repository events (e.g. media created) to consumers via STOMP.",
+        "documentation" : { },
+        "group" : "Message Broker",
+        "id" : "8",
+        "name" : "ActiveMQ",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.activemq"
+        },
+        "relationships" : [ {
+          "description" : "Delivers events",
+          "destinationId" : "9",
+          "id" : "24",
+          "sourceId" : "8",
+          "tags" : "Relationship,Async",
+          "technology" : "STOMP"
+        }, {
+          "description" : "Delivers events",
+          "destinationId" : "10",
+          "id" : "25",
+          "sourceId" : "8",
+          "tags" : "Relationship,Async",
+          "technology" : "STOMP"
+        } ],
+        "tags" : "Element,Container,Queue",
+        "technology" : "Apache ActiveMQ"
+      }, {
+        "description" : "Event-driven orchestrator. Consumes broker events and coordinates derivative + embedding generation.",
+        "documentation" : { },
+        "group" : "Message Consumers",
+        "id" : "9",
+        "name" : "Node-RED",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.nodered"
+        },
+        "relationships" : [ {
+          "description" : "Requests TEI XML derivative",
+          "destinationId" : "11",
+          "id" : "26",
+          "sourceId" : "9",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        }, {
+          "description" : "Sends extracted text, receives embedding vector",
+          "destinationId" : "13",
+          "id" : "30",
+          "sourceId" : "9",
+          "tags" : "Relationship",
+          "technology" : "HTTP / JSON"
+        }, {
+          "description" : "Stores embedding + chunk metadata",
+          "destinationId" : "14",
+          "id" : "31",
+          "sourceId" : "9",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Node-RED"
+      }, {
+        "description" : "Routes broker events to Crayfish microservices.",
+        "documentation" : { },
+        "group" : "Message Consumers",
+        "id" : "10",
+        "name" : "Alpaca",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.alpaca"
+        },
+        "relationships" : [ {
+          "description" : "Requests OCR / thumbnails / audio",
+          "destinationId" : "12",
+          "id" : "28",
+          "sourceId" : "10",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Java / Camel"
+      }, {
+        "description" : "Generates TEI XML derivatives.",
+        "documentation" : { },
+        "group" : "Processing Services",
+        "id" : "11",
+        "name" : "BentoML",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.bentoml"
+        },
+        "relationships" : [ {
+          "description" : "Posts TEI XML derivative",
+          "destinationId" : "3",
+          "id" : "27",
+          "sourceId" : "11",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "BentoML / Python"
+      }, {
+        "description" : "Generates OCR text, thumbnails, and audio derivatives.",
+        "documentation" : { },
+        "group" : "Processing Services",
+        "id" : "12",
+        "name" : "Crayfish Services",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.crayfish"
+        },
+        "relationships" : [ {
+          "description" : "Posts derivatives (OCR text, thumbnails)",
+          "destinationId" : "3",
+          "id" : "29",
+          "sourceId" : "12",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "PHP microservices"
+      }, {
+        "description" : "Stateless service: turns text into an embedding vector and returns it to the caller.",
+        "documentation" : { },
+        "group" : "RAG Extension",
+        "id" : "13",
+        "name" : "Embedding Service",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.embed"
+        },
+        "tags" : "Element,Container,New",
+        "technology" : "e.g. sentence-transformers"
+      }, {
+        "description" : "Stores embedding vectors and chunk metadata; serves similarity search.",
+        "documentation" : { },
+        "group" : "RAG Extension",
+        "id" : "14",
+        "name" : "Vector Database",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.vectordb"
+        },
+        "tags" : "Element,Container,Database,New",
+        "technology" : "ChromaDB"
+      }, {
+        "description" : "Generates answers from augmented prompts.",
+        "documentation" : { },
+        "group" : "RAG Extension",
+        "id" : "15",
+        "name" : "LLM Service",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.llm"
+        },
+        "tags" : "Element,Container,New",
+        "technology" : "Llama via Ollama"
+      }, {
+        "description" : "Orchestrates the query path: embeds the question, retrieves chunks, builds the augmented prompt, and calls the LLM.",
+        "documentation" : { },
+        "group" : "RAG Extension",
+        "id" : "16",
+        "name" : "RAG Chatbot Service",
+        "properties" : {
+          "structurizr.dsl.identifier" : "islandora.ragsvc"
+        },
+        "relationships" : [ {
+          "description" : "Sends query text, receives embedding vector",
+          "destinationId" : "13",
+          "id" : "34",
+          "sourceId" : "16",
+          "tags" : "Relationship",
+          "technology" : "HTTP / JSON"
+        }, {
+          "description" : "Similarity search for top-k chunks",
+          "destinationId" : "14",
+          "id" : "35",
+          "sourceId" : "16",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Sends augmented prompt, receives generated answer",
+          "destinationId" : "15",
+          "id" : "36",
+          "sourceId" : "16",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        } ],
+        "tags" : "Element,Container,New",
+        "technology" : "e.g. FastAPI / Python"
+      } ],
+      "description" : "Digital repository platform extended with an LLM chatbot for semantic Q&A over collection content.",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "Islandora + RAG Extension",
+      "properties" : {
+        "structurizr.dsl.identifier" : "islandora"
+      },
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Islandora RAG Chatbot",
+  "properties" : {
+    "structurizr.inspection.error" : "8",
+    "structurizr.dsl" : "d29ya3NwYWNlICJJc2xhbmRvcmEgUkFHIENoYXRib3QiICJDNCBtb2RlbCBmb3IgdGhlIExMTS1iYXNlZCBjaGF0Ym90IGV4dGVuc2lvbiB0byBJc2xhbmRvcmEgKFN1bW1lciAyMDI2IGxhYikuIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICByZXNlYXJjaGVyID0gcGVyc29uICJSZXNlYXJjaGVyIC8gVXNlciIgIkJyb3dzZXMgdGhlIGRpZ2l0YWwgcmVwb3NpdG9yeSwgdXBsb2FkcyBjb250ZW50LCBhbmQgYXNrcyB0aGUgY2hhdGJvdCBxdWVzdGlvbnMgYWJvdXQgdGhlIGNvbGxlY3Rpb24uIgoKICAgICAgICBpc2xhbmRvcmEgPSBzb2Z0d2FyZVN5c3RlbSAiSXNsYW5kb3JhICsgUkFHIEV4dGVuc2lvbiIgIkRpZ2l0YWwgcmVwb3NpdG9yeSBwbGF0Zm9ybSBleHRlbmRlZCB3aXRoIGFuIExMTSBjaGF0Ym90IGZvciBzZW1hbnRpYyBRJkEgb3ZlciBjb2xsZWN0aW9uIGNvbnRlbnQuIiB7CgogICAgICAgICAgICAjIEdyb3VwcyBtaXJyb3IgdGhlIHN1YmdyYXBocyBmcm9tIHRoZSBvcmlnaW5hbCBmbG93Y2hhcnQuCgogICAgICAgICAgICBncm91cCAiTWFpbiBBcHBsaWNhdGlvbiIgewogICAgICAgICAgICAgICAgZHJ1cGFsID0gY29udGFpbmVyICJEcnVwYWwiICJSZXBvc2l0b3J5IGZyb250LWVuZCwgY29udGVudCBtb2RlbCwgYW5kIGV2ZW50IHB1Ymxpc2hpbmcuIEhvc3RzIHRoZSBjaGF0Ym90IG1vZHVsZS4iICJEcnVwYWwgLyBQSFAiIHsKICAgICAgICAgICAgICAgICAgICBjaGF0VUkgPSBjb21wb25lbnQgIkNoYXRib3QgVUkiICJDaGF0IGludGVyZmFjZSBlbWJlZGRlZCBpbiB0aGUgcmVwb3NpdG9yeSBVSTsgZm9yd2FyZHMgcXVlc3Rpb25zIHRvIHRoZSBSQUcgQ2hhdGJvdCBTZXJ2aWNlLiIgIkRydXBhbCBtb2R1bGUiIHsKICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiTmV3IgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQoKICAgICAgICAgICAgZ3JvdXAgIlN0b3JhZ2UiIHsKICAgICAgICAgICAgICAgIGV4aXN0ZGIgPSBjb250YWluZXIgImVYaXN0ZGIiICJTdG9yZXMgVEVJIFhNTCBkb2N1bWVudHMuIiAiZVhpc3QtZGIiIHsKICAgICAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIG1hcmlhZGIgPSBjb250YWluZXIgIk1hcmlhREIiICJTdG9yZXMgRHJ1cGFsIGNvbnRlbnQgbWV0YWRhdGEuIiAiTWFyaWFEQiIgewogICAgICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgZmNyZXBvID0gY29udGFpbmVyICJGZWRvcmEgKEZDUmVwbykiICJTdG9yZXMgYmluYXJ5IGZpbGVzIGFuZCBvcmlnaW5hbCBhc3NldHMuIiAiRmVkb3JhIENvbW1vbnMiIHsKICAgICAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQoKICAgICAgICAgICAgZ3JvdXAgIk1lc3NhZ2UgQnJva2VyIiB7CiAgICAgICAgICAgICAgICBhY3RpdmVtcSA9IGNvbnRhaW5lciAiQWN0aXZlTVEiICJNZXNzYWdlIGJyb2tlci4gUHVibGlzaGVzIHJlcG9zaXRvcnkgZXZlbnRzIChlLmcuIG1lZGlhIGNyZWF0ZWQpIHRvIGNvbnN1bWVycyB2aWEgU1RPTVAuIiAiQXBhY2hlIEFjdGl2ZU1RIiB7CiAgICAgICAgICAgICAgICAgICAgdGFncyAiUXVldWUiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGdyb3VwICJNZXNzYWdlIENvbnN1bWVycyIgewogICAgICAgICAgICAgICAgbm9kZXJlZCA9IGNvbnRhaW5lciAiTm9kZS1SRUQiICJFdmVudC1kcml2ZW4gb3JjaGVzdHJhdG9yLiBDb25zdW1lcyBicm9rZXIgZXZlbnRzIGFuZCBjb29yZGluYXRlcyBkZXJpdmF0aXZlICsgZW1iZWRkaW5nIGdlbmVyYXRpb24uIiAiTm9kZS1SRUQiCiAgICAgICAgICAgICAgICBhbHBhY2EgPSBjb250YWluZXIgIkFscGFjYSIgIlJvdXRlcyBicm9rZXIgZXZlbnRzIHRvIENyYXlmaXNoIG1pY3Jvc2VydmljZXMuIiAiSmF2YSAvIENhbWVsIgogICAgICAgICAgICB9CgogICAgICAgICAgICBncm91cCAiUHJvY2Vzc2luZyBTZXJ2aWNlcyIgewogICAgICAgICAgICAgICAgYmVudG9tbCA9IGNvbnRhaW5lciAiQmVudG9NTCIgIkdlbmVyYXRlcyBURUkgWE1MIGRlcml2YXRpdmVzLiIgIkJlbnRvTUwgLyBQeXRob24iCiAgICAgICAgICAgICAgICBjcmF5ZmlzaCA9IGNvbnRhaW5lciAiQ3JheWZpc2ggU2VydmljZXMiICJHZW5lcmF0ZXMgT0NSIHRleHQsIHRodW1ibmFpbHMsIGFuZCBhdWRpbyBkZXJpdmF0aXZlcy4iICJQSFAgbWljcm9zZXJ2aWNlcyIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgZ3JvdXAgIlJBRyBFeHRlbnNpb24iIHsKICAgICAgICAgICAgICAgIGVtYmVkID0gY29udGFpbmVyICJFbWJlZGRpbmcgU2VydmljZSIgIlN0YXRlbGVzcyBzZXJ2aWNlOiB0dXJucyB0ZXh0IGludG8gYW4gZW1iZWRkaW5nIHZlY3RvciBhbmQgcmV0dXJucyBpdCB0byB0aGUgY2FsbGVyLiIgImUuZy4gc2VudGVuY2UtdHJhbnNmb3JtZXJzIiB7CiAgICAgICAgICAgICAgICAgICAgdGFncyAiTmV3IgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgdmVjdG9yZGIgPSBjb250YWluZXIgIlZlY3RvciBEYXRhYmFzZSIgIlN0b3JlcyBlbWJlZGRpbmcgdmVjdG9ycyBhbmQgY2h1bmsgbWV0YWRhdGE7IHNlcnZlcyBzaW1pbGFyaXR5IHNlYXJjaC4iICJDaHJvbWFEQiIgewogICAgICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIiAiTmV3IgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgbGxtID0gY29udGFpbmVyICJMTE0gU2VydmljZSIgIkdlbmVyYXRlcyBhbnN3ZXJzIGZyb20gYXVnbWVudGVkIHByb21wdHMuIiAiTGxhbWEgdmlhIE9sbGFtYSIgewogICAgICAgICAgICAgICAgICAgIHRhZ3MgIk5ldyIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHJhZ3N2YyA9IGNvbnRhaW5lciAiUkFHIENoYXRib3QgU2VydmljZSIgIk9yY2hlc3RyYXRlcyB0aGUgcXVlcnkgcGF0aDogZW1iZWRzIHRoZSBxdWVzdGlvbiwgcmV0cmlldmVzIGNodW5rcywgYnVpbGRzIHRoZSBhdWdtZW50ZWQgcHJvbXB0LCBhbmQgY2FsbHMgdGhlIExMTS4iICJlLmcuIEZhc3RBUEkgLyBQeXRob24iIHsKICAgICAgICAgICAgICAgICAgICB0YWdzICJOZXciCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgICMg4pSA4pSAIFVzZXIgaW50ZXJhY3Rpb25zIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAogICAgICAgIHJlc2VhcmNoZXIgLT4gaXNsYW5kb3JhLmRydXBhbCAiQnJvd3NlcyAmIHVwbG9hZHMgY29udGVudCIgIkhUVFBTIgogICAgICAgIHJlc2VhcmNoZXIgLT4gaXNsYW5kb3JhLmRydXBhbC5jaGF0VUkgIkFza3MgcXVlc3Rpb25zLCByZWNlaXZlcyBhbnN3ZXJzIiAiSFRUUFMiCgogICAgICAgICMg4pSA4pSAIERydXBhbCDihpIgc3RvcmFnZSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKICAgICAgICBpc2xhbmRvcmEuZHJ1cGFsIC0+IGlzbGFuZG9yYS5leGlzdGRiICJTdG9yZXMgVEVJIFhNTCIKICAgICAgICBpc2xhbmRvcmEuZHJ1cGFsIC0+IGlzbGFuZG9yYS5tYXJpYWRiICJTdG9yZXMgbWV0YWRhdGEiCiAgICAgICAgaXNsYW5kb3JhLmRydXBhbCAtPiBpc2xhbmRvcmEuZmNyZXBvICJTdG9yZXMgZmlsZXMgLyBiaW5hcmllcyIKCiAgICAgICAgIyDilIDilIAgRXZlbnQgbWVzc2FnaW5nIChhc3luYywgcG9pbnQtdG8tcG9pbnQgcXVldWVzKSDilIDilIDilIDilIDilIDilIDilIDilIAKICAgICAgICAjIEEgcXVldWUgaXMgYSBkYXRhIHN0b3JlOiBwcm9kdWNlciBhZGRzIG1lc3NhZ2VzLCBjb25zdW1lciB0YWtlcyB0aGVtLgogICAgICAgICMgVGFnZ2VkICJBc3luYyIgc28gbWVzc2FnaW5nIGlzIGRyYXduIGRhc2hlZCwgZGlzdGluY3QgZnJvbSBzeW5jIEhUVFAgY2FsbHMuCiAgICAgICAgaXNsYW5kb3JhLmRydXBhbCAtPiBpc2xhbmRvcmEuYWN0aXZlbXEgIlB1Ymxpc2hlcyBtZWRpYS1jcmVhdGVkIGV2ZW50cyIgIlNUT01QIiAiQXN5bmMiCiAgICAgICAgaXNsYW5kb3JhLmFjdGl2ZW1xIC0+IGlzbGFuZG9yYS5ub2RlcmVkICJEZWxpdmVycyBldmVudHMiICJTVE9NUCIgIkFzeW5jIgogICAgICAgIGlzbGFuZG9yYS5hY3RpdmVtcSAtPiBpc2xhbmRvcmEuYWxwYWNhICJEZWxpdmVycyBldmVudHMiICJTVE9NUCIgIkFzeW5jIgoKICAgICAgICAjIOKUgOKUgCBEZXJpdmF0aXZlIGdlbmVyYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACiAgICAgICAgaXNsYW5kb3JhLm5vZGVyZWQgLT4gaXNsYW5kb3JhLmJlbnRvbWwgIlJlcXVlc3RzIFRFSSBYTUwgZGVyaXZhdGl2ZSIgIkhUVFAiCiAgICAgICAgaXNsYW5kb3JhLmJlbnRvbWwgLT4gaXNsYW5kb3JhLmRydXBhbCAiUG9zdHMgVEVJIFhNTCBkZXJpdmF0aXZlIiAiSFRUUCIKICAgICAgICBpc2xhbmRvcmEuYWxwYWNhIC0+IGlzbGFuZG9yYS5jcmF5ZmlzaCAiUmVxdWVzdHMgT0NSIC8gdGh1bWJuYWlscyAvIGF1ZGlvIiAiSFRUUCIKICAgICAgICBpc2xhbmRvcmEuY3JheWZpc2ggLT4gaXNsYW5kb3JhLmRydXBhbCAiUG9zdHMgZGVyaXZhdGl2ZXMgKE9DUiB0ZXh0LCB0aHVtYm5haWxzKSIgIkhUVFAiCgogICAgICAgICMg4pSA4pSAIFJBRyBpbmRleGluZyBwYXRoIChOb2RlLVJFRCBvcmNoZXN0cmF0ZXMgdGhlIHdyaXRlKSDilIDilIDilIDilIAKICAgICAgICBpc2xhbmRvcmEubm9kZXJlZCAtPiBpc2xhbmRvcmEuZW1iZWQgIlNlbmRzIGV4dHJhY3RlZCB0ZXh0LCByZWNlaXZlcyBlbWJlZGRpbmcgdmVjdG9yIiAiSFRUUCAvIEpTT04iCiAgICAgICAgaXNsYW5kb3JhLm5vZGVyZWQgLT4gaXNsYW5kb3JhLnZlY3RvcmRiICJTdG9yZXMgZW1iZWRkaW5nICsgY2h1bmsgbWV0YWRhdGEiCgogICAgICAgICMg4pSA4pSAIFJBRyBxdWVyeSBwYXRoIChSQUcgQ2hhdGJvdCBTZXJ2aWNlIG9yY2hlc3RyYXRlcykg4pSA4pSA4pSA4pSA4pSA4pSACiAgICAgICAgaXNsYW5kb3JhLmRydXBhbC5jaGF0VUkgLT4gaXNsYW5kb3JhLnJhZ3N2YyAiRm9yd2FyZHMgdXNlciBxdWVzdGlvbiwgcmVjZWl2ZXMgYW5zd2VyIiAiSFRUUCAvIEpTT04iCiAgICAgICAgaXNsYW5kb3JhLnJhZ3N2YyAtPiBpc2xhbmRvcmEuZW1iZWQgIlNlbmRzIHF1ZXJ5IHRleHQsIHJlY2VpdmVzIGVtYmVkZGluZyB2ZWN0b3IiICJIVFRQIC8gSlNPTiIKICAgICAgICBpc2xhbmRvcmEucmFnc3ZjIC0+IGlzbGFuZG9yYS52ZWN0b3JkYiAiU2ltaWxhcml0eSBzZWFyY2ggZm9yIHRvcC1rIGNodW5rcyIKICAgICAgICBpc2xhbmRvcmEucmFnc3ZjIC0+IGlzbGFuZG9yYS5sbG0gIlNlbmRzIGF1Z21lbnRlZCBwcm9tcHQsIHJlY2VpdmVzIGdlbmVyYXRlZCBhbnN3ZXIiICJIVFRQIgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1Db250ZXh0IGlzbGFuZG9yYSAiU3lzdGVtQ29udGV4dCIgIlRoZSByZXBvc2l0b3J5IHN5c3RlbSBhbmQgd2hvIHVzZXMgaXQuIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvbGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBjb250YWluZXIgaXNsYW5kb3JhICJDb250YWluZXJzIiAiRXhpc3RpbmcgSXNsYW5kb3JhIHNlcnZpY2VzIChibHVlKSBhbmQgdGhlIG5ldyBSQUcgZXh0ZW5zaW9uIChncmVlbiksIGdyb3VwZWQgYXMgaW4gdGhlIG9yaWdpbmFsIGZsb3djaGFydC4iIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbXBvbmVudCBpc2xhbmRvcmEuZHJ1cGFsICJEcnVwYWxDb21wb25lbnRzIiAiVGhlIG5ldyBDaGF0Ym90IFVJIGNvbXBvbmVudCBhZGRlZCB0byBEcnVwYWwuIiB7CiAgICAgICAgICAgIGluY2x1ZGUgaXNsYW5kb3JhLmRydXBhbC5jaGF0VUkKICAgICAgICAgICAgYXV0b2xheW91dCBscgogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBwZXJzb24KICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA4NDI3YgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlNvZnR3YXJlIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMTE2OGJkCiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM0MzhkZDUKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDb21wb25lbnQiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzg1YmJmMAogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBjeWxpbmRlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlF1ZXVlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBwaXBlCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiTmV3IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMyOGE3NDUKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQoKICAgICAgICAgICAgIyBNZXNzYWdpbmcgKFNUT01QIHF1ZXVlKSByZWxhdGlvbnNoaXBzOiBkYXNoZWQgPSBhc3luYywKICAgICAgICAgICAgIyB0byBkaXN0aW5ndWlzaCB0aGVtIGZyb20gc3luY2hyb25vdXMgSFRUUCBjYWxscyAoc29saWQpLgogICAgICAgICAgICByZWxhdGlvbnNoaXAgIkFzeW5jIiB7CiAgICAgICAgICAgICAgICBkYXNoZWQgdHJ1ZQogICAgICAgICAgICAgICAgY29sb3IgIzZiNmI2YgogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQp9",
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.warning" : "0"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "containerId" : "3",
+      "description" : "The new Chatbot UI component added to Drupal.",
+      "elements" : [ {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "DrupalComponents",
+      "name" : "Component View: Islandora + RAG Extension - Drupal",
+      "order" : 3
+    } ],
+    "configuration" : {
+      "styles" : {
+        "elements" : [ {
+          "background" : "#85bbf0",
+          "color" : "#000000",
+          "tag" : "Component"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "background" : "#28a745",
+          "color" : "#ffffff",
+          "tag" : "New"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "shape" : "Pipe",
+          "tag" : "Queue"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "tag" : "Software System"
+        } ],
+        "relationships" : [ {
+          "color" : "#6b6b6b",
+          "dashed" : true,
+          "tag" : "Async"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "Existing Islandora services (blue) and the new RAG extension (green), grouped as in the original flowchart.",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "13",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "16",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: Islandora + RAG Extension",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "17"
+      }, {
+        "id" : "20"
+      }, {
+        "id" : "21"
+      }, {
+        "id" : "22"
+      }, {
+        "id" : "23"
+      }, {
+        "id" : "24"
+      }, {
+        "id" : "25"
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "27"
+      }, {
+        "id" : "28"
+      }, {
+        "id" : "29"
+      }, {
+        "id" : "30"
+      }, {
+        "id" : "31"
+      }, {
+        "id" : "33"
+      }, {
+        "id" : "34"
+      }, {
+        "id" : "35"
+      }, {
+        "id" : "36"
+      } ],
+      "softwareSystemId" : "2"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "description" : "The repository system and who uses it.",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: Islandora + RAG Extension",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "18"
+      } ],
+      "softwareSystemId" : "2"
+    } ]
+  }
+}

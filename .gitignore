@@ -37,6 +37,7 @@ Thumbs.db
 .vscode/
 
 # Build tooling and templates
+<<<<<<< HEAD
 # *.sh
 /templates/
 

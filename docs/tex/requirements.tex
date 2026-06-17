@@ -120,9 +120,9 @@
 \section{Requirements Specification}\label{requirements-specification}
 
 \textbf{Project:} RAG-Based Retrieval for Archival Systems\\
-\textbf{Version:} 1.0\\
-\textbf{Date:} 2026-06-01\\
-\textbf{Status:} Draft
+\textbf{Version:} 1.1\\
+\textbf{Date:} 2026-06-09\\
+\textbf{Status:} Draft (Revised)
 
 \subsection{1. Introduction}\label{introduction}
 
@@ -208,6 +208,15 @@ Node-RED & Flow-based orchestration tool used to wire the microservices
 into ingestion and query pipelines \\
 Microservice & An independently deployable service implementing one
 stage of the RAG pipeline \\
+Query Normalisation & Preprocessing step that standardises query text by
+lowercasing, removing excess punctuation, and applying canonical
+forms \\
+Keyword Expansion & Augmenting a query with synonyms or related terms to
+improve retrieval recall \\
+Ingestion Pipeline (RAG) & The automated project-specific workflow that extracts,
+chunks, embeds, and indexes documents from Islandora into the RAG
+vector database. Distinct from Islandora's own internal ingestion
+pipelines. \\
 \end{longtable}
 }
 
@@ -228,17 +237,8 @@ system returns a textual response within acceptable latency.
 Preprocessing}\label{fr-02-query-preprocessing}
 
 \textbf{Description:} The system shall preprocess each incoming query
-before retrieval:
-
-\begin{itemize}
-\tightlist
-\item
-  Language detection
-\item
-  Query normalisation (lowercasing, punctuation handling)
-\item
-  Keyword expansion where applicable
-\end{itemize}
+before retrieval by applying language detection, query normalisation,
+and keyword expansion.
 
 \textbf{Priority:} Medium\\
 \textbf{Testability:} Submit queries in multiple languages and verify
@@ -273,8 +273,6 @@ combination of:
   collection tag
 \end{itemize}
 
-All three strategies shall be configurable and combinable.
-
 \textbf{Priority:} High\\
 \textbf{Testability:} Run identical queries with each strategy
 enabled/disabled; verify recall improves with hybrid mode active.
@@ -294,8 +292,7 @@ after reranking must be more relevant than naive retrieval order.
 
 \textbf{Description:} The system shall select and assemble the
 top-ranked chunks into a coherent context window for prompt
-construction, respecting the LLM's token limit. Chunks shall be ordered
-by relevance score.
+construction, respecting the LLM's token limit.
 
 \textbf{Priority:} High\\
 \textbf{Testability:} Verify total assembled token count does not exceed
@@ -305,9 +302,8 @@ the configured context budget.
 Generation}\label{fr-07-llm-response-generation}
 
 \textbf{Description:} The system shall pass the assembled context and
-user query to a locally hosted open-weight LLM (via OLLAMA or vLLM) and
-return the generated response to the user. No external inference API may
-be used.
+user query to a locally hosted open-weight LLM and return the generated
+response to the user.
 
 \textbf{Priority:} High\\
 \textbf{Testability:} Verify responses are generated without external
@@ -365,11 +361,11 @@ pipeline that:
   Detects document language
 \item
   Splits the document into contextual chunks using structure-aware
-  chunking (not naive character-count splitting)
+  chunking
 \item
   Generates embeddings for each chunk
 \item
-  Stores chunks with metadata in ChromaDB
+  Stores chunks with metadata in a vector database
 \end{enumerate}
 
 \textbf{Note:} OCR processing of scanned image documents is out of
@@ -377,33 +373,30 @@ scope.
 
 \textbf{Priority:} High\\
 \textbf{Testability:} Ingest a known PDF; verify all chunks appear in
-ChromaDB with correct fields and no mid-sentence chunk boundaries.
+the vector database with correct fields and no mid-sentence chunk
+boundaries.
 
 \subsubsection{FR-11: Islandora Repository
 Integration}\label{fr-11-islandora-repository-integration}
 
 \textbf{Description:} The system shall integrate with Islandora (via
-Drupal) as the primary archival document store. New documents added to
-Islandora shall automatically trigger the ingestion pipeline.
+Drupal) as the primary archival document store.
 
 \textbf{Priority:} High\\
-\textbf{Testability:} Add a document to Islandora; verify the ingestion
-pipeline is triggered and the document appears in ChromaDB within the
-defined SLA.
+\textbf{Testability:} Add a document to Islandora; verify the document
+is ingested and appears in the vector database within the defined SLA.
 
 \subsubsection{FR-12: Microservices
 Architecture}\label{fr-12-microservices-architecture}
 
 \textbf{Description:} Each stage of the RAG pipeline (text extraction,
 chunking, embedding, retrieval, reranking, LLM generation) shall be
-implemented as an independently deployable microservice. Each service
-shall be independently replaceable without requiring changes to other
-services beyond its defined interface.
+implemented as an independently deployable microservice.
 
 \textbf{Priority:} High\\
 \textbf{Testability:} Stop or replace any single service (e.g., swap the
 embedding service) and verify the rest of the pipeline continues to
-operate against the defined interface contract.
+operate correctly.
 
 \subsubsection{FR-13: Node-RED Pipeline
 Orchestration}\label{fr-13-node-red-pipeline-orchestration}
@@ -421,20 +414,16 @@ microservices into two flows:
   reranking → context assembly → LLM generation → source attribution
 \end{itemize}
 
-Node-RED shall handle inter-service routing, triggering, and
-retry-on-failure.
-
 \textbf{Priority:} High\\
 \textbf{Testability:} Inspect the Node-RED flow; verify each pipeline
-stage maps to a node, and that a failed service invocation triggers the
-configured retry behaviour.
+stage maps to a node, and that end-to-end flow executes correctly for
+both ingestion and query paths.
 
 \subsubsection{FR-14: Multilingual
 Support}\label{fr-14-multilingual-support}
 
-\textbf{Description:} The system shall support retrieval and generation
-across multiple languages using multilingual sentence transformer models
-for embedding.
+\textbf{Description:} The system shall support document retrieval and
+response generation across multiple languages.
 
 \textbf{Priority:} Medium\\
 \textbf{Testability:} Ingest documents in German and English; submit
@@ -457,28 +446,18 @@ correctly.
 Chatblock)}\label{fr-16-drupal-front-end-ai-chatblock}
 
 \textbf{Description:} The system shall provide a chat-based front-end
-within \textbf{Drupal} (the same platform that hosts Islandora) using
-the \textbf{AI Chatblock} module (or its successor
-\texttt{ai\_assistant\_ui}). Responses shall be \textbf{streamed to the
-user via Server-Sent Events (SSE)} so replies appear progressively as
-they are generated.
-
-Because AI Chatblock integrates through Drupal's \texttt{drupal/ai}
-AI-Assistant framework rather than accepting an arbitrary backend URL,
-the query microservice shall expose an \textbf{OpenAI-compatible,
-SSE-streaming endpoint} so it can be wired in via a Drupal AI provider
-pointed at the system's own endpoint.
+within Drupal (the same platform that hosts Islandora) using the AI
+Chatblock module (or its successor \texttt{ai\_assistant\_ui}).
 
 \textbf{Priority:} Medium\\
 \textbf{Testability:} Submit a query from the Drupal front-end; verify
-the response streams progressively (SSE), citations render correctly,
-and the backend receives the request via the query flow.
+the response is rendered correctly and citations are displayed.
 
 \subsubsection{FR-20: Streaming Query API
 (OpenAI-Compatible)}\label{fr-20-streaming-query-api-openai-compatible}
 
 \textbf{Description:} The query flow shall be exposed as an HTTP service
-(served via \textbf{Uvicorn / ASGI}) that:
+that:
 
 \begin{itemize}
 \tightlist
@@ -500,32 +479,13 @@ This contract is the integration surface for the Drupal front-end
 endpoint; verify an SSE stream is returned and that an OpenAI-compatible
 client (or the Drupal AI provider) can consume it.
 
-\subsubsection{FR-21: Front-End Integration
-Spike}\label{fr-21-front-end-integration-spike}
-
-\textbf{Description:} Before committing to the AI Chatblock integration,
-the team shall validate the integration with a \textbf{dummy query
-endpoint/bot} implementing the agreed \textbf{dummy API contract}
-(OpenAI-compatible chat-completions + SSE). The spike shall confirm AI
-Chatblock can communicate with the dummy endpoint end-to-end.
-
-\textbf{Rationale:} If AI Chatblock cannot integrate with the system's
-endpoint, the fallback is a \textbf{custom Drupal plugin/widget}, which
-widens project scope and must be flagged before commitment.
-
-\textbf{Priority:} High\\
-\textbf{Testability:} Configure AI Chatblock against the dummy endpoint;
-verify a streamed response is rendered in the Drupal chat widget without
-any custom plugin code.
-
 \subsubsection{FR-17: Vocabulary Mismatch
 Bridging}\label{fr-17-vocabulary-mismatch-bridging}
 
 \textbf{Description:} The retrieval layer shall surface documents
 containing historical or domain-specific terminology when queried with
 modern equivalent phrasing (e.g., a query for ``aviation'' retrieves
-documents using ``flying machines''). This shall be achieved through
-semantic dense retrieval without requiring user configuration.
+documents using ``flying machines'').
 
 \textbf{Priority:} High\\
 \textbf{Testability:} Define a vocabulary-mismatch test set; verify
