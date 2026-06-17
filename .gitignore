@@ -37,7 +37,7 @@ Thumbs.db
 .vscode/
 
 # Build tooling and templates
-*.sh
+# *.sh
 /templates/
 
 # Generated documents (pandoc outputs from *.md)
