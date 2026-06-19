@@ -5,6 +5,10 @@
 # Python bytecode / caches
 *.pyc
 *.pyo
+*.puml
+*.svg
+*.png
+*.pdf
 *.pyd
 __pycache__/
 *.egg-info/
@@ -44,3 +48,6 @@ Thumbs.db
 # Generated documents (pandoc outputs from *.md)
 /*.tex
 /*.docx
+
+# RAG project secrets
+rag/.env
