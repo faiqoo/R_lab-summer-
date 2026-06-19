@@ -15,7 +15,7 @@ from langchain_core.outputs import ChatGeneration, ChatResult
 from langchain_core.runnables import Runnable
 from pydantic import BaseModel, SecretStr
 
-from hawki_langchain.mixins import HAWKIClientMixin
+from archival_rag.mixins import HAWKIClientMixin
 
 
 class HAWKIModel(StrEnum):

@@ -5,7 +5,7 @@ import httpx
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
-from hawki_langchain import ChatHAWKI, HAWKIModel
+from archival_rag import ChatHAWKI, HAWKIModel
 
 
 @pytest.fixture
@@ -53,13 +53,13 @@ def _make_error_response(message: str = "Model not found") -> MagicMock:
 
 class TestGenerate:
     def test_returns_ai_message_on_success(self, model: ChatHAWKI) -> None:
-        with patch("hawki_langchain.mixins.httpx.post") as mock_post:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
             mock_post.return_value = _make_response("Hello!")
             result = model._generate([HumanMessage(content="say hello")])
         assert result.generations[0].message.content == "Hello!"
 
     def test_sends_correct_model_and_message(self, model: ChatHAWKI) -> None:
-        with patch("hawki_langchain.mixins.httpx.post") as mock_post:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
             mock_post.return_value = _make_response("ok")
             model._generate([HumanMessage(content="test input")])
         payload = mock_post.call_args.kwargs["json"]
@@ -67,20 +67,20 @@ class TestGenerate:
         assert payload["payload"]["messages"][0]["content"]["text"] == "test input"
 
     def test_sends_bearer_token(self, model: ChatHAWKI) -> None:
-        with patch("hawki_langchain.mixins.httpx.post") as mock_post:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
             mock_post.return_value = _make_response("ok")
             model._generate([HumanMessage(content="test")])
         headers = mock_post.call_args.kwargs["headers"]
         assert headers["Authorization"] == "Bearer test-token"
 
     def test_raises_value_error_on_api_failure(self, model: ChatHAWKI) -> None:
-        with patch("hawki_langchain.mixins.httpx.post") as mock_post:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
             mock_post.return_value = _make_error_response("Model not found")
             with pytest.raises(ValueError, match="HAWKI API error: Model not found"):
                 model._generate([HumanMessage(content="test")])
 
     def test_raises_http_error_on_bad_status(self, model: ChatHAWKI) -> None:
-        with patch("hawki_langchain.mixins.httpx.post") as mock_post:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
             bad = MagicMock(spec=httpx.Response)
             bad.raise_for_status.side_effect = httpx.HTTPStatusError(
                 "401 Unauthorized",
@@ -104,7 +104,7 @@ class TestStructuredOutput:
 
         json_response = '{"value": "Paris", "confidence": 0.99}'
 
-        with patch("hawki_langchain.mixins.httpx.post") as mock_post:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
             mock_post.return_value = _make_response(json_response)
             structured = model.with_structured_output(Answer)
             result = structured.invoke([HumanMessage(content="Capital of France?")])
@@ -126,7 +126,7 @@ class TestAGenerate:
         async def fake_aexit(*_: Any) -> bool:
             return False
 
-        with patch("hawki_langchain.mixins.httpx.AsyncClient") as mock_cls:
+        with patch("archival_rag.mixins.httpx.AsyncClient") as mock_cls:
             mock_cls.return_value.__aenter__ = fake_aenter
             mock_cls.return_value.__aexit__ = fake_aexit
             result = await model._agenerate([HumanMessage(content="async test")])

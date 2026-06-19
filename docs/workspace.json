@@ -3,7 +3,7 @@
   "description" : "C4 model for the LLM-based chatbot extension to Islandora (Summer 2026 lab).",
   "documentation" : { },
   "id" : 1,
-  "lastModifiedDate" : "2026-06-11T08:54:07Z",
+  "lastModifiedDate" : "2026-06-11T09:02:58Z",
   "model" : {
     "people" : [ {
       "description" : "Browses the digital repository, uploads content, and asks the chatbot questions about the collection.",
