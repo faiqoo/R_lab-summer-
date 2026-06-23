@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import builtins
+import re
 from enum import StrEnum
 from typing import Any
 
@@ -16,6 +17,30 @@ from langchain_core.runnables import Runnable
 from pydantic import BaseModel, SecretStr
 
 from archival_rag.mixins import HAWKIClientMixin
+
+
+def _extract_json_object(text: str) -> str | None:
+    """Return the first balanced top-level JSON object in ``text``, or ``None``.
+
+    Tolerates minor prose or a ```json fence around the object, which some
+    HAWKI-hosted models emit despite a JSON-only instruction.
+    """
+    text = text.strip()
+    fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
+    if fence:
+        return fence.group(1)
+    start = text.find("{")
+    if start == -1:
+        return None
+    depth = 0
+    for i in range(start, len(text)):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start : i + 1]
+    return None
 
 
 class HAWKIModel(StrEnum):
@@ -84,22 +109,43 @@ class ChatHAWKI(HAWKIClientMixin, BaseChatModel):
         else:
             output_parser = JsonOutputParser()
 
-        # Inject format instructions as a system message so the model
-        # knows the exact JSON schema to produce.
-        from langchain_core.messages import SystemMessage as _SM
         from langchain_core.runnables import RunnableLambda
+
+        instructions = (
+            output_parser.get_format_instructions()
+            if hasattr(output_parser, "get_format_instructions")
+            else "Respond with valid JSON only."
+        )
+        suffix = (
+            "\n\nReturn ONLY a single valid JSON object and nothing else: "
+            "no prose, no explanation, no markdown, no code fences.\n" + instructions
+        )
 
         def _inject_instructions(
             messages: list[BaseMessage],
         ) -> list[BaseMessage]:
-            instructions = (
-                output_parser.get_format_instructions()
-                if hasattr(output_parser, "get_format_instructions")
-                else "Respond with valid JSON only."
-            )
-            return [_SM(content=instructions)] + list(messages)
+            # HAWKI does not reliably honor the system role, so append the
+            # format instructions to the last human turn instead of prepending
+            # a SystemMessage (which the hosted models ignore).
+            msgs = list(messages)
+            for i in range(len(msgs) - 1, -1, -1):
+                if isinstance(msgs[i], HumanMessage):
+                    msgs[i] = HumanMessage(content=str(msgs[i].content) + suffix)
+                    return msgs
+            msgs.append(HumanMessage(content=suffix.strip()))
+            return msgs
 
-        return RunnableLambda(_inject_instructions) | self | output_parser
+        def _clean(message: BaseMessage) -> str:
+            # Tolerate minor prose around the JSON before the strict parser.
+            text = str(getattr(message, "content", message))
+            return _extract_json_object(text) or text
+
+        return (
+            RunnableLambda(_inject_instructions)
+            | self
+            | RunnableLambda(_clean)
+            | output_parser
+        )
 
     async def _agenerate(
         self,

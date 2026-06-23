@@ -36,6 +36,7 @@ dependencies = [
     { name = "httpx" },
     { name = "langchain-core" },
     { name = "pydantic-settings" },
+    { name = "tenacity" },
 ]
 
 [package.dev-dependencies]
@@ -54,6 +55,7 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.27" },
     { name = "langchain-core", specifier = ">=0.3" },
     { name = "pydantic-settings", specifier = ">=2.0" },
+    { name = "tenacity", specifier = ">=8.0" },
 ]
 
 [package.metadata.requires-dev]

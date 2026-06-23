@@ -8,6 +8,12 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from archival_rag import ChatHAWKI, HAWKIModel
 
 
+@pytest.fixture(autouse=True)
+def _instant_retry(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Patch time.sleep so tenacity retry waits are instant in tests."""
+    monkeypatch.setattr("time.sleep", lambda _: None)
+
+
 @pytest.fixture
 def model() -> ChatHAWKI:
     return ChatHAWKI(api_token="test-token")
@@ -81,15 +87,64 @@ class TestGenerate:
 
     def test_raises_http_error_on_bad_status(self, model: ChatHAWKI) -> None:
         with patch("archival_rag.mixins.httpx.post") as mock_post:
+            error_response = MagicMock(spec=httpx.Response)
+            error_response.status_code = 401
             bad = MagicMock(spec=httpx.Response)
             bad.raise_for_status.side_effect = httpx.HTTPStatusError(
                 "401 Unauthorized",
                 request=MagicMock(),
-                response=MagicMock(),
+                response=error_response,
             )
             mock_post.return_value = bad
             with pytest.raises(httpx.HTTPStatusError):
                 model._generate([HumanMessage(content="test")])
+
+    def test_retries_on_5xx_then_succeeds(self, model: ChatHAWKI) -> None:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
+            server_error_response = MagicMock(spec=httpx.Response)
+            server_error_response.status_code = 503
+            flaky = MagicMock(spec=httpx.Response)
+            flaky.raise_for_status.side_effect = httpx.HTTPStatusError(
+                "503 Service Unavailable",
+                request=MagicMock(),
+                response=server_error_response,
+            )
+            mock_post.side_effect = [flaky, flaky, _make_response("recovered")]
+            result = model._generate([HumanMessage(content="test")])
+        assert result.generations[0].message.content == "recovered"
+        assert mock_post.call_count == 3
+
+    def test_does_not_retry_4xx(self, model: ChatHAWKI) -> None:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
+            error_response = MagicMock(spec=httpx.Response)
+            error_response.status_code = 403
+            bad = MagicMock(spec=httpx.Response)
+            bad.raise_for_status.side_effect = httpx.HTTPStatusError(
+                "403 Forbidden",
+                request=MagicMock(),
+                response=error_response,
+            )
+            mock_post.return_value = bad
+            with pytest.raises(httpx.HTTPStatusError):
+                model._generate([HumanMessage(content="test")])
+        assert mock_post.call_count == 1
+
+    def test_retries_on_transport_error(self, model: ChatHAWKI) -> None:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
+            mock_post.side_effect = [
+                httpx.ConnectError("connection refused"),
+                _make_response("ok after retry"),
+            ]
+            result = model._generate([HumanMessage(content="test")])
+        assert result.generations[0].message.content == "ok after retry"
+        assert mock_post.call_count == 2
+
+    def test_gives_up_after_max_attempts(self, model: ChatHAWKI) -> None:
+        with patch("archival_rag.mixins.httpx.post") as mock_post:
+            mock_post.side_effect = httpx.ConnectError("connection refused")
+            with pytest.raises(httpx.ConnectError):
+                model._generate([HumanMessage(content="test")])
+        assert mock_post.call_count == 4
 
 
 class TestStructuredOutput:
