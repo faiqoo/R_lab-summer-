@@ -101,3 +101,4 @@ acme
 #===================
 # Nifi repositories that should only be stored locally
 build/nifi-data/*_repository
+rag/.env
