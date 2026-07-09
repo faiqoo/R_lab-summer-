@@ -1,5 +1,24 @@
+import sys
+
+from loguru import logger
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def setup_logging(level: str = "INFO") -> None:
+    """Call once at process startup (main scripts and FastAPI lifespan)."""
+    logger.remove()
+    logger.add(
+        sys.stderr,
+        level=level,
+        format=(
+            "<green>{time:HH:mm:ss}</green> | "
+            "<level>{level: <8}</level> | "
+            "<cyan>{name}</cyan>:<cyan>{line}</cyan> — "
+            "<level>{message}</level>"
+        ),
+        colorize=True,
+    )
 
 
 class Settings(BaseSettings):
@@ -37,3 +56,6 @@ class Settings(BaseSettings):
     # and scales to millions of vectors. Switch exact=True only for debugging.
     rag_exact_search: bool = False
     rag_hnsw_ef: int = 256
+
+    # --- Logging ---
+    log_level: str = "INFO"
