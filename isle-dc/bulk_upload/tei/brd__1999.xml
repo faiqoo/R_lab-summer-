@@ -1,0 +1,1215 @@
+<TEI version="3.3.0" xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Verordnung
+über die Berufsausbildung
+zum/zur Fachangestellten für Arbeitsförderung”)</title>
+        <author>
+          <persName>Walter Riester</persName>
+          <orgName>Bundesministerium für Arbeit und Sozialordnung</orgName>
+        </author>
+      </titleStmt>
+      <publicationStmt>
+        <publisher/>
+        <pubPlace>Bonn</pubPlace>
+        <date>15. April 1999</date>
+      </publicationStmt>
+      <sourceDesc>
+        <p/>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div n="0" type="preamble">
+        <pb n="1" facs="image 'offenegesetze/images_output/brd__1999/brd__1999-01.png'" ed="ausbildungsordnung"/>
+        <note type="footnote">
+          <p>*) Diese Rechtsverordnung ist eine Ausbildungsordnung im Sinne des<lb/>$ 25 des Berufsbildungsgesetzes. Die Ausbildungsordnung und der<lb/>damit abgestimmte, von der Ständigen Konferenz der Kultusminister der<lb/>Länder in der Bundesrepublik Deutschland beschlossene Rahmenlehr-<lb/>plan werden demnächst als Beilage zum Bundesanzeiger veröffentlicht.</p>
+        </note>
+        <div type="section">
+          <p>Auf Grund des $ 25 Abs. 1 in Verbindung mit Abs. 2<lb/>Satz 1 des Berufsbildungsgesetzes vom 14. August 1969<lb/>(BGBl. | S. 1112), der zuletzt durch Artikel 35 der Ver-<lb/>ordnung vom 21. September 1997 (BGBl. | S. 2390) geän-<lb/>dert worden ist, in Verbindung mit Artikel 56 des Zustän-<lb/>digkeitsanpassungs-Gesetzes vom 18. März 1975 (BGBl. I<lb/>S. 705) und dem Organisationserlaß vom 27. Oktober<lb/>1998 (BGBl. | S. 3288) verordnet das Bundesministerium<lb/>für Arbeit und Sozialordnung im Einvernehmen mit dem<lb/>Bundesministerium für Bildung und Forschung:</p>
+        </div>
+      </div>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <fw type="head" place="top">139</fw>
+      <div n="1" type="paragraph">
+        <head>$ 1<lb/>Staatliche Anerkennung des Ausbildungsberufes</head>
+        <div type="section">
+          <p>Der Ausbildungsberuf Fachangestellter für Arbeitsför-<lb/>derung/Fachangestellte für Arbeitsförderung wird staat-<lb/>lich anerkannt.</p>
+        </div>
+      </div>
+      <div n="2" type="paragraph">
+        <head>82<lb/>Ausbildungsdauer</head>
+        <div type="section">
+          <p>Die Ausbildung dauert drei Jahre.</p>
+        </div>
+      </div>
+      <div n="3" type="paragraph">
+        <head>S3<lb/>Ausbildungsberufsbild</head>
+        <div type="section">
+          <p>Gegenstand der Berufsausbildung sind mindestens die<lb/>folgenden Fertigkeiten und Kenntnisse:</p>
+          <list>
+            <item n="1">
+              <p>1.  Der Ausbildungsbetrieb:</p>
+            </item>
+            <item n="2">
+              <p>1.1 Stellung des Ausbildungsbetriebes im System der<lb/>sozialen Sicherung,</p>
+            </item>
+            <item n="3">
+              <p>1.2 Unternehmensziele und Organisation,</p>
+            </item>
+            <item n="4">
+              <p>1.3 Selbstverwaltung,</p>
+            </item>
+            <item n="5">
+              <p>1.4 Arbeits- und Dienstrecht, Berufsbildung,</p>
+            </item>
+            <item n="6">
+              <p>1.5 Personalwesen,</p>
+            </item>
+            <item n="7">
+              <p>1.6 Sicherheit und Gesundheitsschutz bei der Arbeit,</p>
+            </item>
+            <item n="8">
+              <p>1.7 Umweltschutz;</p>
+            </item>
+            <item n="9">
+              <p>2. Arbeitsorganisation:</p>
+            </item>
+            <item n="10">
+              <p>2.1 Lern- und Arbeitstechniken,</p>
+            </item>
+            <item n="11">
+              <p>2.2 Informations- und Kommunikationssysteme,</p>
+            </item>
+            <item n="12">
+              <p>2.3 Datenschutz,</p>
+            </item>
+            <item n="13">
+              <p>2.4 Bürowirtschaft,</p>
+            </item>
+            <item n="14">
+              <p>2.5 Verwaltungsverfahren;</p>
+            </item>
+            <item n="15">
+              <p>3. Kommunikation und Kooperation:</p>
+            </item>
+            <item n="16">
+              <p>3.1 Kommunikation und Kooperation in berufstypischen<lb/>Situationen,</p>
+            </item>
+            <item n="17">
+              <p>3.2 Kundenorientierung,</p>
+            </item>
+            <item n="18">
+              <p>3.3 Arbeiten im Team;</p>
+            </item>
+            <item n="19">
+              <p>4. Arbeitsmarkt und Arbeitsmarktpolitik;</p>
+            </item>
+            <item n="20">
+              <p>5. Beratung und Vermittlung:</p>
+            </item>
+            <item n="21">
+              <p>5.1 Berufsberatung und Arbeitsmarktberatung,</p>
+            </item>
+            <item n="22">
+              <p>5.2 Vermittlung;</p>
+            </item>
+            <item n="23">
+              <p>6. Finanzielle Leistungen der aktiven Arbeitsförderung:</p>
+            </item>
+            <item n="24">
+              <p>6.1 Förderung der Aufnahme einer Beschäftigung und<lb/>einer selbständigen Tätigkeit,</p>
+            </item>
+            <item n="25">
+              <p>6.2 Förderung der beruflichen Weiterbildung,</p>
+            </item>
+            <item n="26">
+              <p>6.3 Förderung der Eingliederung von Arbeitnehmern;</p>
+            </item>
+            <item n="27">
+              <p>7. Versicherungspflicht und Entgeltersatzleistungen:</p>
+            </item>
+            <item n="28">
+              <p>7.1 Versicherungspflicht,</p>
+            </item>
+            <item n="29">
+              <p>7.2 Arbeitslosengeld, Arbeitslosenhilfe, Unterhaltsgeld;</p>
+            </item>
+            <item n="30">
+              <p>8. Finanzwirtschaft;</p>
+            </item>
+            <item n="31">
+              <p>9. Familienleistungsausgleich.</p>
+            </item>
+          </list>
+        </div>
+      </div>
+      <div n="4" type="paragraph">
+        <head>S4<lb/>Ausbildungsrahmenplan</head>
+        <div n="1" type="section">
+          <p>(1) Die Fertigkeiten und Kenntnisse nach $ 3 sollen nach<lb/>den in den Anlagen | und II enthaltenen Anleitungen zur<lb/>sachlichen und zeitlichen Gliederung der Berufsaus-<lb/>bildung (Ausbildungsrahmenplan) vermittelt werden. Eine<lb/>von dem Ausbildungsrahmenplan abweichende sachliche<lb/>und zeitliche Gliederung des Ausbildungsinhalts ist insbe-<lb/>sondere zulässig, soweit eine berufsfeldbezogene Grund-<lb/>bildung vorausgegangen ist oder betriebspraktische Be-<lb/>sonderheiten die Abweichung erfordern.</p>
+        </div>
+        <div n="2" type="section">
+          <p>(2) Die in dieser Verordnung genannten Fertigkeiten und<lb/>Kenntnisse sollen so vermittelt werden, daß der Auszubil-<lb/>dende zur Ausübung einer qualifizierten beruflichen Tätig-<lb/>keit im Sinne des 8 1 Abs. 2 des Berufsbildungsgesetzes<lb/>befähigt wird, die insbesondere selbständiges Planen,<lb/>Durchführen und Kontrollieren einschließt. Diese Befähi-<lb/>gung ist auch in den Prüfungen nach den 88 7 und 8 nach-<lb/>zuweisen.</p>
+        </div>
+        <pb n="2" facs="image 'offenegesetze/images_output/brd__1999/brd__1999-02.png'" ed="ausbildungsordnung"/>
+        <div n="3" type="section">
+          <p>(3) Zur Ergänzung der betrieblichen Berufsausbildung<lb/>sind die im Ausbildungsrahmenplan bezeichneten Fertig-<lb/>keiten und Kenntnisse durch Lehrgänge und Arbeitsge-<lb/>meinschaften von 16 Wochen systematisch zu vermitteln<lb/>und zu vertiefen. Diese Ausbildungsmaßnahmen sind zeit-<lb/>lich unter Beachtung der Pflicht der Auszubildenden zum<lb/>Besuch der Berufsschule zu organisieren.</p>
+        </div>
+      </div>
+      <fw type="head" place="top">140</fw>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <div n="5" type="paragraph">
+        <head>sS5<lb/>Ausbildungsplan</head>
+        <div type="section">
+          <p>Der Ausbildende hat unter Zugrundelegung des Ausbil-<lb/>dungsrahmenplanes für den Auszubildenden einen Aus-<lb/>bildungsplan zu erstellen.</p>
+        </div>
+      </div>
+      <div n="6" type="paragraph">
+        <head>S6<lb/>Berichtsheft</head>
+        <div type="section">
+          <p>Der Auszubildende hat ein Berichtsheft in Form eines<lb/>Ausbildungsnachweises zu führen. Ihm ist Gelegenheit zu<lb/>geben, das Berichtsheft während der Ausbildungszeit zu<lb/>führen. Der Ausbildende hat das Berichtsheft regelmäßig<lb/>durchzusehen.</p>
+        </div>
+      </div>
+      <div n="7" type="paragraph">
+        <head>sS7<lb/>Zwischenprüfung</head>
+        <div n="1" type="section">
+          <p>(1) Zur Ermittlung des Ausbildungsstandes ist eine Zwi-<lb/>schenprüfung durchzuführen. Sie soll in der Mitte des<lb/>zweiten Ausbildungsjahres stattfinden.</p>
+        </div>
+        <div n="2" type="section">
+          <p>(2) Die Zwischenprüfung erstreckt sich auf die in den<lb/>Anlagen | und II für das erste Ausbildungsjahr aufgeführ-<lb/>ten Fertigkeiten und Kenntnisse sowie auf den im Berufs-<lb/>schulunterricht entsprechend dem Rahmenlehrplan zu<lb/>vermittelnden Lehrstoff, soweit er für die Berufsausbil-<lb/>dung wesentlich ist.</p>
+        </div>
+        <div n="3" type="section">
+          <p>(3) Die Zwischenprüfung ist schriftlich anhand praxisbe-<lb/>zogener Aufgaben oder Fälle in höchstens 150 Minuten in<lb/>folgenden Prüfungsgebieten durchzuführen:</p>
+          <list>
+            <item n="1">
+              <p>1. Aktive Arbeitsförderung,</p>
+            </item>
+            <item n="2">
+              <p>2. Entgeltersatzleistungen,</p>
+            </item>
+            <item n="3">
+              <p>3. Wirtschafts- und Sozialkunde.</p>
+            </item>
+          </list>
+        </div>
+      </div>
+      <div n="8" type="paragraph">
+        <head>s8<lb/>Abschlußprüfung</head>
+        <div n="1" type="section">
+          <p>(1) Die Abschlußprüfung erstreckt sich auf die in der<lb/>Anlage | aufgeführten Fertigkeiten und Kenntnisse sowie<lb/>auf den im Berufsschulunterrricht vermittelten Lehrstoff,<lb/>soweit er für die Berufsausbildung wesentlich ist.</p>
+        </div>
+        <div n="2" type="section">
+          <p>(2) Die Prüfung ist schriftlich in den Prüfungsbereichen</p>
+          <list>
+            <item n="1">
+              <p>1. Aktive Arbeitsförderung,</p>
+            </item>
+            <item n="2">
+              <p>2. Entgeltersatzleistungen,</p>
+            </item>
+            <item n="3">
+              <p>3. Wirtschafts- und Sozialkunde</p>
+            </item>
+          </list>
+        </div>
+        <div type="section">
+          <p>und mündlich im Prüfungsbereich Praktische Übungen<lb/>durchzuführen.</p>
+        </div>
+        <div n="3" type="section">
+          <p>(3) Die Anforderungen in den Prüfungsbereichen sind:</p>
+          <list>
+            <item n="1">
+              <p>1. Prüfungsbereich Aktive Arbeitsförderung:</p>
+              <list>
+                <item n="1">
+                  <p>a) Beratung und Vermittlung,</p>
+                </item>
+                <item n="2">
+                  <p>b) Finanzielle Leistungen der aktiven Arbeitsförderung.</p>
+                </item>
+              </list>
+            </item>
+          </list>
+        </div>
+        <div type="section">
+          <p>In höchstens 150 Minuten soll der Prüfling praxis-<lb/>bezogene Aufgaben oder Fälle bearbeiten und dabei<lb/>zeigen, daß er Sachverhalte analysieren, rechtlich<lb/>beurteilen sowie kundenorientiert unter Berücksichti-</p>
+        </div>
+        <div type="section">
+          <p>gung finanzwirtschaftlicher Gesichtspunkte bearbeiten<lb/>kann. Hierfür kommen insbesondere folgende Gebiete<lb/>in Betracht:</p>
+          <list>
+            <item n="2">
+              <p>2. Prüfungsbereich Entgeltersatzleistungen:</p>
+              <list>
+                <item n="1">
+                  <p>a) Arbeitslosengeld,</p>
+                </item>
+                <item n="2">
+                  <p>b) Arbeitslosenhilfe,</p>
+                </item>
+                <item n="3">
+                  <p>c) Unterhaltsgeld.</p>
+                </item>
+              </list>
+            </item>
+          </list>
+        </div>
+        <div type="section">
+          <p>In höchstens 150 Minuten soll der Prüfling praxis-<lb/>bezogene Aufgaben oder Fälle bearbeiten und dabei<lb/>zeigen, daß er Sachverhalte analysieren, rechtlich<lb/>beurteilen und adressatengerecht bearbeiten kann.<lb/>Hierfür kommen insbesondere folgende Gebiete in<lb/>Betracht:</p>
+          <list>
+            <item n="3">
+              <p>3. Prüfungsbereich Wirtschafts- und Sozialkunde:</p>
+              <list>
+                <item n="1">
+                  <p>a) Arbeitsrecht und Personalwirtschaft,</p>
+                </item>
+                <item n="2">
+                  <p>b) Marktwirtschaft und soziale Sicherung.</p>
+                </item>
+              </list>
+            </item>
+          </list>
+        </div>
+        <div type="section">
+          <p>In höchstens 90 Minuten soll der Prüfling praxisbe-<lb/>zogene Aufgaben oder Fälle bearbeiten und dabei<lb/>zeigen, daß er wirtschaftliche, sozialrechtliche und<lb/>gesellschaftliche Zusammenhänge der Berufs- und<lb/>Arbeitswelt darstellen und beurteilen sowie Bezüge<lb/>zum Ausbildungsbetrieb herstellen kann. Hierfür kom-<lb/>men insbesondere folgende Gebiete in Betracht:</p>
+        </div>
+        <div n="4" type="section">
+          <p>(4) Prüfungsbereich Praktische Übungen:</p>
+        </div>
+        <div type="section">
+          <p>In einem Prüfungsgespräch soll der Prüfling zeigen, daß er<lb/>Gespräche mit Kunden systematisch vorbereiten und<lb/>führen kann. Dabei soll er nachweisen, daß er kunden-<lb/>und teamorientiert kommunizieren, kooperieren und die<lb/>fachlichen Fertigkeiten und Kenntnisse anwenden kann.<lb/>Grundlage für das Gespräch soll ein Sachverhalt aus den<lb/>Gebieten Beratung und Vermittlung, Finanzielle Leistun-<lb/>gen der aktiven Arbeitsförderung oder Entgeltersatzlei-<lb/>stungen sein. Dem Prüfling ist für das Prüfungsgespräch<lb/>eine Vorbereitungszeit von höchstens 15 Minuten ein-<lb/>zuräumen. Das Prüfungsgespräch soll für den einzelnen<lb/>Prüfling höchstens 15 Minuten dauern.</p>
+        </div>
+        <div n="5" type="section">
+          <p>(5) Sind in der schriftlichen Prüfung die Prüfungsleistun-<lb/>gen in bis zu zwei Prüfungsbereichen mit „mangelhaft“<lb/>und in dem weiteren Prüfungsbereich mit mindestens<lb/>ausreichend“ bewertet worden, so ist auf Antrag des<lb/>Prüflings oder nach Ermessen des Prüfungsausschusses<lb/>in einem der mit „mangelhaft“ bewerteten Prüfungsberei-<lb/>che die schriftliche Prüfung durch eine mündliche Prüfung<lb/>von etwa 15 Minuten zu ergänzen, wenn diese für das<lb/>Bestehen der Prüfung den Ausschlag geben kann. Der<lb/>Prüfungsbereich ist vom Prüfling zu bestimmen. Bei der<lb/>Ermittlung des Ergebnisses für diesen Prüfungsbereich<lb/>sind die Ergebnisse der schriftlichen Arbeit und der münd-<lb/>lichen Ergänzungsprüfung im Verhältnis 2:1 zu gewichten.</p>
+        </div>
+        <div n="6" type="section">
+          <p>(6) Zum Bestehen der Abschlußprüfung müssen im<lb/>Gesamtergebnis und in mindestens zwei der in Absatz 3<lb/>Nr. 1 bis 3 genannten schriftlichen Prüfungsbereiche min-<lb/>destens ausreichende Leistungen erbracht werden. Bei<lb/>der Ermittlung des Gesamtergebnisses hat der Prüfungs-<lb/>bereich Praktische Übungen gegenüber jedem der schrift-<lb/>lichen Prüfungsbereiche das doppelte Gewicht. Werden<lb/>die Prüfungsleistungen in einem Prüfungsbereich mit<lb/>ungenügend“” bewertet, ist die Prüfung nicht bestanden.</p>
+        </div>
+        <pb n="3" facs="image 'offenegesetze/images_output/brd__1999/brd__1999-03.png'" ed="ausbildungsordnung"/>
+        <div type="section">
+          <p>$9 S10<lb/>bergangsregelung Inkrafttreten, Außerkrafttreten</p>
+        </div>
+        <div type="section">
+          <p>Auf Berufsausbildungsverhältnisse, die bei Inkrafttreten Diese Verordnung tritt am 1. August 1999 in Kraft.<lb/>dieser Verordnung bestehen, sind die bisherigen Vor- KGileichzeitig tritt die Verordnung über die Berufsausbil-<lb/>schriften weiter anzuwenden, es sei denn, die Vertrags- dung zum Fachangestellten für Arbeitsförderung/zur<lb/>partner vereinbaren die Anwendung der Vorschriften die- Fachangestellten für Arbeitsförderung vom 6. Juni 1988<lb/>ser Verordnung. (BGBl. | S. 721) außer Kraft.</p>
+        </div>
+      </div>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <fw type="head" place="top">741</fw>
+    </body>
+    <back>
+      <pb n="4"/>
+      <fw type="head" place="top">7142</fw>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <p>Anlage I<lb/>(zu 8 4)</p>
+      <p>Ausbildungsrahmenplan<lb/>für die Berufsausbildung<lb/>zum/zur Fachangestellten für Arbeitsförderung</p>
+      <p>sachliche Gliederung —</p>
+      <table>
+        <row>
+          <cell>
+            <p>Lfd. Nr.</p>
+          </cell>
+          <cell>
+            <p>Teil des Ausbildungsberufsbildes</p>
+          </cell>
+          <cell>
+            <p>Zu vermittelnde Fertigkeiten und Kenntnisse</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Der Ausbildungsbetrieb<lb/>
+($ 3 Nr. 1)<lb/>
+Stellung des Ausbildungsbetriebes<lb/>
+im System der sozialen Sicherung<lb/>
+(&amp;amp; 3 Nr. 1.1)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Stellung des Ausbildungsbetriebes im System der sozialen<lb/>
+Sicherung erklären</p>
+              </item>
+              <item n="2">
+                <p>b) Rechtsform des Ausbildungsbetriebes erläutern</p>
+              </item>
+              <item>
+                <p n="3">c) Aufgaben der für den Ausbildungsbetrieb wichtigen Institutionen<lb/>
+sowie Organisationen der Arbeitgeber und Arbeitnehmer erläu-<lb/>
+tern</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Unternehmensziele und Organi-<lb/>
+sation<lb/>
+($ 3 Nr. 1.2)</p>
+          </cell>
+          <cell>
+            <p>Tätigkeitsfelder des Ausbildungsbetriebes sowie Inhalt und Zu-<lb/>
+standekommen seiner Unternehmensziele erläutern<lb/>
+Aufbau- und Ablauforganisation sowie Organisationsziele und<lb/>
+Organisationsentwicklung beschreiben<lb/>
+betriebliche Organisationsvorgaben in Arbeitsabläufe umsetzen<lb/>
+Organisationsstrukturen aufgabenbezogen und kundenorientiert<lb/>
+im Team gestalten<lb/>
+Ressourcen wirtschaftlich einsetzen<lb/>
+Marketing als Element der Kundenorientierung im Wettbewerb<lb/>
+an Beispielen beschreiben</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Selbstverwaltung<lb/>
+($&amp;amp; 3 Nr. 1.3)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Bedeutung, Gliederung, Zusammensetzung und Aufgaben der<lb/>
+Selbstverwaltungsorgane erläutern</p>
+              </item>
+              <item n="2">
+                <p>b) die Wirkungen des Selbstverwaltungsprinzips bei der Aufgaben-<lb/>
+wahrnehmung berücksichtigen</p>
+              </item>
+              <item>
+                <p n="3">c) Aufgaben der Staatsaufsicht und Aufsichtsmittel darstellen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Arbeits- und Dienstrecht, Berufs-<lb/>
+bildung<lb/>
+($ 3 Nr. 1.4)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Rechte und Pflichten aus dem Berufsausbildungsvertrag, dem<lb/>
+Arbeitsvertrag sowie weiteren für den Ausbildungsbetrieb gel-<lb/>
+tenden Rechtsgrundlagen beschreiben</p>
+              </item>
+              <item n="2">
+                <p>b) arbeits- und dienstrechtliche Stellung der Beschäftigtengruppen<lb/>
+des Ausbildungsbetriebes abgrenzen</p>
+              </item>
+              <item n="3">
+                <p>c) den Ausbildungsplan mit der Ausbildungsordnung vergleichen<lb/>
+und zu seiner Umsetzung beitragen</p>
+              </item>
+              <item n="4">
+                <p>d) die sich aus den Rechten und Funktionen der personalvertre-<lb/>
+tungsrechtlichen Organe ergebenden Möglichkeiten erläutern</p>
+              </item>
+              <item>
+                <p n="5">e) arbeits- und verwaltungsgerichtliche Verfahren als Formen des<lb/>
+Rechtsschutzes der Beschäftigten erläutern</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Personalwesen<lb/>
+($ 3 Nr. 1.5)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) für das Arbeitsverhältnis wichtige arbeits- und sozialrechtliche<lb/>
+Bestimmungen sowie tarifliche und betriebliche Regelungen an-<lb/>
+wenden</p>
+              </item>
+              <item n="2">
+                <p>b) Personalangelegenheiten bearbeiten, Beteiligungsrechte beachten</p>
+              </item>
+              <item>
+                <p n="3">c) die Qualifizierung von Beschäftigten als Personalentwicklungs-<lb/>
+maßnahme und ihre Bedeutung für die persönliche Entwicklung<lb/>
+sowie für den Ausbildungsbetrieb aufzeigen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+      </table>
+      <pb n="5"/>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <fw type="head" place="top">143</fw>
+      <table>
+        <row>
+          <cell>
+            <p>Lfd. Nr.</p>
+          </cell>
+          <cell>
+            <p>Teil des Ausbildungsberufsbildes</p>
+          </cell>
+          <cell>
+            <p>Zu vermittelnde Fertigkeiten und Kenntnisse</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Sicherheit und Gesundheitsschutz<lb/>
+bei der Arbeit<lb/>
+(8 3 Nr. 1.6)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Gefährdung von Sicherheit und Gesundheit am Arbeitsplatz fest-<lb/>
+stellen und Maßnahmen zu ihrer Vermeidung ergreifen</p>
+              </item>
+              <item n="2">
+                <p>b) berufsbezogene Arbeitsschutz- und Unfallverhütungsvorschrif-<lb/>
+ten anwenden</p>
+              </item>
+              <item n="3">
+                <p>c) Verhaltensweisen bei Unfällen beschreiben sowie erste Maßnah-<lb/>
+men einleiten</p>
+              </item>
+              <item>
+                <p n="4">d) Vorschriften des vorbeugenden Brandschutzes anwenden; Ver-<lb/>
+haltensweisen bei Bränden beschreiben und Maßnahmen zur<lb/>
+Brandbekämpfung ergreifen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Umweltschutz<lb/>
+($ 3 Nr. 1.7)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>Zur Vermeidung betriebsbedingter Umweltbelastungen im berufli-<lb/>
+chen Einwirkungsbereich beitragen, insbesondere</p>
+              </item>
+              <item n="2">
+                <p>a) mögliche Umweltbelastungen durch den Ausbildungsbetrieb<lb/>
+und seinen Beitrag zum Umweltschutz an Beispielen erklären</p>
+              </item>
+              <item n="3">
+                <p>b) für den Ausbildungsbetrieb geltende Regelungen des Umwelt-<lb/>
+schutzes anwenden</p>
+              </item>
+              <item n="4">
+                <p>c) Möglichkeiten der wirtschaftlichen und umweltschonenden<lb/>
+Energie- und Materialverwendung nutzen</p>
+              </item>
+              <item>
+                <p n="5">d) Abfälle vermeiden; Stoffe und Materialien einer umweltschonen-<lb/>
+den Entsorgung zuführen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>2.1</p>
+          </cell>
+          <cell>
+            <p>Arbeitsorganisation<lb/>
+($ 3 Nr. 2}<lb/>
+Lern- und Arbeitstechniken<lb/>
+($ 3 Nr. 2.1)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Methoden für systematisches und kontinuierliches Lernen an-<lb/>
+wenden</p>
+              </item>
+              <item n="2">
+                <p>b) eigene Arbeitsorganisation rationell und funktionsgerecht ge-<lb/>
+stalten<lb/>
+C) Fachliteratur, Dokumentationen und andere Informationsmittel<lb/>
+nutzen</p>
+              </item>
+              <item n="3">
+                <p>d) Techniken der Rechtsanwendung aufgabenbezogen einsetzen</p>
+              </item>
+              <item>
+                <p n="4">e) aus mündlichen und schriftlichen Informationen den wesentli-<lb/>
+chen Sachverhalt ermitteln, Lösungen entwickeln und Ergeb-<lb/>
+nisse adressatengerecht gestalten</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>2.2</p>
+          </cell>
+          <cell>
+            <p>Informations- und Kommunika-<lb/>
+tionssysteme<lb/>
+($ 3 Nr. 2.2)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Organisation und Nutzungsmöglichkeiten sowie Ziele des Ein-<lb/>
+satzes von Informations- und Kommunikationssystemen im Aus-<lb/>
+bildungsbetrieb aufzeigen</p>
+              </item>
+              <item>
+                <p n="2">b) Standardsoftware effizient einsetzen<lb/>
+C) Arbeitsaufgaben mit Hilfe von Informations- und Kommunika-<lb/>
+tionssystemen lösen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>2.3</p>
+          </cell>
+          <cell>
+            <p>Datenschutz<lb/>
+($ 3 Nr. 2.3)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Vorschriften zum Datenschutz anwenden</p>
+              </item>
+              <item>
+                <p n="2">b) betriebliche Regelungen zur Datensicherheit bei der Erhebung,<lb/>
+Verarbeitung und Nutzung von Daten anwenden</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>2.4</p>
+          </cell>
+          <cell>
+            <p>Bürowirtschaft<lb/>
+($ 3 Nr. 2.4)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Geschäftsordnung sowie ergänzende Vorschriften anwenden</p>
+              </item>
+              <item n="2">
+                <p>b) Geschäftsvorgänge sach- und formgerecht anlegen und ver-<lb/>
+walten</p>
+              </item>
+              <item>
+                <p n="3">c) betriebliche Arbeits- und Organisationsmittel handhaben und<lb/>
+wirtschaftlich einsetzen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>2.5</p>
+          </cell>
+          <cell>
+            <p>Verwaltungsverfahren<lb/>
+($ 3 Nr. 2.5)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Regelungen für Einleitung, Durchführung und Abschluß des Ver-<lb/>
+waltungsverfahrens anwenden</p>
+              </item>
+              <item>
+                <p n="2">b) Vorschriften über die Mitwirkungspflichten der Leistungsberech-<lb/>
+tigten anwenden</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+      </table>
+      <pb n="6"/>
+      <fw type="head" place="top">’44</fw>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <table>
+        <row>
+          <cell>
+            <p>Lfd. Nr.</p>
+          </cell>
+          <cell>
+            <p>Teil des Ausbildungsberufsbildes</p>
+          </cell>
+          <cell>
+            <p>Zu vermittelnde Fertigkeiten und Kenntnisse</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>c) Regelungen zum Widerspruchsverfahren anwenden</p>
+              </item>
+              <item n="2">
+                <p>d) Wirkungen des Sozialgerichtsverfahrens auf das Verwaltungs-<lb/>
+handeln erläutern</p>
+              </item>
+              <item n="3">
+                <p>e) bei Ordnungswidrigkeiten erforderliche Maßnahmen veranlassen</p>
+              </item>
+              <item>
+                <p n="4">f) bei Maßnahmen zur Bekämpfung des Leistungsmißbrauchs mit-<lb/>
+wirken</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>3.1</p>
+          </cell>
+          <cell>
+            <p>Kommunikation und Kooperation<lb/>
+(8 3 Nr. 3)<lb/>
+Kommunikation und Kooperation<lb/>
+in berufstypischen Situationen<lb/>
+($ 3 Nr. 3.1)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Grundsätze und Formen der Kommunikation und Kooperation in<lb/>
+unterschiedlichen Situationen auf das berufliche Handeln an-<lb/>
+wenden</p>
+              </item>
+              <item n="2">
+                <p>b) Kommunikation unter Beachtung rechtlicher, wirtschaftlicher<lb/>
+und formaler Anforderungen ziel-, adressaten- und situations-<lb/>
+gerecht gestalten</p>
+              </item>
+              <item n="3">
+                <p>c) Notwendigkeit gegenseitiger Information und Vorzüge von<lb/>
+Zusammenarbeit im Ausbildungsbetrieb und mit Dritten auf-<lb/>
+zeigen</p>
+              </item>
+              <item>
+                <p n="4">d) bei der Kommunikation und Kooperation eigene Standpunkte<lb/>
+sachgerecht artikulieren</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>3.2</p>
+          </cell>
+          <cell>
+            <p>Kundenorientierung<lb/>
+($ 3 Nr. 3.2)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Anträge, Anzeigen und Erklärungen entgegennehmen und An-<lb/>
+liegen klären</p>
+              </item>
+              <item n="2">
+                <p>b) Erwartungen und Interessen von Kunden bei der Aufgabenerledi-<lb/>
+gung berücksichtigen</p>
+              </item>
+              <item n="3">
+                <p>c) soziale Situation der Kunden angemessen berücksichtigen</p>
+              </item>
+              <item>
+                <p n="4">d) fremdsprachiges Informationsmaterial einsetzen, einfache fremd-<lb/>
+sprachige Auskünfte geben</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>3.3</p>
+          </cell>
+          <cell>
+            <p>Arbeiten im Team<lb/>
+(8$ 3 Nr. 3.3)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Aufgaben im Team planen, entsprechend den individuellen Fä-<lb/>
+higkeiten aufteilen, Zusammenarbeit aktiv gestalten</p>
+              </item>
+              <item n="2">
+                <p>b) Aufgaben im Team bearbeiten, Ergebnisse abstimmen und aus-<lb/>
+werten</p>
+              </item>
+              <item>
+                <p n="3">c) Möglichkeiten zur Konfliktregelung im Interesse eines sachbezo-<lb/>
+genen Ergebnisses anwenden</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Arbeitsmarkt und Arbeitsmarkt-<lb/>
+politik<lb/>
+(8 3 Nr. 4)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Entwicklung und Zusammenhänge des nationalen und europäi-<lb/>
+schen Arbeitsmarktes erläutern</p>
+              </item>
+              <item n="2">
+                <p>b) regionale, wirtschafts- und berufsspezifische Strukturen mit dem<lb/>
+Arbeitsmarktgeschehen verknüpfen und Bezüge zu den Auf-<lb/>
+gaben des Ausbildungsbetriebes herstellen<lb/>
+C) Arbeitsmarktvorgänge beobachten und Arbeitsmarktentwick-<lb/>
+lungen aufgabenorientiert zuordnen</p>
+              </item>
+              <item>
+                <p n="3">d) Auswirkungen und Möglichkeiten der Beschäftigungs- und<lb/>
+Arbeitsmarktpolitik darstellen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Beratung und Vermittlung<lb/>
+(S 3 Nr. 5)<lb/>
+Berufsberatung und Arbeitsmarkt-<lb/>
+beratung<lb/>
+(8 3 Nr. 5.1)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) über das Beratungsangebot adressatengerecht informieren,<lb/>
+Handlungsmöglichkeiten aufzeigen</p>
+              </item>
+              <item n="2">
+                <p>b) über Selbstinformationseinrichtungen und -möglichkeiten infor-<lb/>
+mieren</p>
+              </item>
+              <item n="3">
+                <p>c) Maßnahmen der Berufsorientierung unterstützen</p>
+              </item>
+              <item>
+                <p n="4">d) Beratungsunterlagen vorbereiten, Kunden über Formen ihrer<lb/>
+Mitwirkung informieren</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+      </table>
+      <pb n="7"/>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <fw type="head" place="top">149</fw>
+      <table>
+        <row>
+          <cell>
+            <p>Lfd. Nr.</p>
+          </cell>
+          <cell>
+            <p>Teil des Ausbildungsberufsbildes</p>
+          </cell>
+          <cell>
+            <p>Zu vermittelnde Fertigkeiten und Kenntnisse</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p/>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>5.2</p>
+          </cell>
+          <cell>
+            <p>Vermittlung<lb/>
+($ 3 Nr. 5.2)</p>
+          </cell>
+          <cell>
+            <p>ber das Vermittlungsangebot und die Dienstleistungen adres-<lb/>
+satengerecht informieren, Handlungsmöglichkeiten aufzeigen<lb/>
+Verfahren der Vermittlung sowie Rechtsvorschriften anwenden<lb/>
+besondere Personengruppen unterscheiden und spezifische<lb/>
+Rechtsvorschriften anwenden<lb/>
+bei Ausbildungsplatz- und Arbeitsmarktbörsen sowie anderen<lb/>
+Marketingmaßnahmen mitwirken</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Finanzielle Leistungen der aktiven<lb/>
+Arbeitsförderung<lb/>
+($ 3 Nr. 6)<lb/>
+Förderung der Aufnahme einer<lb/>
+Beschäftigung und einer selbstän-<lb/>
+digen Tätigkeit<lb/>
+($ 3 Nr. 6.1)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Ziele und arbeitsmarktliche Notwendigkeit der Leistungen erläu-<lb/>
+tern</p>
+              </item>
+              <item>
+                <p n="2">b) Antragsformulare vorbereiten und Kunden den Verfahrensablauf<lb/>
+darstellen<lb/>
+C) Anspruchsvoraussetzungen prüfen und Anträge bearbeiten</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>6.2</p>
+          </cell>
+          <cell>
+            <p>Förderung der beruflichen Weiter-<lb/>
+bildung<lb/>
+($ 3 Nr. 6.2)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Ziele und arbeitsmarktliche Notwendigkeit der Leistungen erläu-<lb/>
+tern</p>
+              </item>
+              <item>
+                <p n="2">b) allgemeine Förderungsvoraussetzungen und Leistungsan-<lb/>
+sprüche prüfen, Entscheidungen über Anträge vorbereiten</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>6.3</p>
+          </cell>
+          <cell>
+            <p>Förderung der Eingliederung von<lb/>
+Arbeitnehmern<lb/>
+($ 3 Nr. 6.3)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Ziele, Möglichkeiten und arbeitsmarktliche Notwendigkeit der<lb/>
+wesentlichen Leistungen erläutern</p>
+              </item>
+              <item>
+                <p n="2">b) Anspruchsvoraussetzungen prüfen und Anträge bearbeiten</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Versicherungspflicht und Entgelt-<lb/>
+ersatzleistungen<lb/>
+($ 3 Nr. 7)<lb/>
+Versicherungspflicht<lb/>
+($ 3 Nr. 7.1)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Versicherungspflicht und -freiheit prüfen und bei Leistungsan-<lb/>
+sprüchen berücksichtigen</p>
+              </item>
+              <item>
+                <p n="2">b) Verfahren zum Gesamtsozialversicherungsbeitrag darstellen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p>7.2</p>
+          </cell>
+          <cell>
+            <p>Arbeitslosengeld, Arbeitslosen-<lb/>
+hilfe, Unterhaltsgeld<lb/>
+($ 3 Nr. 7.2)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Bedeutung und Zielsetzung der Leistungen erläutern</p>
+              </item>
+              <item n="2">
+                <p>b) Ansprüche prüfen und Anträge bearbeiten</p>
+              </item>
+              <item>
+                <p n="3">c) leistungsbeeinflussende Tatbestände feststellen</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Finanzwirtschaft<lb/>
+($ 3 Nr. 8)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) die Finanzierungsquellen des Ausbildungsbetriebes im Rahmen<lb/>
+ffentlicher Einnahmen unterscheiden</p>
+              </item>
+              <item n="2">
+                <p>b) Zweck, Zustandekommen und Gliederung des Haushalts be-<lb/>
+schreiben</p>
+              </item>
+              <item>
+                <p n="3">c) Rechts- und Verfahrensvorschriften zur Haushaltsführung an-<lb/>
+wenden</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <p/>
+          </cell>
+          <cell>
+            <p>Familienleistungsausgleich<lb/>
+($ 3 Nr. 9)</p>
+          </cell>
+          <cell>
+            <list>
+              <item n="1">
+                <p>a) Bedeutung und Zielsetzung des Familienleistungsausgleichs<lb/>
+darstellen</p>
+              </item>
+              <item n="2">
+                <p>b) Aufgaben des Ausbildungsbetriebes als Familienkasse erläutern</p>
+              </item>
+              <item>
+                <p n="3">c) über Kindergeldansprüche entscheiden und Anträge bearbeiten</p>
+              </item>
+            </list>
+          </cell>
+        </row>
+      </table>
+      <pb n="8"/>
+      <fw type="head" place="top">/46</fw>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <p>Anlage II<lb/>(zu 8 4)</p>
+      <p>Ausbildungsrahmenplan<lb/>für die Berufsausbildung<lb/>zum/zur Fachangestellten für Arbeitsförderung</p>
+      <p>zeitliche Gliederung —</p>
+      <p>Erstes Ausbildungsjahr</p>
+      <p>(1) In einem Zeitraum von Insgesamt zwei bıs drei Monaten sind schwerpunktmaälßlig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildpositionen</p>
+      <p>1.1 Stellung des Ausbildungsbetriebes im System der sozlialen Sicherung, Lernziele a und b,</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele a und b,</p>
+      <p>1.4 Arbeıts- und Dienstrecht, Berufsbildung, Lernziele a und c,</p>
+      <p>1.6 Sicherheit und Gesundheitsschutz bei der Arbeit,</p>
+      <p>1./ Umweltschutz,</p>
+      <p>2.1 Lern- und Ärbeıltstechniken, Lernziel a,</p>
+      <p>2.2 Informations- und Kommuntikationssysteme, Lernziel a,</p>
+      <p>2.4 Burowirtschaft, Lernziele a und D,</p>
+      <p>zu vermitteln.</p>
+      <p>(2) In einem Zeitraum von Insgesamt vier bis sechs Monaten sind schwerpunktmaäliig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildpositionen</p>
+      <p>9.1 Berufsberatung und Arbeitsmarktberatung, Lernziel a,</p>
+      <p>9.2 Vermittiung, Lernziele a und D,</p>
+      <p>.1 FOörderung der Auinahme eıner Beschaftigung und eıiner selbstandıgen |atıgkeit</p>
+      <p>n Verbindung mıt den Fertigkeiten und Kenntnissen der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele c bis e,</p>
+      <p>2.1 Lern- und Ärbeıltstechniken, Lernziele D DIS e,</p>
+      <p>2.2 Informations- und Kommuntikationssysteme, Lernziele D und c,</p>
+      <p>2.3 Datenschutz,</p>
+      <p>2.4 Burowirtscharft, Lernziel C,</p>
+      <p>3.1 Kommunikation und Kooperation In berufstypischen bSituationen, Lernziele a und b,</p>
+      <p>3.2 Kundenorilentierung,</p>
+      <p>3.3 Arbeiten ım leam, Lernziel D,</p>
+      <p>4. Arbeiıtsmarkt und Arbeitsmarktpolitik,</p>
+      <p>83. Finanzwirtschaft, Lernziel c,</p>
+      <p>zu vermitteln.</p>
+      <p>(3) In einem Zeitraum von Insgesamt vier bis sechs Monaten sind schwerpunktmaliig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildpositionen</p>
+      <p>.1 Versicherungspflicht,</p>
+      <p>.2 Arbeitsiosengeld, Arbeiıtslosenhilfe, Unterhaltsgeld</p>
+      <p>n Verbindung mıt den Fertigkeiten und Kenntnissen der Berufsbildpositionen</p>
+      <p>2.9 Verwaltungsverfahren, Lernziele a und b,</p>
+      <p>3.1 Kommunikation und Kooperation In berufstypischen bSituationen, Lernziele c und d,</p>
+      <p>3.3 Arbeıten ım leam, Lernziele aund C,</p>
+      <p>zu vermitteln und ım Zusammenhang damıt dıe Vermittlung der Fertigkeiten und Kenntnisse der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele c bis e,</p>
+      <p>2.1 Lern- und Ärbeıltstechniken,</p>
+      <p>2.2 Informations- und Kommuntikationssysteme, Lernziele D und c,</p>
+      <pb n="9"/>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <fw type="head" place="top">14l</fw>
+      <p>2.3 Datenschutz,</p>
+      <p>2.4 Burowirtschafit, Lernziele D und c,</p>
+      <p>3.2 Kundenorlentierung,</p>
+      <p>3.3 ÄArbeiten ım leam, Lernziel D,</p>
+      <p>83. Finanzwirtschaft, Lernziel C,</p>
+      <p>Tortzuluhren.</p>
+      <p>Zweiıtes Ausbildungsjahr</p>
+      <p>(1) In einem Zeitraum von Insgesamt zweiı Dis vier Monaten sind schwerpunktmaliig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildpositionen</p>
+      <p>1.1 Stellung des Ausbildungsbetriebes im System der sozialen Sicherung, Lernzielc,</p>
+      <p>1.3 delbstverwaltung,</p>
+      <p>1.4 Arbeıts- und Dienstrecht, Berufsbildung, Lernziele b, d und e,</p>
+      <p>1.5 Personalwesen,</p>
+      <p>83. Finanzwirtschaft, Lernziele a und D,</p>
+      <p>zu vermitteln und ım Zusammenhang damıt die Vermittiung der Fertigkeiten und Kenntnisse der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele a bis c und e,</p>
+      <p>2.1 Lern- und Ärbeıitstechniken,</p>
+      <p>2.2 Inftormations- und Kommunikationssysteme, Lernziele D und C,</p>
+      <p>2.3 Datenschutz,</p>
+      <p>2.4 Burowirtschafit, Lernziele D und c,</p>
+      <p>3. Kommuntikation und Kooperatlion,</p>
+      <p>83. Finanzwirtschaft, Lernziel C,</p>
+      <p>Tortzuluhren.</p>
+      <p>(2) In einem Zeitraum von Insgesamt dreı bis Tunf Monaten siınd schwerpunktmaliig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildpositionen</p>
+      <p>5.1 Berufsberatung und Arbeitsmarktberatung, Lernziele D bıs d,</p>
+      <p>9.2 Vermittiung, Lernzield,</p>
+      <p>n Verbindung mıt den Fertigkeiten und Kenntnissen der Berufsbildposition</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziel f,</p>
+      <p>zu vermitteln und ım Zusammenhang damıt die Vermittiung der Fertigkeiten und Kenntnisse der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele c und d,</p>
+      <p>2.1 Lern- und Ärbeıitstechniken,</p>
+      <p>2.2 Inftormations- und Kommunikationssyteme, Lernziele D und c,</p>
+      <p>2.3 Datenschutz,</p>
+      <p>3. Kommuntikation und Kooperatlion,</p>
+      <p>4. Arbeıtsmarkt und Arbeıtsmarktpolitik,</p>
+      <p>9.1 Berufsberatung und Arbeitsmarktberatung, Lernziel a,</p>
+      <p>9.2 Vermittiung, Lernziele a und b,</p>
+      <p>Tortzuluhren.</p>
+      <p>(3) In einem Zeitraum von Insgesamt vier bis sechs Monaten sind schwerpunktmaliig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildposition</p>
+      <p>2.9 Verwaltungsverfahren, Lernziele c DIs T,</p>
+      <p>zu vermitteln und ım Zusammenhang damıt die Vermittiung der Fertigkeiten und Kenntnisse der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele c bis e,</p>
+      <p>2.5 Verwaltungsverfahren, Lernziele a und D,</p>
+      <p>3. Kommuntikation und Kooperatlion,</p>
+      <p>.1 Versicherungspflicht, Lernziel a,</p>
+      <p>.2 Arbeitslosengeld, Arbeitslosenhilfe, Unterhaltsgeld</p>
+      <p>Tortzuluhren.</p>
+      <pb n="10"/>
+      <fw type="head" place="top">148</fw>
+      <fw type="head" place="top">Bundesgesetzblatt Jahrgang 1999 Teil | Nr. 20, ausgegeben zu Bonn am 23. April 1999</fw>
+      <p>Drittes Ausbildungsjahr</p>
+      <p>(1} In einem Zeitraum von Insgesamt vier bis sechs Monaten sind schwerpunktmaliig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildposition</p>
+      <p>9.2 Vermittiung, Lernziel c,</p>
+      <p>zu vermitteln und ım Zusammenhang damıt diıe Vermittlung der Fertigkeiten und Kenntnisse der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele c bis f,</p>
+      <p>3. Kommuntikation und Kooperatlon,</p>
+      <p>4. Arbeıtsmarkt und Arbeitsmarktpolitik,</p>
+      <p>9.1 Berufsberatung und Arbeitsmarktberatung,</p>
+      <p>9.2 Vermittiung, Lernziele a, D und d,</p>
+      <p>Tortzuiuhren.</p>
+      <p>(2) In einem Zeitraum von Insgesamt zweı bis vier Monaten sind schwerpunktmaliig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildpositionen</p>
+      <p>o.2 FOrderung der beruflichen Welterbildung,</p>
+      <p>o.3 FOrderung der Einglıederung von Arbeitnehmern</p>
+      <p>zu vermitteln und ım Zusammenhang damıt diıe Vermittlung der Fertigkeiten und Kenntnisse der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele c bis e,</p>
+      <p>3. Kommuntikation und Kooperatlon,</p>
+      <p>o.1 FOrderung der Auinahme eıner Beschaftigung und einer selbstandıgen latıgkelilt,</p>
+      <p>83. Finanzwirtschait, Lernziel c,</p>
+      <p>Tortzuiuhren.</p>
+      <p>(3) In einem Zeitraum von Iinsgesamt dreı bıs Tunf Monaten siınd schwerpunktmaßig die Fertigkeiten und Kenntnisse<lb/>der Berufsbildposition</p>
+      <p>9. Familıenleistungsausgleich</p>
+      <p>zu vermitteln und ım Zusammenhang damıt diıe Vermittlung der Fertigkeiten und Kenntnisse der Berufsbildpositionen</p>
+      <p>1.2 Unternehmensziele und Organisation, Lernziele c und d,</p>
+      <p>2.5 Verwaltungsverfahren,</p>
+      <p>3. Kommuntikation und Kooperatlon,</p>
+      <p>.2 Arbeitsiosengeld, Arbeiıtslosenhilfe, Unterhaltsgeld</p>
+      <p>Tortzuiuhren.</p>
+    </back>
+  </text>
+</TEI>
