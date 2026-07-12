@@ -1,24 +1,5 @@
-import sys
-
-from loguru import logger
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-
-def setup_logging(level: str = "INFO") -> None:
-    """Call once at process startup (main scripts and FastAPI lifespan)."""
-    logger.remove()
-    logger.add(
-        sys.stderr,
-        level=level,
-        format=(
-            "<green>{time:HH:mm:ss}</green> | "
-            "<level>{level: <8}</level> | "
-            "<cyan>{name}</cyan>:<cyan>{line}</cyan> — "
-            "<level>{message}</level>"
-        ),
-        colorize=True,
-    )
 
 
 class Settings(BaseSettings):
@@ -35,8 +16,7 @@ class Settings(BaseSettings):
     )
 
     # --- Auth ---
-    # Optional during ingestion (not needed without the LLM query path)
-    hawki_token: SecretStr | None = None
+    hawki_token: SecretStr
 
     # --- LLM (HAWKI) ---
     hawki_api_url: str = "https://chat.edu-ki-rlp.de"
@@ -48,14 +28,9 @@ class Settings(BaseSettings):
     qdrant_collection: str = "islandora_chunks"
 
     # --- Embedding ---
-    embedding_model: str = "BAAI/bge-m3"
+    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
 
     # --- RAG pipeline ---
     rag_top_k: int = 5
-    # ef=256 at search time with m=32/ef_construct=200 index gives ~99%+ recall
-    # and scales to millions of vectors. Switch exact=True only for debugging.
-    rag_exact_search: bool = False
-    rag_hnsw_ef: int = 256
-
-    # --- Logging ---
-    log_level: str = "INFO"
+    rag_chunk_size: int = 512
+    rag_chunk_overlap: int = 64
