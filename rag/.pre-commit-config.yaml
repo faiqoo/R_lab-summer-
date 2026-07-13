@@ -20,6 +20,7 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
+        #additional_dependencies: [types-requests, pdfplumber]
 
       - id: pytest
         name: pytest
