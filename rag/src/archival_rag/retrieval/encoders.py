@@ -8,8 +8,6 @@ from __future__ import annotations
 
 from typing import Any
 
-import httpx
-import numpy as np
 import torch
 from fastembed import SparseTextEmbedding
 from loguru import logger
@@ -17,6 +15,7 @@ from qdrant_client.models import SparseVector
 from sentence_transformers import SentenceTransformer
 
 from archival_rag.config import Settings
+from archival_rag.retrieval.embedding_client import EmbeddingServiceClient
 
 # Named vectors in the Qdrant collection. Changing these requires re-ingesting.
 DENSE_VECTOR_NAME = "dense"
@@ -31,56 +30,7 @@ def pick_device() -> str:
     return "cpu"
 
 
-class RemoteDenseEncoder:
-    """Client for the embedding service (embedding_service.py on the GPU VM).
-
-    Mirrors the slice of the SentenceTransformer API this project uses, so
-    HybridSearcher and the ingest pipeline work unchanged against it.
-    """
-
-    # Server rejects requests above its input cap; stay under it per request.
-    _MAX_INPUTS_PER_REQUEST = 256
-
-    def __init__(
-        self,
-        base_url: str,
-        api_key: str | None = None,
-        client: httpx.Client | None = None,
-    ) -> None:
-        headers = {"X-API-Key": api_key} if api_key else {}
-        self._client = client or httpx.Client(
-            base_url=base_url.rstrip("/"), timeout=120.0, headers=headers
-        )
-        self._dim: int | None = None
-
-    def encode(
-        self,
-        texts: str | list[str],
-        show_progress_bar: bool = False,
-        batch_size: int = 64,
-    ) -> Any:
-        single = isinstance(texts, str)
-        inputs = [texts] if isinstance(texts, str) else list(texts)
-        vectors_parts = []
-        for start in range(0, len(inputs), self._MAX_INPUTS_PER_REQUEST):
-            batch = inputs[start : start + self._MAX_INPUTS_PER_REQUEST]
-            response = self._client.post("/embed", json={"inputs": batch})
-            response.raise_for_status()
-            vectors_parts.append(
-                np.asarray(response.json()["embeddings"], dtype=np.float32)
-            )
-        vectors = np.concatenate(vectors_parts)
-        return vectors[0] if single else vectors
-
-    def get_embedding_dimension(self) -> int | None:
-        if self._dim is None:
-            response = self._client.get("/health")
-            response.raise_for_status()
-            self._dim = int(response.json()["dim"])
-        return self._dim
-
-
-DenseEncoder = SentenceTransformer | RemoteDenseEncoder
+DenseEncoder = SentenceTransformer | EmbeddingServiceClient
 
 
 def load_local_dense_encoder(settings: Settings) -> SentenceTransformer:
@@ -102,7 +52,7 @@ def load_dense_encoder(settings: Settings) -> DenseEncoder:
             if settings.embedding_api_key
             else None
         )
-        return RemoteDenseEncoder(settings.embedding_api_url, api_key=api_key)
+        return EmbeddingServiceClient(settings.embedding_api_url, api_key=api_key)
     return load_local_dense_encoder(settings)
 
 
