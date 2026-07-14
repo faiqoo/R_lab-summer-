@@ -1,0 +1,14 @@
+chatbot.page:
+  path: '/chatbot'
+  defaults:
+    _controller: '\Drupal\chatbot\Controller\ChatbotController::page'
+    _title: 'Islandora Chatbot'
+  requirements:
+    _permission: 'access content'
+chatbot.message:
+  path: '/chatbot/message'
+  defaults:
+    _controller: '\Drupal\chatbot\Controller\ChatbotController::sendMessage'
+  requirements:
+    _permission: 'access content'
+  methods: [POST]

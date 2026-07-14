@@ -1,0 +1,13 @@
+chatbot:
+  version: 1.x
+
+  css:
+    theme:
+      css/chatbot.css: {}
+
+  js:
+    js/chatbot.js: {}
+
+  dependencies:
+    - core/drupal
+    - core/jquery
