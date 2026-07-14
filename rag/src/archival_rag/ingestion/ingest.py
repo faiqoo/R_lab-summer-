@@ -202,6 +202,22 @@ def _split_sections(text: str) -> list[tuple[str, str]]:
     return chunks
 
 
+def _split_oversized_page(text: str) -> list[str]:
+    """Split a single page longer than _MAX_CHUNK_CHARS at line boundaries."""
+    parts: list[str] = []
+    current: list[str] = []
+    current_len = 0
+    for line in text.split("\n"):
+        if current_len + len(line) > _MAX_CHUNK_CHARS and current:
+            parts.append("\n".join(current))
+            current, current_len = [], 0
+        current.append(line)
+        current_len += len(line) + 1
+    if current:
+        parts.append("\n".join(current))
+    return parts
+
+
 def _split_by_pages(
     page_texts: list[str], occupation: str, year: int, source: str
 ) -> list[Chunk]:
@@ -211,27 +227,11 @@ def _split_by_pages(
     current_len = 0
     group = 1
 
-    for i, page_text in enumerate(page_texts):
-        if current_len + len(page_text) > _MAX_CHUNK_CHARS and current:
-            chunks.append(
-                Chunk(
-                    text="\n".join(current).strip(),
-                    chunk_type="text",
-                    section=f"pages {group}-{i}",
-                    occupation=occupation,
-                    year=year,
-                    source=source,
-                )
-            )
-            group = i + 1
-            current = []
-            current_len = 0
-        current.append(page_text)
-        current_len += len(page_text)
-
-    if current:
-        end = group + len(current) - 1
-        label = f"page {group}" if group == end else f"pages {group}-{end}"
+    def flush(end_page: int) -> None:
+        nonlocal current, current_len, group
+        if not current:
+            return
+        label = f"page {group}" if group == end_page else f"pages {group}-{end_page}"
         chunks.append(
             Chunk(
                 text="\n".join(current).strip(),
@@ -242,7 +242,32 @@ def _split_by_pages(
                 source=source,
             )
         )
+        group = end_page + 1
+        current, current_len = [], 0
 
+    for i, page_text in enumerate(page_texts):
+        if current_len + len(page_text) > _MAX_CHUNK_CHARS and current:
+            flush(i)
+        if len(page_text) > _MAX_CHUNK_CHARS:
+            # A single dense OCR page can exceed the cap on its own — split it,
+            # or the resulting oversized chunk OOMs the GPU at embedding time.
+            for part_no, part in enumerate(_split_oversized_page(page_text), 1):
+                chunks.append(
+                    Chunk(
+                        text=part.strip(),
+                        chunk_type="text",
+                        section=f"page {i + 1} part {part_no}",
+                        occupation=occupation,
+                        year=year,
+                        source=source,
+                    )
+                )
+            group = i + 2
+            continue
+        current.append(page_text)
+        current_len += len(page_text)
+
+    flush(group + len(current) - 1)
     return chunks
 
 
@@ -488,10 +513,12 @@ def embed_and_build_points(
     existing points instead of duplicating them.
     """
     texts = [c.text for c in chunks]
+    # batch_size 16: batches of 64 long chunks (~1000 tokens each) OOM the
+    # 10GB vGPU — this is why the corpus' longest documents failed to ingest.
     vectors = model.encode(
         texts,
         show_progress_bar=False,
-        batch_size=64,
+        batch_size=16,
     ).tolist()
     sparse_vectors = [to_sparse_vector(e) for e in sparse_model.passage_embed(texts)]
 
