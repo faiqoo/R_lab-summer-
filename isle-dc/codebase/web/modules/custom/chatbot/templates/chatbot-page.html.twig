@@ -1,23 +1,42 @@
 <div id="chatbot-container">
 
-  <h2>Islandora Chatbot</h2>
+  <div class="chat-header">
+
+    <div class="chat-title">
+      Archive Assistant
+    </div>
+
+    <div class="chat-subtitle">
+      Ask questions and discover information across archival collections.
+    </div>
+
+  </div>
 
   <div id="chat-window">
+
     <div class="bot-message">
-      Hello! Ask me anything about Islandora.
+      <strong>Welcome!</strong>
+
+      <br><br>
+
+      Ask questions about archival documents, collections, historical records, or metadata.
     </div>
+
   </div>
 
   <div class="chat-input">
+
     <input
       id="user-message"
       type="text"
-      placeholder="Ask something..."
-    >
+      placeholder="Ask a question about the archive..."
+      autocomplete="off"
+    />
 
     <button id="send-btn">
-      Send
+      ➜
     </button>
+
   </div>
 
 </div>
