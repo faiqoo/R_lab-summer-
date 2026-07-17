@@ -85,7 +85,7 @@ async def embed(
         vectors = await loop.run_in_executor(
             None,
             lambda: app.state.encoder.encode(
-                req.inputs, show_progress_bar=False, batch_size=64
+                req.inputs, show_progress_bar=False, batch_size=16
             ),
         )
     return EmbedResponse(embeddings=[v.tolist() for v in vectors])
