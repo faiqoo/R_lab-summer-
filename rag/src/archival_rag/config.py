@@ -50,7 +50,10 @@ class Settings(BaseSettings):
     rag_exact_search: bool = False
     rag_hnsw_ef: int = 256
     # Queries whose best chunk scores below this are declined (out-of-scope / noise).
-    rag_min_score: float = 0.4
+    # Calibrated live against bge-m3 (2026-07-28): relevant queries score
+    # 0.65–0.74 (cross-lingual included); out-of-scope ("Hauptstadt von
+    # Frankreich") scored 0.544 and slipped past the old 0.4 threshold.
+    rag_min_score: float = 0.6
     # NLI-based hallucination check — off by default (adds ~200 ms per query).
     rag_hallucination_check: bool = False
     rag_hallucination_model: str = "cross-encoder/nli-deberta-v3-small"
