@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import json
 from typing import Any
 
 import fitz  # type: ignore[import-untyped]
@@ -45,13 +46,55 @@ class FakeQdrant:
         pass
 
 
+class FakeRAG:
+    """Stands in for RAGComponents: canned answer + token stream."""
+
+    async def aquery(self, question: str, session_id: str) -> Any:
+        from archival_rag.models import RAGResult, SourceDoc
+
+        return RAGResult(
+            answer=f"Antwort auf: {question}",
+            sources=[
+                SourceDoc(
+                    source="baecker_1999.pdf",
+                    occupation="bäcker",
+                    year=1999,
+                    section="§ 2",
+                    chunk_type="text",
+                    score=0.5,
+                )
+            ],
+            trace={"declined": False, "language": "German"},
+        )
+
+    async def astream(self, question: str, session_id: str) -> Any:
+        for token in ["Ant", "wort"]:
+            yield token
+
+    async def aclose(self) -> None:
+        pass
+
+
 @pytest.fixture
 def client(monkeypatch: pytest.MonkeyPatch) -> tuple[TestClient, FakeQdrant]:
     fake_qdrant = FakeQdrant()
-    monkeypatch.setattr(app_mod, "load_dense_encoder", lambda s: FakeDense())
-    monkeypatch.setattr(app_mod, "load_sparse_encoder", lambda s: FakeSparse())
-    monkeypatch.setattr(app_mod, "AsyncQdrantClient", lambda **kw: fake_qdrant)
+
+    class FakeSearcher:
+        dense_encoder = FakeDense()
+        sparse_encoder = FakeSparse()
+
+        def __init__(self, settings: Any) -> None:
+            self.async_client = fake_qdrant
+
+        async def aclose(self) -> None:
+            pass
+
+    monkeypatch.setattr(app_mod, "HybridSearcher", FakeSearcher)
+    monkeypatch.setattr(
+        app_mod, "RAGComponents", lambda settings, searcher=None: FakeRAG()
+    )
     monkeypatch.setenv("EMBEDDING_API_KEY", "")
+    monkeypatch.setenv("HAWKI_TOKEN", "test-token")
     return TestClient(fastapi_app), fake_qdrant
 
 
@@ -180,3 +223,52 @@ def test_job_status_unknown_id_404(client: tuple[TestClient, FakeQdrant]) -> Non
     with test_client as c:
         resp = c.get("/status/nope")
     assert resp.status_code == 404
+
+
+def test_chat_returns_answer_with_sources(
+    client: tuple[TestClient, FakeQdrant],
+) -> None:
+    test_client, _ = client
+    with test_client as c:
+        resp = c.post(
+            "/chat",
+            json={"question": "Wie lange dauert die Ausbildung?", "session_id": "s1"},
+        )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["answer"].startswith("Antwort auf:")
+    assert body["declined"] is False
+    assert body["sources"][0]["source"] == "baecker_1999.pdf"
+
+
+def test_chat_stream_emits_tokens_and_done(
+    client: tuple[TestClient, FakeQdrant],
+) -> None:
+    test_client, _ = client
+    with test_client as c:
+        resp = c.post("/chat/stream", json={"question": "Frage?", "session_id": "s1"})
+    assert resp.status_code == 200
+    assert resp.headers["content-type"].startswith("text/event-stream")
+    frames = [ln for ln in resp.text.split("\n\n") if ln.startswith("data: ")]
+    tokens = [
+        json.loads(f[6:])["token"] for f in frames if "token" in json.loads(f[6:])
+    ]
+    assert "".join(tokens) == "Antwort"
+    assert json.loads(frames[-1][6:]) == {"done": True}
+
+
+def test_chat_rejects_bad_session_id(client: tuple[TestClient, FakeQdrant]) -> None:
+    test_client, _ = client
+    with test_client as c:
+        resp = c.post("/chat", json={"question": "x", "session_id": "../etc/passwd"})
+    assert resp.status_code == 422
+
+
+def test_chat_503_without_hawki_token(
+    monkeypatch: pytest.MonkeyPatch, client: tuple[TestClient, FakeQdrant]
+) -> None:
+    test_client, _ = client
+    monkeypatch.setenv("HAWKI_TOKEN", "")
+    with test_client as c:
+        resp = c.post("/chat", json={"question": "x", "session_id": "s1"})
+    assert resp.status_code == 503
