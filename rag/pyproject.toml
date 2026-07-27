@@ -19,6 +19,7 @@ dependencies = [
     "fastapi>=0.139.0",
     "uvicorn>=0.51.0",
     "python-multipart>=0.0.32",
+    "mypy>=2.1.0",
 ]
 
 [build-system]
