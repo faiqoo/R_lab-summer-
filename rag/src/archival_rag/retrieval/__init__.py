@@ -9,6 +9,7 @@ from archival_rag.retrieval.encoders import (
     pick_device,
     to_sparse_vector,
 )
+
 # from archival_rag.retrieval.search import HybridSearcher
 
 __all__ = [
