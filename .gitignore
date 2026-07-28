@@ -53,6 +53,7 @@ Thumbs.db
 rag/.env
 rag/.env.*
 rag/*.snapshot
+rag/eval_runs/
 problem_pdfs/
 
 # team docs are tracked despite the global *.md ignore

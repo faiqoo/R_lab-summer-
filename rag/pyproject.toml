@@ -41,6 +41,9 @@ dev = [
     "pytest-asyncio>=0.23",
     "langchain-core>=0.3",
 ]
+eval = [
+    "deepeval==4.0.*",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -50,6 +53,13 @@ pythonpath = ["src"]
 [tool.mypy]
 strict = true
 python_version = "3.12"
+
+# deepeval is eval-only tooling (not a core runtime dep, see dependency-groups.eval)
+# and a young, fast-moving library unlikely to ship complete stubs yet.
+[[tool.mypy.overrides]]
+module = ["deepeval.*"]
+ignore_missing_imports = true
+follow_imports = "skip"
 
 [tool.ruff]
 line-length = 88

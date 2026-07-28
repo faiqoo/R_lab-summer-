@@ -1,0 +1,16 @@
+# Local/dev convenience only. The GPU VM has no docker-compose/podman-compose
+# provider (confirmed 2026-07-28) — the real deployment there is a systemd
+# --user unit wrapping a plain `podman run`, not this file. See
+# docs/deploying-ragsvc.md for the actual VM procedure.
+#
+# host networking (Linux only) lets the container reach Qdrant/embedding
+# service on localhost exactly like running uvicorn bare-metal. On Docker
+# Desktop (Mac/Windows), host networking isn't fully supported — point
+# QDRANT_HOST/EMBEDDING_API_URL at host.docker.internal instead and drop
+# network_mode, publishing port 8000 normally.
+services:
+  ragsvc:
+    build: .
+    network_mode: host
+    env_file: .env
+    restart: unless-stopped

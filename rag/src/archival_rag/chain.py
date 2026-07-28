@@ -283,6 +283,17 @@ class RAGComponents:
             for r in results
             if r.payload
         ]
+        # Full retrieved chunk text for archival_rag.evaluation (faithfulness /
+        # contextual-* metrics need retrieval_context as list[str]). Populated
+        # from the full pre-guard `results`, so it's non-empty even on a
+        # decline (a near-miss chunk can score just under rag_min_score) —
+        # useful for auditing guard near-misses. Deliberately NOT surfaced via
+        # ChatResponse/SourceRef: api/routers/chat.py only reads
+        # trace["declined"]/trace["language"], so this stays additive and
+        # never bloats the public HTTP response with full chunk text.
+        trace["retrieved_texts"] = [
+            r.payload.get("text", "") for r in results if r.payload
+        ]
 
         if top_dense_score < self._settings.rag_min_score:
             trace["declined"] = True
