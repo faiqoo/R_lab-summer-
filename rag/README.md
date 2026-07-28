@@ -176,3 +176,4 @@ See [docs/evaluation.md](docs/evaluation.md) for the full workflow (dataset synt
 | [docs/running-the-full-stack.md](docs/running-the-full-stack.md) | How every piece (Drupal, VM services, ragsvc) fits together and starts up |
 | [docs/deploying-ragsvc.md](docs/deploying-ragsvc.md) | Deploying `ragsvc` (the API the Drupal team calls) on the VM |
 | [docs/evaluation.md](docs/evaluation.md) | Running/extending the evaluation harness |
+| [docs/ragsvc.postman_collection.json](docs/ragsvc.postman_collection.json) | Importable Postman collection — every `ragsvc` endpoint with example requests/responses, for the Drupal team |

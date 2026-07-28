@@ -5,6 +5,13 @@
 `/health`. Drupal never talks to Qdrant or the embedding service directly —
 `ragsvc` is the only door.
 
+**For the Drupal team specifically:** import
+[ragsvc.postman_collection.json](ragsvc.postman_collection.json) into Postman
+— it has every endpoint with example requests/responses, and notes on what
+each one is for (the chat widget only ever needs `/chat` or `/chat/stream`;
+`/ingest*` is the Node-RED indexing path, not something the chat UI calls).
+Set the collection's `baseUrl` variable to wherever `ragsvc` is reachable.
+
 Runs as a container on the GPU VM, alongside the existing systemd-managed
 Qdrant (`qdrant.service`) and embedding service (`embedsvc.service`), reached
 over the host network so it can hit them at `localhost:6333`/`localhost:8080`
