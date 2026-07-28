@@ -58,5 +58,6 @@ problem_pdfs/
 
 # team docs are tracked despite the global *.md ignore
 !rag/docs/*.md
+!rag/README.md
 !isle-dc/build/nodered-data/README.md
 rag/sessions/
