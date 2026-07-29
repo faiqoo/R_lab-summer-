@@ -1,0 +1,11 @@
+[Unit]
+Description=Qdrant vector database
+
+[Service]
+WorkingDirectory=%h/qdrant
+Environment=QDRANT__SERVICE__STATIC_CONTENT_DIR=%h/qdrant/static
+ExecStart=%h/qdrant/qdrant
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

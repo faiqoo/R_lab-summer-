@@ -49,10 +49,10 @@ workspace "Islandora RAG Chatbot" "C4 model for the LLM-based chatbot extension 
                 embed = container "Embedding Service" "Stateless service: turns text into an embedding vector and returns it to the caller." "e.g. sentence-transformers" {
                     tags "New"
                 }
-                vectordb = container "Vector Database" "Stores embedding vectors and chunk metadata; serves similarity search." "ChromaDB" {
+                vectordb = container "Vector Database" "Stores embedding vectors and chunk metadata; serves dense + hybrid (BM25) similarity search." "Qdrant" {
                     tags "Database" "New"
                 }
-                llm = container "LLM Service" "Generates answers from augmented prompts." "Llama via Ollama" {
+                llm = container "LLM Service" "Generates answers from augmented prompts via the HAWKI university LLM gateway." "HAWKI API (LangChain)" {
                     tags "New"
                 }
                 ragsvc = container "RAG Chatbot Service" "Orchestrates the query path: embeds the question, retrieves chunks, builds the augmented prompt, and calls the LLM." "e.g. FastAPI / Python" {

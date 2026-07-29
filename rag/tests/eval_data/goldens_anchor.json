@@ -1,0 +1,81 @@
+[
+  {
+    "name": "baecker_duration_de",
+    "input": "Wie lange dauert die Ausbildung zum Bäcker?",
+    "expected_output": "Die Ausbildung zum Bäcker/zur Bäckerin dauert drei Jahre, wie in der Verordnung über die Berufsausbildung zum Bäcker/zur Bäckerin vom 30. März 1983 und vom 21. April 2004 festgelegt.",
+    "context": [
+      "Bäcker — 1983 — pages 4-4 — (berufearchiv_178.pdf)",
+      "Bäcker — 2004 — pages 4-4 — (berufearchiv_179.pdf)"
+    ],
+    "expect_decline": false
+  },
+  {
+    "name": "baecker_duration_en",
+    "input": "How long does a baker apprenticeship take?",
+    "expected_output": "A baker apprenticeship (Bäcker/Bäckerin) takes three years, per the German training regulations from 1983 and 2004.",
+    "context": [
+      "Bäcker — 1983 — pages 4-4 — (berufearchiv_178.pdf)"
+    ],
+    "expect_decline": false
+  },
+  {
+    "name": "drechsler_first_year_ddr",
+    "input": "Was lernt ein Drechsler im ersten Ausbildungsjahr?",
+    "expected_output": "Im ersten Ausbildungsjahr lernt ein Drechsler laut dem DDR-Berufsbild u. a. Staatsbürgerkunde, Sport und berufstheoretischen Unterricht (z. B. Betriebsökonomik, Sozialistisches Recht sowie fachliche Grundlagen).",
+    "context": [
+      "Drechsler — pages — (berufearchiv_1071.pdf)"
+    ],
+    "expect_decline": false
+  },
+  {
+    "name": "arzthelfer_lfd_nr_4",
+    "input": "Was ist im Ausbildungsrahmenplan für Arzthelfer unter laufender Nummer 4 enthalten?",
+    "expected_output": "Unter Lfd. Nr. 4 des Ausbildungsrahmenplans für Arzthelfer (1985) geht es um die Mitwirkung bei Spülungen, kleinen chirurgischen Eingriffen und der Lokalanästhesie.",
+    "context": [
+      "Document: Ausbildungsordnung Arzthelfer 1985 — Section: Ausbildungsrahmenplan Lfd. Nr. 4"
+    ],
+    "expect_decline": false
+  },
+  {
+    "name": "baecker_document_citation",
+    "input": "In welchen Dokumenten wird die Berufsausbildung zum Bäcker geregelt?",
+    "expected_output": "Unter anderem in der Verordnung über die Berufsausbildung zum Bäcker/zur Bäckerin vom 30. März 1983 (berufearchiv_178.pdf) und vom 21. April 2004 (berufearchiv_179.pdf).",
+    "context": [],
+    "expect_decline": false
+  },
+  {
+    "name": "arzthelfer_year",
+    "input": "Aus welchem Jahr stammt die Ausbildungsordnung für Arzthelfer, die den Ausbildungsrahmenplan mit Spülungen und kleinen chirurgischen Eingriffen enthält?",
+    "expected_output": "Diese Ausbildungsordnung für Arzthelfer stammt aus dem Jahr 1985.",
+    "context": [],
+    "expect_decline": false
+  },
+  {
+    "name": "decline_france_capital",
+    "input": "Was ist die Hauptstadt von Frankreich?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": true
+  },
+  {
+    "name": "decline_recipe",
+    "input": "Wie kocht man Spaghetti Carbonara?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": true
+  },
+  {
+    "name": "decline_history_trivia",
+    "input": "In welchem Jahr endete der Zweite Weltkrieg?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": true
+  },
+  {
+    "name": "decline_weather",
+    "input": "What's the weather like in Koblenz today?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": true
+  }
+]

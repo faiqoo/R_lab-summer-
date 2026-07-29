@@ -1,0 +1,16 @@
+[Unit]
+Description=archival-rag ragsvc (RAG API for Drupal)
+After=network.target qdrant.service embedsvc.service
+Wants=qdrant.service embedsvc.service
+
+[Service]
+WorkingDirectory=%h/rag
+ExecStartPre=-/usr/bin/podman rm -f ragsvc
+ExecStartPre=/bin/bash -c 'until curl -sf localhost:6333 >/dev/null && curl -sf localhost:8080/health >/dev/null; do sleep 2; done'
+ExecStart=/usr/bin/podman run --rm --name ragsvc --network host --env-file %h/rag/.env archival-rag-ragsvc
+ExecStop=/usr/bin/podman stop -t 10 ragsvc
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

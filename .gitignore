@@ -5,6 +5,10 @@
 # Python bytecode / caches
 *.pyc
 *.pyo
+*.puml
+*.svg
+*.png
+*.pdf
 *.pyd
 __pycache__/
 *.egg-info/
@@ -43,3 +47,16 @@ Thumbs.db
 # Generated documents (pandoc outputs from *.md)
 /*.tex
 /*.docx
+
+# RAG project secrets
+rag/.env
+rag/.env.*
+rag/*.snapshot
+rag/eval_runs/
+problem_pdfs/
+
+# team docs are tracked despite the global *.md ignore
+!rag/docs/*.md
+!rag/README.md
+!isle-dc/build/nodered-data/README.md
+rag/sessions/

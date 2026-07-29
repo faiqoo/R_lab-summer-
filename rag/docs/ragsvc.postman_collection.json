@@ -1,0 +1,205 @@
+{
+  "info": {
+    "name": "archival-rag ragsvc",
+    "description": "HTTP API the Drupal chatbot module calls. Three endpoint groups:\n\n- **Health** — GET /health, no auth, liveness + collection size.\n- **Chat** — POST /chat (full answer) and POST /chat/stream (SSE tokens). This is the endpoint the chatbot widget actually needs.\n- **Ingest** — POST /ingest (sync) / /ingest/async + GET /status/{job_id}. Used by the Node-RED indexing flow, not by Drupal's chat UI.\n\nSet the `baseUrl` collection variable to wherever ragsvc is running (`http://127.0.0.1:8000` for local dev via `make api`, or the GPU VM host — see docs/deploying-ragsvc.md). **Use `127.0.0.1`, not `localhost`, for local testing on Mac** — Docker Desktop's background process can also bind port 8000 over IPv6, and `localhost` may resolve to that dead end instead of your actual server (symptom: request just fails/hangs with no response). If the server has `EMBEDDING_API_KEY` configured, also set `apiKey` — it's sent as `X-Api-Key` on every request except /health.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" },
+    { "key": "sessionId", "value": "drupal-test-session-1", "type": "string" },
+    { "key": "jobId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Unauthenticated liveness check. `points: null` means the server is up but can't reach Qdrant (collection missing, or the service's own Qdrant connection is down)."
+          },
+          "response": [
+            {
+              "name": "200 OK (collection reachable)",
+              "originalRequest": {
+                "method": "GET",
+                "url": { "raw": "{{baseUrl}}/health" }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"ok\",\n  \"collection\": \"islandora_chunks\",\n  \"points\": 65869\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "POST /chat",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Api-Key", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Was umfasst die Ausbildung zum Bäcker?\",\n  \"session_id\": \"{{sessionId}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["chat"]
+            },
+            "description": "The main endpoint: one question in, one grounded answer + sources out. This is what the chat widget calls per user message.\n\n- `session_id` — one per chat widget instance/conversation thread. Reusing the same `session_id` across calls keeps conversation history (so \"How long does it last?\" resolves \"it\" from the previous turn). New conversation = new `session_id`.\n- `declined: true` in the response means the question was out of scope (guard rejected it) — `answer` is a canned fallback message and `sources` will be empty; still a 200, not an error.\n- 502 means the LLM call itself failed (HAWKI down/timeout) — safe to retry.\n- 401 means a wrong/missing `X-Api-Key` (only if the server has one configured)."
+          },
+          "response": [
+            {
+              "name": "200 OK (in-scope answer)",
+              "originalRequest": { "method": "POST", "url": { "raw": "{{baseUrl}}/chat" } },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"answer\": \"Die Ausbildung zum Bäcker umfasst u.a. die Herstellung von Backwaren, Teigführung, Gebäckarten sowie Betriebsorganisation ...\",\n  \"declined\": false,\n  \"language\": \"de\",\n  \"session_id\": \"drupal-test-session-1\",\n  \"sources\": [\n    {\n      \"source\": \"berufearchiv_178.pdf\",\n      \"occupation\": \"Bäcker\",\n      \"year\": 1983,\n      \"section\": \"§ 3\",\n      \"chunk_type\": \"paragraph\",\n      \"score\": 0.83\n    }\n  ]\n}"
+            },
+            {
+              "name": "200 OK (declined — out of scope)",
+              "originalRequest": { "method": "POST", "url": { "raw": "{{baseUrl}}/chat" } },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"answer\": \"Dazu finde ich leider keine passenden Informationen im Archiv.\",\n  \"declined\": true,\n  \"language\": \"de\",\n  \"session_id\": \"drupal-test-session-1\",\n  \"sources\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /chat/stream",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Api-Key", "value": "{{apiKey}}" },
+              { "key": "Accept", "value": "text/event-stream" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Was umfasst die Ausbildung zum Bäcker?\",\n  \"session_id\": \"{{sessionId}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat/stream",
+              "host": ["{{baseUrl}}"],
+              "path": ["chat", "stream"]
+            },
+            "description": "Same semantics as /chat, but streamed as Server-Sent Events for a typing-effect UI. Postman shows the raw SSE body rather than rendering it live — use a browser EventSource or curl -N to see it stream token by token.\n\nFrame format, one JSON object per `data:` line:\n```\ndata: {\"token\": \"Die\"}\n\ndata: {\"token\": \" Ausbildung\"}\n\n...\ndata: {\"done\": true}\n```\nA declined question streams the fallback message as a single token frame, then `done`. On failure mid-stream you get `data: {\"error\": \"generation failed\"}` instead of `done`."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ingest (Node-RED, not Drupal chat)",
+      "item": [
+        {
+          "name": "POST /ingest (sync)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "X-Api-Key", "value": "{{apiKey}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "files", "type": "file", "src": [] }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ingest",
+              "host": ["{{baseUrl}}"],
+              "path": ["ingest"]
+            },
+            "description": "Upload one or more PDFs (multipart, repeat the `files` key per file, max 50 per request). Chunks, embeds, and upserts into Qdrant, blocking until done — this is what the Node-RED flow calls on new/updated Islandora documents, not something the chat UI touches. Re-uploading a file with the same name overwrites its previous chunks (deterministic IDs)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": { "method": "POST", "url": { "raw": "{{baseUrl}}/ingest" } },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"results\": [\n    { \"file\": \"berufearchiv_178.pdf\", \"status\": \"ok\", \"chunks\": 42, \"detail\": null }\n  ],\n  \"total_chunks\": 42\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST /ingest/async",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "X-Api-Key", "value": "{{apiKey}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "files", "type": "file", "src": [] }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ingest/async",
+              "host": ["{{baseUrl}}"],
+              "path": ["ingest", "async"]
+            },
+            "description": "Same as /ingest but returns immediately (202) with a job id per file; processing happens in the background. Poll GET /status/{job_id} for the outcome. Copy a `job_id` from the response into the `jobId` collection variable to use the next request."
+          },
+          "response": [
+            {
+              "name": "202 Accepted",
+              "originalRequest": { "method": "POST", "url": { "raw": "{{baseUrl}}/ingest/async" } },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"jobs\": [\n    { \"job_id\": \"3f9c1e2a-...\", \"file\": \"berufearchiv_178.pdf\", \"status\": \"pending\" }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "GET /status/:jobId",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Api-Key", "value": "{{apiKey}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/status/{{jobId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["status", "{{jobId}}"]
+            },
+            "description": "Check the outcome of a job id returned by /ingest/async. 404 if the id is unknown (server restarted, or typo)."
+          },
+          "response": [
+            {
+              "name": "200 OK (done)",
+              "originalRequest": { "method": "GET", "url": { "raw": "{{baseUrl}}/status/{{jobId}}" } },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"id\": \"3f9c1e2a-...\",\n  \"filename\": \"berufearchiv_178.pdf\",\n  \"status\": \"done\",\n  \"chunks_indexed\": 42,\n  \"error\": null\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
