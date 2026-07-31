@@ -101,7 +101,9 @@ sudo to change it). That means:
 
 | Symptom | Cause / fix |
 | --- | --- |
-| `curl localhost:8000/health` hangs on the VM itself | Container not running: `systemctl --user status ragsvc`, check `journalctl --user -u ragsvc` |
+| `curl localhost:8000/health` hangs on the VM itself | Container not running: `systemctl --user status ragsvc` |
+| `journalctl --user -u ragsvc` says "insufficient permissions" | Expected on this VM — `lab25` isn't in a group that can read the journal. Use `podman logs ragsvc` (or `podman logs -f ragsvc` to follow) instead; it has the full container stdout/stderr, same content, no permission needed. |
 | `503` from `/chat` | `HAWKI_TOKEN` missing from the VM's `rag/.env` |
+| `502` from `/chat` ("generation failed") | The RAG chain raised — check `podman logs ragsvc` for the real traceback. As of 2026-07-31 this includes the response body from HAWKI on 4xx errors (a fix landed that day; rebuild+redeploy if the running image predates it), so a HAWKI-side validation error will show up directly instead of just a bare status code. |
 | Container can't reach Qdrant/embedding-service | Confirm `--network host` is set and `QDRANT_PORT=6333` (not 16333) in the VM's `.env` |
 | Reachable via tunnel but not directly | Expected — see the firewall note above; needs a university IT firewall change |
