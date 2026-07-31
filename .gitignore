@@ -53,6 +53,7 @@ rag/.env
 rag/.env.*
 rag/*.snapshot
 rag/eval_runs/
+rag/.deepeval/
 problem_pdfs/
 
 # team docs are tracked despite the global *.md ignore

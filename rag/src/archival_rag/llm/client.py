@@ -42,7 +42,18 @@ class HAWKIClientMixin:
 
     @staticmethod
     def _check(response: httpx.Response) -> dict[str, Any]:
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            # raise_for_status()'s message omits the response body, which is
+            # where HAWKI actually says *why* a 4xx was rejected (e.g. which
+            # field was invalid) — without it, a 422 shows up in logs as a
+            # bare status code with no way to diagnose it after the fact.
+            raise httpx.HTTPStatusError(
+                f"{exc}\nResponse body: {response.text}",
+                request=exc.request,
+                response=exc.response,
+            ) from None
         data: dict[str, Any] = response.json()
         if not data.get("success"):
             raise ValueError(f"HAWKI API error: {data.get('message', 'unknown')}")
