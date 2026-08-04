@@ -119,9 +119,31 @@ _OCC_PATTERNS = [
     re.compile(r"(?im)\bMeister\s+für\s+([A-ZÄÖÜa-zäöüß][^\n]+)"),
 ]
 
-# Prefer explicit date context ("vom 9. Juni 2005") over bare 4-digit years.
-_YEAR_DATE_RE = re.compile(r"\bvom\s+\d+\.\s+\w+\s+(19\d{2}|20\d{2})\b")
+# Year precedence (BIBB's stated ordering when several dates appear in a
+# document: Erlassdatum > Inkrafttreten > Erscheinungsjahr/Stand):
+#   1. Erlassdatum — the decree date, phrased "vom 9. Juni 2005"
+#   2. Inkrafttreten — the effective date, phrased "tritt ... in Kraft" or
+#      "in Kraft getreten am ..."
+#   3. Any bare 4-digit year — publication year / "Stand:" fallback
+_ERLASSDATUM_RE = re.compile(r"\bvom\s+\d+\.\s+\w+\s+(19\d{2}|20\d{2})\b")
+_INKRAFTTRETEN_RE = re.compile(
+    r"\btritt\s+(?:am\s+\d+\.\s+\w+\s+)?(19\d{2}|20\d{2})\s+in\s+Kraft\b"
+    r"|\bin\s*Kraft\s+getreten\s+(?:am\s+\d+\.\s+\w+\s+)?(19\d{2}|20\d{2})\b",
+    re.IGNORECASE,
+)
 _YEAR_RE = re.compile(r"\b(19\d{2}|20\d{2})\b")
+
+
+def _extract_year(text: str) -> int:
+    """Pick a document's year from its text using the precedence above."""
+    m = _ERLASSDATUM_RE.search(text)
+    if m:
+        return int(m.group(1))
+    m = _INKRAFTTRETEN_RE.search(text)
+    if m:
+        return int(m.group(1) or m.group(2))
+    m = _YEAR_RE.search(text)
+    return int(m.group(1)) if m else 0
 
 
 def _strip_genitive(name: str) -> str:
@@ -164,10 +186,9 @@ def _extract_from_text(text: str) -> tuple[str, int]:
             occupation = _strip_genitive(raw)
             break
 
-    # Prefer an explicit date ("vom 9. Juni 2005") to avoid false positives
-    # like Bundesanzeiger issue codes ("G 1990").
-    m = _YEAR_DATE_RE.search(text) or _YEAR_RE.search(text)
-    year = int(m.group(1)) if m else 0
+    # Erlassdatum > Inkrafttreten > bare year — see _extract_year. Avoids
+    # false positives like Bundesanzeiger issue codes ("G 1990").
+    year = _extract_year(text)
     return occupation, year
 
 
@@ -296,10 +317,7 @@ def _chunk_compilation(
         if not group_text:
             continue
 
-        year = base_year
-        if not year:
-            ym = _YEAR_DATE_RE.search(page_text) or _YEAR_RE.search(page_text)
-            year = int(ym.group(1)) if ym else 0
+        year = base_year or _extract_year(page_text)
 
         chunks.append(
             Chunk(
@@ -635,7 +653,7 @@ def main() -> None:
     settings = Settings()
     from archival_rag.logging_setup import setup_logging
 
-    setup_logging(settings.log_level)
+    setup_logging(settings.log_level, service_name="ingest")
     ingest_directory(args.pdf_dir, settings, recreate=args.recreate)
 
 

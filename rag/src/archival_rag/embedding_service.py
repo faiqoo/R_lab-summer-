@@ -11,11 +11,13 @@ Run on the VM:
 from __future__ import annotations
 
 import asyncio
+import time
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Annotated
 
 from fastapi import FastAPI, Header, HTTPException
+from loguru import logger
 from pydantic import BaseModel, Field
 
 from archival_rag.config import Settings
@@ -25,6 +27,20 @@ from archival_rag.retrieval.encoders import load_local_dense_encoder
 # Bounds one request to roughly one ingest batch — protects the GPU from a
 # single caller monopolizing it (or OOMing it) with a giant payload.
 _MAX_INPUTS = 256
+
+# Max time a request waits to acquire the GPU lock before giving up. A
+# 2026-08-02 incident: one slow/stuck encode() call left every request behind
+# it in the queue waiting past the caller's own timeout (Drupal's cURL: 120s)
+# with no useful error — just a silent hang. Failing fast here well under
+# that gives callers an immediate, actionable 503 instead of a bare timeout,
+# and stops an unbounded queue from building up behind one bad call.
+_LOCK_WAIT_TIMEOUT = 90.0
+# Threshold for logging a slow-encode warning — not a hard cutoff (the
+# in-flight thread can't be safely cancelled once started; killing it here
+# would let a second batch start concurrently and risk OOMing the GPU, the
+# exact thing the lock exists to prevent). This just makes a repeat incident
+# diagnosable from the dated log file instead of guesswork.
+_SLOW_ENCODE_WARN_SECONDS = 30.0
 
 
 class EmbedRequest(BaseModel):
@@ -43,7 +59,7 @@ class HealthResponse(BaseModel):
 @asynccontextmanager
 async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
     settings = Settings()
-    setup_logging(settings.log_level)
+    setup_logging(settings.log_level, service_name="embedsvc")
     app.state.model_name = settings.embedding_model
     # Loaded exactly once per process; every request reuses this instance.
     app.state.encoder = load_local_dense_encoder(settings)
@@ -81,11 +97,38 @@ async def embed(
 ) -> EmbedResponse:
     _check_key(x_api_key)
     loop = asyncio.get_running_loop()
-    async with app.state.lock:
+
+    try:
+        await asyncio.wait_for(app.state.lock.acquire(), timeout=_LOCK_WAIT_TIMEOUT)
+    except TimeoutError:
+        logger.warning(
+            "Rejecting /embed after waiting {}s for the GPU lock — "
+            "another request is still holding it (batch_size={})",
+            _LOCK_WAIT_TIMEOUT,
+            len(req.inputs),
+        )
+        raise HTTPException(
+            status_code=503,
+            detail="embedding service busy processing another batch, retry shortly",
+        ) from None
+
+    try:
+        started = time.monotonic()
         vectors = await loop.run_in_executor(
             None,
             lambda: app.state.encoder.encode(
                 req.inputs, show_progress_bar=False, batch_size=16
             ),
         )
+        elapsed = time.monotonic() - started
+        if elapsed > _SLOW_ENCODE_WARN_SECONDS:
+            logger.warning(
+                "Slow /embed call: {:.1f}s for {} inputs (max input length {})",
+                elapsed,
+                len(req.inputs),
+                max((len(t) for t in req.inputs), default=0),
+            )
+    finally:
+        app.state.lock.release()
+
     return EmbedResponse(embeddings=[v.tolist() for v in vectors])

@@ -146,6 +146,7 @@ async def test_limit_truncates_goldens(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_dataset_load_merges_anchor_and_synthesized(tmp_path: Path) -> None:
     anchor = tmp_path / "anchor.json"
     synth = tmp_path / "synth.json"
+    missing_bibb = tmp_path / "no_bibb.json"
     anchor.write_text(
         json.dumps([{"input": "anchor q", "expected_output": "a"}]), encoding="utf-8"
     )
@@ -153,7 +154,9 @@ def test_dataset_load_merges_anchor_and_synthesized(tmp_path: Path) -> None:
         json.dumps([{"input": "synth q", "expected_output": "s"}]), encoding="utf-8"
     )
 
-    goldens = dataset_mod.load_goldens(anchor_path=anchor, synthesized_path=synth)
+    goldens = dataset_mod.load_goldens(
+        anchor_path=anchor, synthesized_path=synth, bibb_path=missing_bibb
+    )
 
     assert [(g.input, g.provenance) for g in goldens] == [
         ("anchor q", "anchor"),
@@ -165,11 +168,33 @@ def test_dataset_load_tolerates_missing_synthesized_file(tmp_path: Path) -> None
     anchor = tmp_path / "anchor.json"
     anchor.write_text(json.dumps([{"input": "anchor q"}]), encoding="utf-8")
     missing = tmp_path / "does_not_exist.json"
+    missing_bibb = tmp_path / "no_bibb.json"
 
-    goldens = dataset_mod.load_goldens(anchor_path=anchor, synthesized_path=missing)
+    goldens = dataset_mod.load_goldens(
+        anchor_path=anchor, synthesized_path=missing, bibb_path=missing_bibb
+    )
 
     assert len(goldens) == 1
     assert goldens[0].provenance == "anchor"
+
+
+def test_dataset_load_merges_bibb(tmp_path: Path) -> None:
+    anchor = tmp_path / "anchor.json"
+    missing_synth = tmp_path / "no_synth.json"
+    bibb = tmp_path / "bibb.json"
+    anchor.write_text(json.dumps([{"input": "anchor q"}]), encoding="utf-8")
+    bibb.write_text(
+        json.dumps([{"input": "bibb q", "expected_output": "b"}]), encoding="utf-8"
+    )
+
+    goldens = dataset_mod.load_goldens(
+        anchor_path=anchor, synthesized_path=missing_synth, bibb_path=bibb
+    )
+
+    assert [(g.input, g.provenance) for g in goldens] == [
+        ("anchor q", "anchor"),
+        ("bibb q", "bibb"),
+    ]
 
 
 def test_dataset_load_requires_anchor_file(tmp_path: Path) -> None:
@@ -177,6 +202,7 @@ def test_dataset_load_requires_anchor_file(tmp_path: Path) -> None:
         dataset_mod.load_goldens(
             anchor_path=tmp_path / "missing.json",
             synthesized_path=tmp_path / "also_missing.json",
+            bibb_path=tmp_path / "bibb_missing.json",
         )
 
 

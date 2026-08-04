@@ -30,6 +30,9 @@ _DEFAULT_ANCHOR_PATH = (
 _DEFAULT_SYNTH_PATH = (
     Path(__file__).resolve().parents[3] / "tests/eval_data/goldens_synthesized.json"
 )
+_DEFAULT_BIBB_PATH = (
+    Path(__file__).resolve().parents[3] / "tests/eval_data/goldens_bibb.json"
+)
 
 
 def _load_json_goldens(path: Path, provenance: str) -> list[EvalGolden]:
@@ -52,18 +55,22 @@ def _load_json_goldens(path: Path, provenance: str) -> list[EvalGolden]:
 def load_goldens(
     anchor_path: Path = _DEFAULT_ANCHOR_PATH,
     synthesized_path: Path = _DEFAULT_SYNTH_PATH,
+    bibb_path: Path = _DEFAULT_BIBB_PATH,
 ) -> list[EvalGolden]:
-    """Load and merge the anchor + synthesized golden files.
+    """Load and merge the anchor + synthesized + BIBB golden files.
 
     A missing anchor file is an error (it's the required, checked-in seed);
-    a missing synthesized file is fine (not yet generated via
-    ``make eval-dataset``).
+    synthesized and BIBB files are each optional (synthesized isn't
+    generated until ``make eval-dataset`` runs; BIBB goldens are instantiated
+    from the 2026-03 BIBB question/occupation handoff — see
+    docs/evaluation.md).
     """
     if not anchor_path.exists():
         raise FileNotFoundError(f"Required anchor goldens not found: {anchor_path}")
     anchors = _load_json_goldens(anchor_path, provenance="anchor")
     synthesized = _load_json_goldens(synthesized_path, provenance="synthesized")
-    return anchors + synthesized
+    bibb = _load_json_goldens(bibb_path, provenance="bibb")
+    return anchors + synthesized + bibb
 
 
 def save_goldens(goldens: list[EvalGolden], path: Path) -> None:

@@ -221,8 +221,12 @@ def print_report(report: EvalReport) -> None:
         f"Guard accuracy: {g.accuracy} (tp={g.true_positive} fn={g.false_negative} "
         f"fp={g.false_positive} tn={g.true_negative})"
     )
-    for anchor_only in (True, False):
-        provenance = "anchor" if anchor_only else "synthesized"
+    # Preferred display order, then any other provenance tags encountered
+    # (so a future new source shows up instead of silently vanishing).
+    seen = {r.provenance for r in report.golden_results}
+    ordered = [p for p in ("anchor", "synthesized", "bibb") if p in seen]
+    ordered += sorted(seen - set(ordered))
+    for provenance in ordered:
         rows = report.summary_by(provenance)
         if not rows:
             continue
@@ -297,7 +301,7 @@ def main() -> None:
 
     args = parser.parse_args()
     settings = Settings()
-    setup_logging(settings.log_level)
+    setup_logging(settings.log_level, service_name="eval")
 
     if args.cmd == "run":
         goldens = load_goldens()

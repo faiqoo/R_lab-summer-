@@ -7,6 +7,7 @@ from typing import Any
 import httpx
 import numpy as np
 import pytest
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from archival_rag import embedding_service
@@ -101,3 +102,28 @@ def test_embed_requires_api_key_when_configured(
         )
     assert denied.status_code == 401
     assert allowed.status_code == 200
+
+
+async def test_embed_returns_503_when_gpu_lock_is_busy(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A slow/stuck in-flight call must not silently wedge every request
+    behind it — see the 2026-08-02 incident (embedding_service.py comment).
+    Callers should get a fast, actionable 503 instead of a bare timeout.
+    """
+    monkeypatch.setattr(
+        embedding_service, "load_local_dense_encoder", lambda s: FakeEncoder()
+    )
+    monkeypatch.setenv("EMBEDDING_API_KEY", "")
+    monkeypatch.setattr(embedding_service, "_LOCK_WAIT_TIMEOUT", 0.05)
+
+    async with embedding_service._lifespan(embedding_service.app):
+        await embedding_service.app.state.lock.acquire()  # simulate a call in flight
+        try:
+            with pytest.raises(HTTPException) as exc_info:
+                await embedding_service.embed(
+                    embedding_service.EmbedRequest(inputs=["x"])
+                )
+            assert exc_info.value.status_code == 503
+        finally:
+            embedding_service.app.state.lock.release()

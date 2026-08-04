@@ -1,0 +1,744 @@
+[
+  {
+    "input": "Was ist ein Anlernberuf?",
+    "expected_output": "Unter \"Anlernberufe\" sind Ausbildungsberufe zu verstehen, die bis zur Verabschiedung des Berufsbildungsgesetzes (BBiG) im Jahr 1969 erlassen wurden und eine Ausbildungsdauer von bis zu zwei Jahren haben. Der Begriff wird heute nicht mehr verwendet, stattdessen würde man von \"Hilfskraft\" sprechen.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-10-anlernberuf"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Anlagenmechaniker aus dem Jahr 1997?",
+    "expected_output": "Ja. Zu dem Beruf Anlagenmechaniker haben wir Dokumente aus dem Jahr 1997.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-anlagenmechaniker-1997"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Anlagenmechaniker?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-anlagenmechaniker"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Anlagenmechaniker?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-anlagenmechaniker"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Asphaltabdichter aus dem Jahr 1940?",
+    "expected_output": "Ja. Zu dem Beruf Asphaltabdichter haben wir Dokumente aus dem Jahr 1940.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-asphaltabdichter-1940"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Asphaltabdichter aus dem Jahr 1942?",
+    "expected_output": "Ja. Zu dem Beruf Asphaltabdichter haben wir Dokumente aus dem Jahr 1942.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-asphaltabdichter-1942"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Asphaltabdichter aus den Jahren 1940 und 1942?",
+    "expected_output": "Ja. Zu dem Beruf Asphaltabdichter haben wir Dokumente aus den Jahren 1940 und 1942.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-multiyear-asphaltabdichter-1940-1942"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Asphaltabdichter?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-asphaltabdichter"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Asphaltabdichter?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-asphaltabdichter"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Bau- und Gerätetischler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-bau-und-ger-tetischler"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Bau- und Gerätetischler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-bau-und-ger-tetischler"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Bestattungsfachkraft aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Bestattungsfachkraft haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-bestattungsfachkraft-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Bestattungsfachkraft?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-bestattungsfachkraft"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Bestattungsfachkraft?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-bestattungsfachkraft"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Betonbauer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-betonbauer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Betonbauer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-betonbauer"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Brauer und Mälzer aus dem Jahr 1937?",
+    "expected_output": "Ja. Zu dem Beruf Brauer und Mälzer haben wir Dokumente aus dem Jahr 1937.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-brauer-und-m-lzer-1937"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Brauer und Mälzer aus dem Jahr 1981?",
+    "expected_output": "Ja. Zu dem Beruf Brauer und Mälzer haben wir Dokumente aus dem Jahr 1981.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-brauer-und-m-lzer-1981"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Brauer und Mälzer aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Brauer und Mälzer haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-brauer-und-m-lzer-2008"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Brauer und Mälzer aus den Jahren 1937 und 2008?",
+    "expected_output": "Ja. Zu dem Beruf Brauer und Mälzer haben wir Dokumente aus den Jahren 1937 und 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-multiyear-brauer-und-m-lzer-1937-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Brauer und Mälzer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-brauer-und-m-lzer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Brauer und Mälzer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-brauer-und-m-lzer"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Brunnenbauer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-brunnenbauer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Brunnenbauer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-brunnenbauer"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Buchbinder aus dem Jahr 1997?",
+    "expected_output": "Ja. Zu dem Beruf Buchbinder haben wir Dokumente aus dem Jahr 1997.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-buchbinder-1997"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Buchbinder?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-buchbinder"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Buchbinder?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-buchbinder"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Dachdecker?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-dachdecker"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Dachdecker?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-dachdecker"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Einzelhandelskaufmann aus dem Jahr 1950?",
+    "expected_output": "Ja. Zu dem Beruf Einzelhandelskaufmann haben wir Dokumente aus dem Jahr 1950.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-einzelhandelskaufmann-1950"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Einzelhandelskaufmann aus dem Jahr 1968?",
+    "expected_output": "Ja. Zu dem Beruf Einzelhandelskaufmann haben wir Dokumente aus dem Jahr 1968.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-einzelhandelskaufmann-1968"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Einzelhandelskaufmann aus dem Jahr 1969?",
+    "expected_output": "Ja. Zu dem Beruf Einzelhandelskaufmann haben wir Dokumente aus dem Jahr 1969.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-einzelhandelskaufmann-1969"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Einzelhandelskaufmann aus den Jahren 1950 und 1969?",
+    "expected_output": "Ja. Zu dem Beruf Einzelhandelskaufmann haben wir Dokumente aus den Jahren 1950 und 1969.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-multiyear-einzelhandelskaufmann-1950-1969"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Einzelhandelskaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-einzelhandelskaufmann"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Einzelhandelskaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-einzelhandelskaufmann"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Facharbeiter für Anlagentechnik aus dem Jahr 1977?",
+    "expected_output": "Ja. Zu dem Beruf Facharbeiter für Anlagentechnik haben wir Dokumente aus dem Jahr 1977.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-facharbeiter-f-r-anlagentechnik-1977"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Facharbeiter für Anlagentechnik aus dem Jahr 1981?",
+    "expected_output": "Ja. Zu dem Beruf Facharbeiter für Anlagentechnik haben wir Dokumente aus dem Jahr 1981.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-facharbeiter-f-r-anlagentechnik-1981"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Facharbeiter für Anlagentechnik aus dem Jahr 1986?",
+    "expected_output": "Ja. Zu dem Beruf Facharbeiter für Anlagentechnik haben wir Dokumente aus dem Jahr 1986.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-facharbeiter-f-r-anlagentechnik-1986"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Facharbeiter für Anlagentechnik aus den Jahren 1977 und 1986?",
+    "expected_output": "Ja. Zu dem Beruf Facharbeiter für Anlagentechnik haben wir Dokumente aus den Jahren 1977 und 1986.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-multiyear-facharbeiter-f-r-anlagentechnik-1977-1986"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Facharbeiter für Anlagentechnik?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-facharbeiter-f-r-anlagentechnik"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Facharbeiter für Anlagentechnik?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-facharbeiter-f-r-anlagentechnik"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Fachkraft für Holz- und Bautenschutzarbeiten aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Fachkraft für Holz- und Bautenschutzarbeiten haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-fachkraft-f-r-holz-und-bautenschutzarbeiten-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Fachkraft für Holz- und Bautenschutzarbeiten?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-fachkraft-f-r-holz-und-bautenschutzarbeiten"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Fachkraft für Holz- und Bautenschutzarbeiten?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-fachkraft-f-r-holz-und-bautenschutzarbeiten"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Fahrzeugstellmacher?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-fahrzeugstellmacher"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Fahrzeugstellmacher?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-fahrzeugstellmacher"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Glaser?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-glaser"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Glaser?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-glaser"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Holzdrechsler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-holzdrechsler"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Holzdrechsler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-holzdrechsler"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Holzspielzeugmacher aus dem Jahr 1997?",
+    "expected_output": "Ja. Zu dem Beruf Holzspielzeugmacher haben wir Dokumente aus dem Jahr 1997.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-holzspielzeugmacher-1997"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Holzspielzeugmacher?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-holzspielzeugmacher"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Holzspielzeugmacher?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-holzspielzeugmacher"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Industriekaufmann aus dem Jahr 1938?",
+    "expected_output": "Ja. Zu dem Beruf Industriekaufmann haben wir Dokumente aus dem Jahr 1938.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-industriekaufmann-1938"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Industriekaufmann aus dem Jahr 1955?",
+    "expected_output": "Ja. Zu dem Beruf Industriekaufmann haben wir Dokumente aus dem Jahr 1955.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-industriekaufmann-1955"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Industriekaufmann aus dem Jahr 1995?",
+    "expected_output": "Ja. Zu dem Beruf Industriekaufmann haben wir Dokumente aus dem Jahr 1995.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-industriekaufmann-1995"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Industriekaufmann aus den Jahren 1938 und 1995?",
+    "expected_output": "Ja. Zu dem Beruf Industriekaufmann haben wir Dokumente aus den Jahren 1938 und 1995.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-multiyear-industriekaufmann-1938-1995"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Industriekaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-industriekaufmann"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Industriekaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-industriekaufmann"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Isolierer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-isolierer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Isolierer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-isolierer"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Kaufmann in der Grundstücks- und Wohnungswirtschaft aus dem Jahr 1997?",
+    "expected_output": "Ja. Zu dem Beruf Kaufmann in der Grundstücks- und Wohnungswirtschaft haben wir Dokumente aus dem Jahr 1997.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-kaufmann-in-der-grundst-cks-und-wohnungswirtschaft-1997"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Kaufmann in der Grundstücks- und Wohnungswirtschaft?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-kaufmann-in-der-grundst-cks-und-wohnungswirtschaft"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Kaufmann in der Grundstücks- und Wohnungswirtschaft?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-kaufmann-in-der-grundst-cks-und-wohnungswirtschaft"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Maschinenschlosser aus dem Jahr 1940?",
+    "expected_output": "Ja. Zu dem Beruf Maschinenschlosser haben wir Dokumente aus dem Jahr 1940.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-maschinenschlosser-1940"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Maschinenschlosser?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-maschinenschlosser"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Maschinenschlosser?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-maschinenschlosser"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Mathematisch-technischer Softwareentwickler aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Mathematisch-technischer Softwareentwickler haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-mathematisch-technischer-softwareentwickler-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Mathematisch-technischer Softwareentwickler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-mathematisch-technischer-softwareentwickler"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Mathematisch-technischer Softwareentwickler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-mathematisch-technischer-softwareentwickler"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Maurer aus dem Jahr 1936?",
+    "expected_output": "Ja. Zu dem Beruf Maurer haben wir Dokumente aus dem Jahr 1936.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-maurer-1936"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Maurer aus dem Jahr 1957?",
+    "expected_output": "Ja. Zu dem Beruf Maurer haben wir Dokumente aus dem Jahr 1957.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-maurer-1957"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Maurer aus dem Jahr 1985?",
+    "expected_output": "Ja. Zu dem Beruf Maurer haben wir Dokumente aus dem Jahr 1985.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-maurer-1985"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Maurer aus den Jahren 1936 und 1985?",
+    "expected_output": "Ja. Zu dem Beruf Maurer haben wir Dokumente aus den Jahren 1936 und 1985.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-multiyear-maurer-1936-1985"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Maurer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-maurer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Maurer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-maurer"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Mechatroniker für Kältetechnik aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Mechatroniker für Kältetechnik haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-mechatroniker-f-r-k-ltetechnik-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Mechatroniker für Kältetechnik?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-mechatroniker-f-r-k-ltetechnik"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Mechatroniker für Kältetechnik?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-mechatroniker-f-r-k-ltetechnik"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Mediengestalter Bild und Ton aus dem Jahr 1997?",
+    "expected_output": "Ja. Zu dem Beruf Mediengestalter Bild und Ton haben wir Dokumente aus dem Jahr 1997.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-mediengestalter-bild-und-ton-1997"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Mediengestalter Bild und Ton?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-mediengestalter-bild-und-ton"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Mediengestalter Bild und Ton?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-mediengestalter-bild-und-ton"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Mediengestalter Digital und Print aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Mediengestalter Digital und Print haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-mediengestalter-digital-und-print-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Mediengestalter Digital und Print?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-mediengestalter-digital-und-print"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Mediengestalter Digital und Print?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-mediengestalter-digital-und-print"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Möbeltischler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-m-beltischler"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Möbeltischler?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-m-beltischler"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Pflasterer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-pflasterer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Pflasterer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-pflasterer"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Produktprüfer-Textil aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Produktprüfer-Textil haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-produktpr-fer-textil-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Produktprüfer-Textil?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-produktpr-fer-textil"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Produktprüfer-Textil?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-produktpr-fer-textil"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Sport- und Fitnesskaufmann aus dem Jahr 2008?",
+    "expected_output": "Ja. Zu dem Beruf Sport- und Fitnesskaufmann haben wir Dokumente aus dem Jahr 2008.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-sport-und-fitnesskaufmann-2008"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Sport- und Fitnesskaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-sport-und-fitnesskaufmann"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Sport- und Fitnesskaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-sport-und-fitnesskaufmann"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Stellmacher?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-stellmacher"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Stellmacher?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-stellmacher"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Versicherungskaufmann aus dem Jahr 1997?",
+    "expected_output": "Ja. Zu dem Beruf Versicherungskaufmann haben wir Dokumente aus dem Jahr 1997.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-versicherungskaufmann-1997"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Versicherungskaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-versicherungskaufmann"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Versicherungskaufmann?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-versicherungskaufmann"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Werkstoffprüfer aus dem Jahr 1997?",
+    "expected_output": "Ja. Zu dem Beruf Werkstoffprüfer haben wir Dokumente aus dem Jahr 1997.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-werkstoffpr-fer-1997"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Werkstoffprüfer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-werkstoffpr-fer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Werkstoffprüfer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-werkstoffpr-fer"
+  },
+  {
+    "input": "Habt ihr etwas zum Beruf Zimmerer aus dem Jahr 1949?",
+    "expected_output": "Ja. Zu dem Beruf Zimmerer haben wir Dokumente aus dem Jahr 1949.",
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-02-year-zimmerer-1949"
+  },
+  {
+    "input": "Wie sind die Ausbildungsinhalte des Berufs Zimmerer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-05-content-zimmerer"
+  },
+  {
+    "input": "Welche Ausbildungsdauer hat der Beruf Zimmerer?",
+    "expected_output": null,
+    "context": [],
+    "expect_decline": false,
+    "name": "bibb-09-duration-zimmerer"
+  }
+]
