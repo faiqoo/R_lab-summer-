@@ -98,7 +98,7 @@ def main() -> None:
 
     args = parser.parse_args()
     settings = Settings()
-    setup_logging(settings.log_level)
+    setup_logging(settings.log_level, service_name="snapshot")
 
     if args.cmd == "export":
         asyncio.run(export(settings, args.out))

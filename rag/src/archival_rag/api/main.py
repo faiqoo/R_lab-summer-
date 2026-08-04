@@ -62,7 +62,7 @@ async def _ensure_collection(app: FastAPI) -> None:
 @asynccontextmanager
 async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
     settings = Settings()
-    setup_logging(settings.log_level)
+    setup_logging(settings.log_level, service_name="ragsvc")
     app.state.settings = settings
 
     searcher = HybridSearcher(settings)
