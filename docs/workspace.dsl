@@ -46,16 +46,16 @@ workspace "Islandora RAG Chatbot" "C4 model for the LLM-based chatbot extension 
             }
 
             group "RAG Extension" {
-                embed = container "Embedding Service" "Stateless service: turns text into an embedding vector and returns it to the caller." "e.g. sentence-transformers" {
+                embed = container "Embedding Service" "Stateless service: turns text into a dense (bge-m3) embedding vector on the VM's GPU and returns it to the caller. Sparse BM25 encoding runs locally inside ragsvc (fastembed, CPU-only, no server needed)." "FastAPI / sentence-transformers" {
                     tags "New"
                 }
-                vectordb = container "Vector Database" "Stores embedding vectors and chunk metadata; serves dense + hybrid (BM25) similarity search." "Qdrant" {
+                vectordb = container "Vector Database" "Stores dense + sparse vectors and chunk metadata; serves hybrid (dense+BM25, RRF-fused) similarity search." "Qdrant" {
                     tags "Database" "New"
                 }
-                llm = container "LLM Service" "Generates answers from augmented prompts via the HAWKI university LLM gateway." "HAWKI API (LangChain)" {
+                llm = container "LLM Service" "Generates answers, rewrites follow-up queries, and (offline) judges/synthesizes eval data via the HAWKI university LLM gateway. Reached directly over HTTPS — no VPN needed." "HAWKI API (LangChain)" {
                     tags "New"
                 }
-                ragsvc = container "RAG Chatbot Service" "Orchestrates the query path: embeds the question, retrieves chunks, builds the augmented prompt, and calls the LLM." "e.g. FastAPI / Python" {
+                ragsvc = container "RAG Chatbot Service (ragsvc)" "The one HTTP surface Drupal calls: /chat, /chat/stream (query path) and /ingest, /ingest/async, /status/{id} (indexing path, called by Node-RED, not by Drupal). Embeds the question, retrieves chunks, builds the augmented prompt, calls the LLM." "FastAPI / Python (LangGraph)" {
                     tags "New"
                 }
             }
@@ -83,15 +83,49 @@ workspace "Islandora RAG Chatbot" "C4 model for the LLM-based chatbot extension 
         islandora.alpaca -> islandora.crayfish "Requests OCR / thumbnails / audio" "HTTP"
         islandora.crayfish -> islandora.drupal "Posts derivatives (OCR text, thumbnails)" "HTTP"
 
-        # ── RAG indexing path (Node-RED orchestrates the write) ────
-        islandora.nodered -> islandora.embed "Sends extracted text, receives embedding vector" "HTTP / JSON"
-        islandora.nodered -> islandora.vectordb "Stores embedding + chunk metadata"
+        # ── RAG indexing path (Node-RED uploads the PDF; ragsvc does the
+        # chunk/embed/upsert work — Node-RED never calls embed/vectordb
+        # directly) ─────────────────────────────────────────────────
+        islandora.nodered -> islandora.ragsvc "Uploads PDF for indexing" "HTTP POST /ingest"
+        islandora.ragsvc -> islandora.embed "Sends chunk text, receives dense embedding vector" "HTTP / JSON"
+        islandora.ragsvc -> islandora.vectordb "Upserts dense + sparse vectors + chunk metadata"
 
         # ── RAG query path (RAG Chatbot Service orchestrates) ──────
-        islandora.drupal.chatUI -> islandora.ragsvc "Forwards user question, receives answer" "HTTP / JSON"
-        islandora.ragsvc -> islandora.embed "Sends query text, receives embedding vector" "HTTP / JSON"
-        islandora.ragsvc -> islandora.vectordb "Similarity search for top-k chunks"
-        islandora.ragsvc -> islandora.llm "Sends augmented prompt, receives generated answer" "HTTP"
+        islandora.drupal.chatUI -> islandora.ragsvc "Forwards user question, receives answer" "HTTP POST /chat"
+        islandora.ragsvc -> islandora.embed "Sends query text, receives dense embedding vector" "HTTP / JSON"
+        islandora.ragsvc -> islandora.vectordb "Hybrid (dense+BM25) similarity search for top-k chunks"
+        islandora.ragsvc -> islandora.llm "Sends augmented prompt, receives generated answer" "HTTPS"
+
+        # ── Physical deployment: what runs where ───────────────────
+        deploymentEnvironment "Development" {
+            deploymentNode "Developer Laptop / isle-dc" "Docker Compose stack. Also runs dev tooling (search_repl, eval harness) that reaches the VM over the same SSH tunnel Node-RED uses." "macOS + Docker" {
+                containerInstance islandora.drupal
+                containerInstance islandora.activemq
+                containerInstance islandora.nodered
+                containerInstance islandora.alpaca
+                containerInstance islandora.bentoml
+                containerInstance islandora.crayfish
+                containerInstance islandora.existdb
+                containerInstance islandora.mariadb
+                containerInstance islandora.fcrepo
+            }
+
+            deploymentNode "University GPU VM" "Reachable from the laptop only via SSH tunnel over the uni VPN — the VM firewall allows SSH inbound only. Drupal cannot call ragsvc directly until university IT opens port 8000 for Drupal's actual origin." "Rootless podman + systemd --user" {
+                deploymentNode "qdrant.service" "systemd-managed, bare process" {
+                    containerInstance islandora.vectordb
+                }
+                deploymentNode "embedsvc.service" "systemd-managed, bare process, uses the VM's GPU" {
+                    containerInstance islandora.embed
+                }
+                deploymentNode "ragsvc.service" "systemd-managed podman container, --network host" {
+                    containerInstance islandora.ragsvc
+                }
+            }
+
+            deploymentNode "HAWKI Gateway" "chat.edu-ki-rlp.de — university-hosted, public HTTPS. Reached directly; no VPN/tunnel needed." "External" {
+                containerInstance islandora.llm
+            }
+        }
     }
 
     views {
@@ -107,6 +141,11 @@ workspace "Islandora RAG Chatbot" "C4 model for the LLM-based chatbot extension 
 
         component islandora.drupal "DrupalComponents" "The new Chatbot UI component added to Drupal." {
             include islandora.drupal.chatUI
+            autolayout lr
+        }
+
+        deployment islandora "Development" "Deployment" "What runs where, and how the pieces communicate across the laptop / GPU VM / HAWKI boundary." {
+            include *
             autolayout lr
         }
 

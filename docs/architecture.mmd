@@ -1,0 +1,71 @@
+%% Islandora RAG Chatbot — deployment + data-flow architecture
+%% Mirrors docs/workspace.dsl (Structurizr C4 model + deployment view).
+%% Render: https://mermaid.live, GitHub/GitLab markdown, or `mmdc -i architecture.mmd -o architecture.svg`
+
+flowchart TB
+    user(["Researcher / User"])
+
+    subgraph LAPTOP["💻 Developer Laptop / isle-dc (Docker Compose)"]
+        direction TB
+        drupal["Drupal\n(repository + Chatbot UI module)"]
+        activemq{{"ActiveMQ\n(message broker)"}}
+        nodered["Node-RED\n(event orchestrator)"]
+        alpaca["Alpaca\n(routes events → Crayfish)"]
+        bentoml["BentoML\n(TEI XML derivatives, amd64/Rosetta)"]
+        crayfish["Crayfish Services\n(OCR, thumbnails, audio)"]
+        existdb[("eXistdb\n(TEI XML)")]
+        mariadb[("MariaDB\n(content metadata)")]
+        fcrepo[("Fedora / FCRepo\n(binaries)")]
+    end
+
+    subgraph VM["🖥️ University GPU VM — rootless podman + systemd --user\n⚠️ firewall: SSH inbound only"]
+        direction TB
+        ragsvc["ragsvc\n(FastAPI + LangGraph)\n/chat /chat/stream /ingest /ingest/async /status /health"]
+        embedsvc["Embedding Service\n(bge-m3 dense, GPU)"]
+        qdrant[("Qdrant\n(dense + sparse BM25, RRF hybrid search)")]
+    end
+
+    subgraph HAWKI_BOX["🌐 HAWKI Gateway (chat.edu-ki-rlp.de) — external, public HTTPS"]
+        hawki["LLM Service\n(qwen3-30b-a3b-instruct-2507, etc.)"]
+    end
+
+    %% ── User-facing ─────────────────────────────────────────
+    user -- "HTTPS: browse, upload, ask questions" --> drupal
+
+    %% ── Drupal → storage ────────────────────────────────────
+    drupal -- "stores TEI XML" --> existdb
+    drupal -- "stores metadata" --> mariadb
+    drupal -- "stores binaries" --> fcrepo
+
+    %% ── Async event messaging (dashed = STOMP) ──────────────
+    drupal -. "STOMP: media-created event" .-> activemq
+    activemq -. "STOMP" .-> nodered
+    activemq -. "STOMP" .-> alpaca
+
+    %% ── Derivative generation ───────────────────────────────
+    nodered -- "HTTP: request TEI XML" --> bentoml
+    bentoml -- "HTTP: posts derivative" --> drupal
+    alpaca -- "HTTP: request OCR/thumbnail/audio" --> crayfish
+    crayfish -- "HTTP: posts derivatives" --> drupal
+
+    %% ── Indexing path (Node-RED → ragsvc, over the SSH tunnel) ──
+    nodered == "HTTP POST /ingest (multipart PDF)\nvia SSH tunnel / uni VPN" ==> ragsvc
+    ragsvc -- "HTTP: chunk text → dense vector" --> embedsvc
+    ragsvc -- "upsert dense+sparse vectors" --> qdrant
+
+    %% ── Query path (Drupal chatbot → ragsvc) ────────────────
+    drupal == "HTTP POST /chat, /chat/stream\n❌ blocked until firewall opens port 8000\n✅ works today via SSH tunnel (dev only)" ==> ragsvc
+    ragsvc -- "HTTP: query text → dense vector" --> embedsvc
+    ragsvc -- "hybrid search: top-k chunks" --> qdrant
+    ragsvc == "HTTPS: augmented prompt → answer\n(also: query rewriting, eval judge/synth)" ==> hawki
+
+    classDef laptop fill:#438dd5,color:#fff,stroke:#2a5d8f
+    classDef vm fill:#28a745,color:#fff,stroke:#1e7e34
+    classDef external fill:#f0ad4e,color:#000,stroke:#c98a2e
+    classDef store fill:#6c757d,color:#fff,stroke:#495057
+
+    class drupal,activemq,nodered,alpaca,bentoml,crayfish laptop
+    class existdb,mariadb,fcrepo store
+    class ragsvc,embedsvc vm
+    class qdrant store
+    class hawki external

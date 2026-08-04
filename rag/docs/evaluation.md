@@ -60,9 +60,9 @@ time. Run it as a background/overnight job for the full dataset; use
 
 Reports are written to `rag/eval_runs/<timestamp>.json` (gitignored — these
 are run artifacts, not source). Console output breaks scores down by
-**anchor** (hand-curated, human-reviewed — the trustworthy signal) vs.
-**synthesized** (LLM-generated from real chunks — broader coverage, noisier)
-separately. Don't average the two together.
+**anchor** (hand-curated, human-reviewed — the trustworthy signal),
+**synthesized** (LLM-generated from real chunks — broader coverage, noisier),
+and **bibb** (below) separately. Don't average them together.
 
 ## The golden dataset
 
@@ -99,6 +99,54 @@ separately. Don't average the two together.
   uv run --group eval --env-file .env python -m archival_rag.evaluation.harness \
     synthesize --n-groups 400 --chunks-per-group 4
   ```
+
+- `tests/eval_data/goldens_bibb.json` — 106 goldens instantiated from a real
+  question/occupation handoff BIBB (the archive's supervising body) gave
+  Pravina in 2026 (`2026-01-29 Fragen Chatbot_ Rückfragen TR.xlsx` +
+  `2026-03-02 Berufe Chatbot bereinigt.xlsx`). BIBB supplied template
+  questions with placeholders (`BERUFSBEZEICHNUNG`, `ERSCHEINUNGSJAHR` /
+  `ERLASSDATUM` / `INKRAFTTRETENSDATUM`) plus a separate table of real
+  documents to fill them with. Only templates BIBB's own questions were
+  actually answerable by *this* system were instantiated:
+  - Documents-from-year(s) X — the placeholder is filled using the same
+    Erlassdatum > Inkrafttreten > Erscheinungsjahr precedence BIBB specified
+    (see "Year extraction precedence" below), including dual-year variants
+    ("... aus den Jahren 1980 und 1982?") for occupations with 2+ dated
+    editions.
+  - Training content / training duration per occupation — `expected_output`
+    left unset (BIBB's own template had no filled example to build ground
+    truth from); graded on answer relevancy/faithfulness against live
+    retrieval instead of exact match.
+  - "What is an Anlernberuf?" — a single ready-made golden, no placeholder.
+
+  Only occupations from BIBB's list confirmed present in the live Qdrant
+  collection were used (33 of 52 named occupations matched at generation
+  time — the rest either aren't ingested yet or are named differently).
+
+  **Deliberately excluded, not just deprioritized:**
+  - BIBB's own `zurückgestellt` ("postponed") sheet, and template #6 (DDR
+    occupation-name mapping) — both explicitly need Genealogien/
+    Entsprechungslisten data we don't have.
+  - Templates #8/#11 (abolition date) — no `Aufhebungsdatum` field exists in
+    BIBB's document table, and #8 had no filled reference example.
+  - **Templates #1, #13, #14, #15 — all ask for an exact document *count***
+    ("how many documents do you have for X", "how many in total", "how many
+    digitally"). This is a real capability gap, not a data gap: `/chat` only
+    ever retrieves the top-`k` chunks and generates from them — it has no
+    path to count matching documents, and never will unless a separate
+    structured-query endpoint is added. Writing goldens for these would test
+    a feature that doesn't exist.
+
+## Year extraction precedence
+
+BIBB's stated rule when a document carries multiple dates: **Erlassdatum
+(decree date) > Inkrafttreten (effective date) > Erscheinungsjahr/Stand
+(publication year)**. `_extract_year()` in `ingestion/ingest.py` implements
+exactly this — first an explicit "vom `<date>`" decree phrase, then "tritt
+... in Kraft" / "in Kraft getreten am `<date>`", then any bare 4-digit year
+as a last resort. This is what makes goldens like "Habt ihr etwas zum Beruf
+Maurer aus dem Jahr 1985?" answerable with the *correct* year rather than
+whichever date happens to appear first in the text.
 
 Each golden × each of the 5 metrics can fan out into 10-20+ underlying judge
 calls (faithfulness does claim-extraction + per-claim verification;
