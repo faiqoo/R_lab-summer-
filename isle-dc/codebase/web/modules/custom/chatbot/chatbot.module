@@ -1,4 +1,6 @@
 <?php
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\media\MediaInterface;
 
 /**
  * Implements hook_theme().
@@ -11,3 +13,48 @@ function chatbot_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
+
+
+/**
+ * React when a new entity is created.
+ */
+
+function chatbot_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+
+    \Drupal::logger('chatbot')->notice('HOOK FIRED');
+
+    if ($entity->getEntityTypeId() !== 'media') {
+        return;
+    }
+
+    if ($entity->bundle() !== 'document') {
+        return;
+    }
+
+    $file = $entity->get('field_media_document')->entity;
+    if (!$file) {
+  return;
+}
+
+$stream = fopen($file->getFileUri(), 'r');
+
+$client = \Drupal::httpClient();
+$response = $client->post(
+    'http://host.docker.internal:8000/ingest',
+    [
+        'headers' => [
+            'X-Api-Key' => '4f5d40713235afe302297da1c9c310d5',
+        ],
+        'timeout' => 120,
+        'connect_timeout' => 10,
+        'multipart' => [
+            [
+                'name' => 'files',
+                'contents' => $stream,
+                'filename' => $file->getFilename(),
+            ],
+        ],
+    ]
+);
+}
+    
