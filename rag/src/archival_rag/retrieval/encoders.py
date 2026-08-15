@@ -52,7 +52,11 @@ def load_dense_encoder(settings: Settings) -> DenseEncoder:
             if settings.embedding_api_key
             else None
         )
-        return EmbeddingServiceClient(settings.embedding_api_url, api_key=api_key)
+        return EmbeddingServiceClient(
+            settings.embedding_api_url,
+            api_key=api_key,
+            timeout=settings.embedding_timeout,
+        )
     return load_local_dense_encoder(settings)
 
 
