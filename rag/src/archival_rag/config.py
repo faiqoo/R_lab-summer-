@@ -38,6 +38,13 @@ class Settings(BaseSettings):
     # Shared secret for the embedding service. Set the same value on the
     # server (checked on /embed) and on clients (sent as X-API-Key).
     embedding_api_key: SecretStr | None = None
+    # httpx client timeout for EmbeddingServiceClient. 120s was too tight for
+    # large PDFs during ingestion (2026-08 incident: documents ~5-9x the
+    # typical size timed out — the encode itself was just slow, not stuck).
+    # A single short chat query embeds in well under a second either way, so
+    # raising the ceiling doesn't cost real-time query latency — it only
+    # matters for the slow/large-batch case we want to tolerate better.
+    embedding_timeout: float = 300.0
 
     # --- RAG pipeline ---
     rag_top_k: int = 5

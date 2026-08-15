@@ -21,10 +21,11 @@ class EmbeddingServiceClient:
         base_url: str,
         api_key: str | None = None,
         client: httpx.Client | None = None,
+        timeout: float = 120.0,
     ) -> None:
         headers = {"X-API-Key": api_key} if api_key else {}
         self._client = client or httpx.Client(
-            base_url=base_url.rstrip("/"), timeout=120.0, headers=headers
+            base_url=base_url.rstrip("/"), timeout=timeout, headers=headers
         )
         self._dim: int | None = None
 
