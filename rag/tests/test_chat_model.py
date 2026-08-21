@@ -168,6 +168,29 @@ class TestStructuredOutput:
         assert result.value == "Paris"
         assert result.confidence == 0.99
 
+    def test_retries_whole_chain_on_empty_response(self, model: ChatHAWKI) -> None:
+        """HAWKI sometimes returns 200 with an empty body under load — that's
+        not a 5xx/transport error, so _post_sync's own retry doesn't cover
+        it, and it fails JSON parsing. with_structured_output must retry the
+        whole chain (re-issuing the request) rather than raise immediately.
+        """
+        from pydantic import BaseModel
+
+        class Answer(BaseModel):
+            value: str
+
+        with patch("archival_rag.llm.client.httpx.post") as mock_post:
+            mock_post.side_effect = [
+                _make_response(""),
+                _make_response('{"value": "Paris"}'),
+            ]
+            structured = model.with_structured_output(Answer)
+            result = structured.invoke([HumanMessage(content="Capital of France?")])
+
+        assert isinstance(result, Answer)
+        assert result.value == "Paris"
+        assert mock_post.call_count == 2
+
 
 class TestAGenerate:
     @pytest.mark.asyncio

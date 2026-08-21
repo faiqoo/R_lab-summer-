@@ -134,14 +134,32 @@ async def evaluate_rag(
     metric_passes: dict[str, list[bool]] = {}
 
     if test_cases:
-        eval_result = run_deepeval(
-            test_cases=test_cases,
-            metrics=metrics,
-            async_config=AsyncConfig(max_concurrent=settings.rag_eval_max_concurrent),
-            display_config=DisplayConfig(
-                print_results=False, show_indicator=False, inspect_after_run=False
+        # deepeval's evaluate() is a sync function that internally drives its
+        # own asyncio event loop (loop.run_until_complete(...)). Calling it
+        # directly from here — already inside evaluate_rag's running loop —
+        # forces deepeval down its nest_asyncio-patched reentrant-loop path.
+        # That doesn't raise, but under real load (828 test cases in
+        # practice) it silently completed only ~30 before returning, with no
+        # error at all — the rest vanished from test_results with nothing in
+        # the log to explain it. Running it in a plain thread via
+        # run_in_executor gives it a fresh thread with no event loop of its
+        # own running, so it takes the normal non-nested code path instead.
+        loop = asyncio.get_running_loop()
+        eval_result = await loop.run_in_executor(
+            None,
+            lambda: run_deepeval(
+                test_cases=test_cases,
+                metrics=metrics,
+                async_config=AsyncConfig(
+                    max_concurrent=settings.rag_eval_max_concurrent
+                ),
+                display_config=DisplayConfig(
+                    print_results=False, show_indicator=False, inspect_after_run=False
+                ),
+                error_config=ErrorConfig(
+                    ignore_errors=True, skip_on_missing_params=True
+                ),
             ),
-            error_config=ErrorConfig(ignore_errors=True, skip_on_missing_params=True),
         )
         for golden, test_result in zip(case_meta, eval_result.test_results):
             scores: dict[str, float] = {}
