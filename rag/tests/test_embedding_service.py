@@ -85,6 +85,31 @@ def test_load_dense_encoder_dispatches_to_remote() -> None:
     assert isinstance(load_dense_encoder(settings), EmbeddingServiceClient)
 
 
+def test_remote_encoder_retries_transient_disconnect() -> None:
+    """A dropped connection (e.g. the SSH tunnel to the GPU VM hiccuping)
+    must be retried, not crash the caller — see embedding_client.py's
+    2026-08-21 note: this had no retry at all before, unlike the HAWKI
+    client, and a single transient disconnect killed a multi-hour eval run.
+    """
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise httpx.RemoteProtocolError("Server disconnected")
+        return httpx.Response(200, json={"embeddings": [[0.1, 0.2, 0.3]]})
+
+    client = httpx.Client(
+        base_url="http://testserver", transport=httpx.MockTransport(handler)
+    )
+    enc = EmbeddingServiceClient("http://testserver", client=client)
+
+    vector = enc.encode("ein text")
+
+    assert vector.tolist() == pytest.approx([0.1, 0.2, 0.3])
+    assert calls["n"] == 2
+
+
 def test_embed_rejects_oversized_batch(service_client: TestClient) -> None:
     with service_client as client:
         resp = client.post("/embed", json={"inputs": ["x"] * 257})

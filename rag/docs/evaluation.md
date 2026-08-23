@@ -49,14 +49,26 @@ make eval
 make eval-compare BASELINE=eval_runs/2026-07-20T10-00-00.json CANDIDATE=eval_runs/2026-07-28T09-00-00.json
 ```
 
-**Timing at the 500-golden scale**: RAG generation runs with
-`rag_eval_max_concurrent` (default 4) concurrent `aquery()` calls; at ~2-3s
-per call that's roughly 500/4 × 2.5s ≈ 5 minutes for generation, plus
-deepeval's own metric-judging phase at the same concurrency (5 metrics ×
-10-20+ judge calls each ≈ thousands of HAWKI calls) — expect a full run to
-take from tens of minutes to a few hours depending on HAWKI's load at the
-time. Run it as a background/overnight job for the full dataset; use
-`--limit N` for anything you need back quickly.
+**Timing at the ~1000-golden scale**: RAG generation runs with
+`rag_eval_max_concurrent` (default 4) concurrent `aquery()` calls — roughly
+20-25 minutes for the full dataset. Then deepeval's own metric-judging phase
+runs at the same concurrency (5 metrics × 10-20+ judge calls each ≈
+thousands of HAWKI calls) — expect this phase alone to take from tens of
+minutes to a few hours depending on HAWKI's load. Run it as a
+background/overnight job for the full dataset; use `--limit N` for anything
+you need back quickly.
+
+**Progress and crash recovery**: `run` logs progress every 50 goldens during
+generation and after every batch of 50 during judging (loguru, same stderr +
+dated-file logging as everything else — see `rag/logs/`), since deepeval's
+own progress indicator is disabled (it doesn't play well with a redirected/
+`nohup`'d log). Progress is also checkpointed incrementally to
+`eval_runs/.checkpoint.json` — if the process crashes (a dropped tunnel, a
+HAWKI outage) partway through, just re-run `make eval`; it resumes from the
+checkpoint instead of starting over, skipping already-generated answers and
+already-scored metrics. The checkpoint is deleted automatically on a
+successful full run. Use `make eval ARGS="--fresh"` to discard an existing
+checkpoint and start over deliberately.
 
 Reports are written to `rag/eval_runs/<timestamp>.json` (gitignored — these
 are run artifacts, not source). Console output breaks scores down by
@@ -177,6 +189,8 @@ signal.
 | Run takes a long time / times out | Lower `--limit`, or check HAWKI isn't under load — this is a shared endpoint |
 | Metric scores all `None`/errors | `error_config` swallows per-metric failures (`skip_on_missing_params`) rather than aborting the batch — check the `reason` field in the saved report JSON for the actual cause |
 | `make eval-dataset` produces 0 goldens | Qdrant collection is empty or unreachable — check the tunnel (`docs/gpu-vm-services.md`) |
+| Run crashed (tunnel drop, HAWKI outage) | Just re-run `make eval` — it resumes from `eval_runs/.checkpoint.json` automatically |
+| Want to discard a stale checkpoint and start clean | `make eval ARGS="--fresh"`, or just delete `eval_runs/.checkpoint.json` |
 
 ## Rules
 

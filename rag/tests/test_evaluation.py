@@ -143,6 +143,114 @@ async def test_limit_truncates_goldens(monkeypatch: pytest.MonkeyPatch) -> None:
     assert len(fake_rag.calls) == 2
 
 
+def _fake_metric_data(name: str, score: float, success: bool) -> Any:
+    from types import SimpleNamespace
+
+    return SimpleNamespace(name=name, score=score, success=success, reason="why")
+
+
+async def test_checkpoint_written_during_run_and_cleared_on_success(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    checkpoint_path = tmp_path / ".checkpoint.json"
+    goldens = [EvalGolden(input="q1"), EvalGolden(input="q2")]
+    fake_rag = FakeRAG({"q1": _answered("c1"), "q2": _answered("c2")})
+    monkeypatch.setattr(harness_mod, "RAGComponents", lambda settings: fake_rag)
+    monkeypatch.setattr(harness_mod, "HAWKIEvalModel", FakeHAWKIEvalModel)
+
+    def fake_run_deepeval(**kwargs: Any) -> Any:
+        results = [
+            type(
+                "R",
+                (),
+                {
+                    "success": True,
+                    "metrics_data": [_fake_metric_data("Answer Relevancy", 0.9, True)],
+                },
+            )()
+            for _ in kwargs["test_cases"]
+        ]
+        return type("Res", (), {"test_results": results})()
+
+    monkeypatch.setattr(harness_mod, "run_deepeval", fake_run_deepeval)
+
+    report = await harness_mod.evaluate_rag(
+        _settings(), goldens, metrics=[], checkpoint_path=checkpoint_path
+    )
+
+    assert report.guard_accuracy.true_negative == 2
+    assert len(report.golden_results) == 2
+    # Cleared on full success — a later run shouldn't silently resume stale
+    # cached results from a completed run.
+    assert not checkpoint_path.exists()
+
+
+async def test_resumes_from_checkpoint_skips_already_processed(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    checkpoint_path = tmp_path / ".checkpoint.json"
+    checkpoint_path.write_text(
+        json.dumps(
+            {
+                "generated": {
+                    "q1": {
+                        "answer": "cached answer",
+                        "declined": False,
+                        "retrieved_texts": ["c1"],
+                    }
+                },
+                "scored": {
+                    "q1": {
+                        "success": True,
+                        "scores": {"Answer Relevancy": 0.8},
+                        "reasons": {},
+                        "passes": {"Answer Relevancy": True},
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    goldens = [EvalGolden(input="q1"), EvalGolden(input="q2")]
+    # Only q2 is in the fake RAG's canned results — if q1 got re-queried
+    # (i.e. resume didn't skip it), this raises KeyError and the test fails.
+    fake_rag = FakeRAG({"q2": _answered("c2")})
+    monkeypatch.setattr(harness_mod, "RAGComponents", lambda settings: fake_rag)
+    monkeypatch.setattr(harness_mod, "HAWKIEvalModel", FakeHAWKIEvalModel)
+
+    judged_inputs: list[str] = []
+
+    def fake_run_deepeval(**kwargs: Any) -> Any:
+        judged_inputs.extend(tc.input for tc in kwargs["test_cases"])
+        results = [
+            type(
+                "R",
+                (),
+                {
+                    "success": True,
+                    "metrics_data": [_fake_metric_data("Answer Relevancy", 0.7, True)],
+                },
+            )()
+            for _ in kwargs["test_cases"]
+        ]
+        return type("Res", (), {"test_results": results})()
+
+    monkeypatch.setattr(harness_mod, "run_deepeval", fake_run_deepeval)
+
+    report = await harness_mod.evaluate_rag(
+        _settings(), goldens, metrics=[], checkpoint_path=checkpoint_path
+    )
+
+    assert fake_rag.calls == ["q2"]  # q1 skipped, only q2 actually queried
+    assert judged_inputs == ["q2"]  # q1's cached score reused, not rejudged
+    assert report.guard_accuracy.true_negative == 2
+    assert len(report.golden_results) == 2
+    scores_by_input = {
+        r.input: r.scores["Answer Relevancy"] for r in report.golden_results
+    }
+    assert scores_by_input == {"q1": 0.8, "q2": 0.7}
+
+
 def test_dataset_load_merges_anchor_and_synthesized(tmp_path: Path) -> None:
     anchor = tmp_path / "anchor.json"
     synth = tmp_path / "synth.json"

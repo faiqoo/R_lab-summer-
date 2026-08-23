@@ -72,6 +72,10 @@ class GoldenResult:
     success: bool
     scores: dict[str, float] = field(default_factory=dict)
     reasons: dict[str, str] = field(default_factory=dict)
+    # Per-metric pass/fail (deepeval's own per-metric threshold check) — kept
+    # alongside scores so a resumed run's cached results can rebuild
+    # MetricSummary.pass_rate without re-querying deepeval.
+    passes: dict[str, bool] = field(default_factory=dict)
 
 
 @dataclass

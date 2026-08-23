@@ -9,6 +9,7 @@ from langchain_core.callbacks import (
     AsyncCallbackManagerForLLMRun,
     CallbackManagerForLLMRun,
 )
+from langchain_core.exceptions import OutputParserException
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 from langchain_core.output_parsers import JsonOutputParser, PydanticOutputParser
@@ -140,11 +141,23 @@ class ChatHAWKI(HAWKIClientMixin, BaseChatModel):
             text = str(getattr(message, "content", message))
             return _extract_json_object(text) or text
 
-        return (
+        chain = (
             RunnableLambda(_inject_instructions)
             | self
             | RunnableLambda(_clean)
             | output_parser
+        )
+        # Under real concurrent load HAWKI sometimes returns a 200 with an
+        # empty body instead of an error — _post_sync/_post_async's own
+        # retry only covers 5xx/transport failures, so an empty-but-200
+        # response passes straight through and fails JSON parsing here.
+        # Confirmed live 2026-08-21: this was silently tanking most of an
+        # eval run's metric scores (deepeval swallows the resulting
+        # OutputParserException with no visible error). Retrying the whole
+        # chain re-issues the request, which is what actually recovers.
+        return chain.with_retry(
+            retry_if_exception_type=(OutputParserException,),
+            stop_after_attempt=4,
         )
 
     async def _agenerate(
