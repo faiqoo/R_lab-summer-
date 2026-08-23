@@ -15,7 +15,7 @@ Get `HAWKI_TOKEN` from [chat.edu-ki-rlp.de](https://chat.edu-ki-rlp.de) → Prof
 
 ## Ingestion
 
-Chunk PDFs, embed with `BAAI/bge-m3`, and upsert into Qdrant.
+Chunk documents (`.pdf` and `.txt` — RS.IG0020), embed with `BAAI/bge-m3`, and upsert into Qdrant.
 
 ```bash
 make ingest-recreate                          # full ingest (drops + rebuilds collection)

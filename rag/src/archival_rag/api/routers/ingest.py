@@ -34,7 +34,11 @@ from archival_rag.api.schemas import (
     JobStatusResponse,
 )
 from archival_rag.api.storage import discard_upload, save_upload
-from archival_rag.ingestion.ingest import chunk_pdf, embed_and_build_points
+from archival_rag.ingestion.ingest import (
+    _SUPPORTED_SUFFIXES,
+    chunk_document,
+    embed_and_build_points,
+)
 
 _MAX_FILES_PER_REQUEST = 50
 
@@ -42,10 +46,10 @@ router = APIRouter(tags=["ingest"], dependencies=[Depends(require_api_key)])
 
 
 async def _process_pdf(state: Any, pdf_path: Path) -> int:
-    """Chunk + embed one saved PDF and upsert it. Returns the chunk count."""
+    """Chunk + embed one saved document and upsert it. Returns chunk count."""
     loop = asyncio.get_running_loop()
     async with state.lock:
-        chunks = await loop.run_in_executor(None, chunk_pdf, pdf_path)
+        chunks = await loop.run_in_executor(None, chunk_document, pdf_path)
         if not chunks:
             return 0
         points = await loop.run_in_executor(
@@ -59,7 +63,7 @@ async def _process_pdf(state: Any, pdf_path: Path) -> int:
 
 @router.post("/ingest")
 async def ingest(files: list[UploadFile], request: Request) -> IngestResponse:
-    """Upload PDFs (multipart) and index them into the vector collection.
+    """Upload PDFs or .txt files (multipart) and index them.
 
     Re-uploading a file with the same name overwrites its previous chunks
     (deterministic IDs) instead of duplicating them.
@@ -76,9 +80,9 @@ async def ingest(files: list[UploadFile], request: Request) -> IngestResponse:
 
     for upload in files:
         name = upload.filename or "upload.pdf"
-        if not name.lower().endswith(".pdf"):
+        if Path(name).suffix.lower() not in _SUPPORTED_SUFFIXES:
             results.append(
-                FileResult(file=name, status="error", detail="not a .pdf file")
+                FileResult(file=name, status="error", detail="not a .pdf or .txt file")
             )
             continue
         pdf_path = await save_upload(upload)
@@ -120,7 +124,7 @@ async def ingest_async(
     request: Request,
     background_tasks: BackgroundTasks,
 ) -> AsyncIngestResponse:
-    """Accept PDFs and queue them; poll GET /status/{job_id} for outcomes."""
+    """Accept PDFs/.txt files and queue them; poll GET /status/{job_id}."""
     if len(files) > _MAX_FILES_PER_REQUEST:
         raise HTTPException(
             status_code=413,
@@ -132,10 +136,12 @@ async def ingest_async(
     for upload in files:
         name = upload.filename or "upload.pdf"
         job_id = str(uuid.uuid4())
-        if not name.lower().endswith(".pdf"):
+        if Path(name).suffix.lower() not in _SUPPORTED_SUFFIXES:
             jobs.create_job(job_id, name)
             jobs.update_job(
-                job_id, status=jobs.JobStatus.FAILED, error="not a .pdf file"
+                job_id,
+                status=jobs.JobStatus.FAILED,
+                error="not a .pdf or .txt file",
             )
         else:
             jobs.create_job(job_id, name)

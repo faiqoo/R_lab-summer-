@@ -137,15 +137,30 @@ def test_ingest_uploads_and_upserts(client: tuple[TestClient, FakeQdrant]) -> No
     assert payloads[0]["occupation"] == "baecker"
 
 
-def test_ingest_rejects_non_pdf(client: tuple[TestClient, FakeQdrant]) -> None:
+def test_ingest_rejects_unsupported_type(client: tuple[TestClient, FakeQdrant]) -> None:
     test_client, _ = client
     with test_client as c:
         resp = c.post(
             "/ingest",
-            files=[("files", ("notes.txt", io.BytesIO(b"hallo"), "text/plain"))],
+            files=[("files", ("scan.png", io.BytesIO(b"\x89PNG"), "image/png"))],
         )
     assert resp.status_code == 200
     assert resp.json()["results"][0]["status"] == "error"
+
+
+def test_ingest_accepts_txt(client: tuple[TestClient, FakeQdrant]) -> None:
+    """RS.IG0020: plain text is ingestible alongside PDF."""
+    test_client, _ = client
+    body = "§ 1 Ausbildungsberuf\nDie Ausbildung dauert 3 Jahre."
+    with test_client as c:
+        resp = c.post(
+            "/ingest",
+            files=[("files", ("beruf.txt", io.BytesIO(body.encode()), "text/plain"))],
+        )
+    assert resp.status_code == 200
+    result = resp.json()["results"][0]
+    assert result["status"] == "ok"
+    assert result["chunks"] > 0
 
 
 def test_ingest_requires_api_key_when_configured(
@@ -203,14 +218,14 @@ def test_async_ingest_creates_jobs_and_completes(
     assert len(fake_qdrant.upserts) == status["chunks_indexed"]
 
 
-def test_async_ingest_marks_non_pdf_failed(
+def test_async_ingest_marks_unsupported_type_failed(
     client: tuple[TestClient, FakeQdrant],
 ) -> None:
     test_client, _ = client
     with test_client as c:
         resp = c.post(
             "/ingest/async",
-            files=[("files", ("notes.txt", io.BytesIO(b"x"), "text/plain"))],
+            files=[("files", ("scan.png", io.BytesIO(b"\x89PNG"), "image/png"))],
         )
         assert resp.status_code == 202
         job = resp.json()["jobs"][0]
