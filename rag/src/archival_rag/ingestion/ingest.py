@@ -53,6 +53,9 @@ from archival_rag.retrieval.encoders import (
 # without --recreate upserts (overwrites) instead of duplicating points.
 _CHUNK_NS = uuid.UUID("b1a4f3c2-7d8e-4a0b-9c1d-2e5f6a7b8c9d")
 
+# Ingestible file types (RS.IG0020 requires plain text alongside PDF).
+_SUPPORTED_SUFFIXES = {".pdf", ".txt"}
+
 # Matches section headers like "§ 1", "§1", "§ 12"
 _SECTION_RE = re.compile(r"(?m)^\s*§\s*\d+")
 # Matches the Anlage appendix header — handles "Anlage (zu § 5)" and "Anlage zu §" forms
@@ -332,13 +335,31 @@ def _chunk_compilation(
     return chunks
 
 
-def chunk_pdf(path: Path) -> list[Chunk]:
-    """Parse a single PDF and return all chunks."""
+def _read_txt_pages(path: Path) -> list[str]:
+    """Plain-text equivalent of a PDF's per-page text list.
+
+    No layout/column info exists for a .txt file, so there's no column-aware
+    extraction step for it (see chunk_document) — everything downstream just
+    treats the whole file as one page, unless it uses a form-feed (\\f) to
+    mark page breaks, a common plain-text convention we honor if present.
+    """
+    text = path.read_text(encoding="utf-8")
+    pages = text.split("\f")
+    return pages if len(pages) > 1 else [text]
+
+
+def chunk_document(path: Path) -> list[Chunk]:
+    """Parse a single PDF or .txt file and return all chunks."""
     occupation, year = _parse_filename(path)
-    doc = fitz.open(path)
-    # sort=True fixes basic reading order without invoking Tesseract OCR.
-    # The documents already have embedded text layers, so OCR is not needed.
-    plain_texts = [page.get_text(sort=True) for page in doc]
+    is_pdf = path.suffix.lower() == ".pdf"
+    doc = None
+    if is_pdf:
+        doc = fitz.open(path)
+        # sort=True fixes basic reading order without invoking Tesseract OCR.
+        # The documents already have embedded text layers, so OCR is not needed.
+        plain_texts = [page.get_text(sort=True) for page in doc]
+    else:
+        plain_texts = _read_txt_pages(path)
 
     # berufearchiv_N.pdf filenames carry no metadata — extract from text.
     if not occupation:
@@ -355,7 +376,8 @@ def chunk_pdf(path: Path) -> list[Chunk]:
             if _GERMAN_PROFILE_RE.search(pt) and _BERUFSBEZEICHNUNG_RE.search(pt)
         ]
         if len(profile_indices) >= 2:
-            doc.close()
+            if doc is not None:
+                doc.close()
             return _chunk_compilation(plain_texts, profile_indices, year, path.name)
 
     # Find which page the Anlage starts on so we can label chunks correctly.
@@ -365,17 +387,23 @@ def chunk_pdf(path: Path) -> list[Chunk]:
             anlage_start_page = i
             break
 
-    # Prose pages get column-aware extraction (older scans print §-sections in
-    # two newspaper columns); Anlage pages print linearly and keep sort=True.
-    page_texts = [
-        (
-            extract_page_text(doc[i])
-            if anlage_start_page is None or i < anlage_start_page
-            else plain_texts[i]
-        )
-        for i in range(len(plain_texts))
-    ]
-    doc.close()
+    if is_pdf:
+        assert doc is not None
+        # Prose pages get column-aware extraction (older scans print §-sections
+        # in two newspaper columns); Anlage pages print linearly and keep
+        # sort=True.
+        page_texts = [
+            (
+                extract_page_text(doc[i])
+                if anlage_start_page is None or i < anlage_start_page
+                else plain_texts[i]
+            )
+            for i in range(len(plain_texts))
+        ]
+        doc.close()
+    else:
+        # No page layout/columns to reconstruct for plain text.
+        page_texts = plain_texts
 
     # Strip running headers/footers/page numbers detected across pages.
     boilerplate = detect_boilerplate(page_texts)
@@ -441,6 +469,11 @@ def chunk_pdf(path: Path) -> list[Chunk]:
             )
 
     return chunks
+
+
+# Kept so existing callers/imports keep working; .pdf and .txt both route
+# through chunk_document.
+chunk_pdf = chunk_document
 
 
 def _chunk_anlage_rows(
@@ -578,18 +611,22 @@ def ingest_directory(pdf_dir: Path, settings: Settings, recreate: bool = False) 
     client = QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port)
     _ensure_collection(client, settings.qdrant_collection, dim, recreate)
 
-    pdfs = sorted(pdf_dir.glob("*.pdf"))
-    total = len(pdfs)
-    logger.info("Found {} PDFs in {}", total, pdf_dir)
+    docs = sorted(
+        p
+        for p in pdf_dir.iterdir()
+        if p.is_file() and p.suffix.lower() in _SUPPORTED_SUFFIXES
+    )
+    total = len(docs)
+    logger.info("Found {} documents (.pdf/.txt) in {}", total, pdf_dir)
 
     total_chunks = 0
     errors = 0
     no_occupation = 0
     no_year = 0
 
-    for i, pdf_path in enumerate(pdfs, start=1):
+    for i, pdf_path in enumerate(docs, start=1):
         try:
-            chunks = chunk_pdf(pdf_path)
+            chunks = chunk_document(pdf_path)
             if not chunks:
                 logger.debug("{}: skipped (no content)", pdf_path.name)
             else:

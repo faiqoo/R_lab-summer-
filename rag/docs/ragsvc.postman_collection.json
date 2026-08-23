@@ -131,7 +131,7 @@
               "host": ["{{baseUrl}}"],
               "path": ["ingest"]
             },
-            "description": "Upload one or more PDFs (multipart, repeat the `files` key per file, max 50 per request). Chunks, embeds, and upserts into Qdrant, blocking until done — this is what the Node-RED flow calls on new/updated Islandora documents, not something the chat UI touches. Re-uploading a file with the same name overwrites its previous chunks (deterministic IDs)."
+            "description": "Upload one or more documents — `.pdf` or `.txt` (multipart, repeat the `files` key per file, max 50 per request). Chunks, embeds, and upserts into Qdrant, blocking until done — this is what the Node-RED flow calls on new/updated Islandora documents, not something the chat UI touches. Re-uploading a file with the same name overwrites its previous chunks (deterministic IDs)."
           },
           "response": [
             {
