@@ -47,8 +47,9 @@
         })
         .then(response => response.json())
         .then(data => {
-            botDiv.innerText = data.reply;
-        })
+           console.log("Response from Drupal:", data);
+           botDiv.innerText = data.reply;
+          })
         .catch(error => {
             console.error(error);
             botDiv.innerText = "Something went wrong.";

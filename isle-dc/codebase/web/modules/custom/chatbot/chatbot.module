@@ -1,6 +1,6 @@
 <?php
+
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\media\MediaInterface;
 
 /**
  * Implements hook_theme().
@@ -14,47 +14,31 @@ function chatbot_theme($existing, $type, $theme, $path) {
   ];
 }
 
-
 /**
- * React when a new entity is created.
+ * Implements hook_entity_insert().
  */
+function chatbot_entity_insert(EntityInterface $entity) {
 
-function chatbot_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+  // Only react to Media entities.
+  if ($entity->getEntityTypeId() !== 'media') {
+    return;
+  }
 
-    \Drupal::logger('chatbot')->notice('HOOK FIRED');
+  // Only react to Document media.
+  if ($entity->bundle() !== 'document') {
+    return;
+  }
 
-    if ($entity->getEntityTypeId() !== 'media') {
-        return;
-    }
+  // Add the Media entity ID to the queue.
+  $queue = \Drupal::queue('chatbot_document_ingest');
+  $queue->createItem([
+    'media_id' => $entity->id(),
+  ]);
 
-    if ($entity->bundle() !== 'document') {
-        return;
-    }
-
-    $file = $entity->get('field_media_document')->entity;
-    if (!$file) {
-  return;
-}
-
-$stream = fopen($file->getFileUri(), 'r');
-
-$client = \Drupal::httpClient();
-$response = $client->post(
-    'http://host.docker.internal:8000/ingest',
+  \Drupal::logger('chatbot')->notice(
+    'Queued Media ID @id for ingestion.',
     [
-        'headers' => [
-            'X-Api-Key' => '4f5d40713235afe302297da1c9c310d5',
-        ],
-        'timeout' => 120,
-        'connect_timeout' => 10,
-        'multipart' => [
-            [
-                'name' => 'files',
-                'contents' => $stream,
-                'filename' => $file->getFilename(),
-            ],
-        ],
+      '@id' => $entity->id(),
     ]
-);
+  );
 }
-    
