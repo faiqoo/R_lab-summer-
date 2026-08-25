@@ -1305,10 +1305,10 @@ display:
       export_method: batch
       export_batch_size: 1000
       export_limit: 0
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:
@@ -1906,10 +1906,10 @@ display:
       automatic_download: true
       export_method: batch
       export_batch_size: 1000
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:
@@ -2507,10 +2507,10 @@ display:
       automatic_download: true
       export_method: batch
       export_batch_size: 1000
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:
@@ -3108,10 +3108,10 @@ display:
       automatic_download: true
       export_method: batch
       export_batch_size: 1000
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:
@@ -3709,10 +3709,10 @@ display:
       automatic_download: true
       export_method: batch
       export_batch_size: 1000
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:
@@ -4310,10 +4310,10 @@ display:
       automatic_download: true
       export_method: batch
       export_batch_size: 1000
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:
@@ -4911,10 +4911,10 @@ display:
       automatic_download: true
       export_method: batch
       export_batch_size: 1000
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:
@@ -5512,10 +5512,10 @@ display:
       automatic_download: true
       export_method: batch
       export_batch_size: 1000
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: -1
       contexts:

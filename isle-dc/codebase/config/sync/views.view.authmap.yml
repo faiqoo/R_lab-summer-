@@ -349,7 +349,7 @@ display:
           exposed: true
           expose:
             operator_id: authname_op
-            label: 'Authentication name'
+            label: Authentifizierungsname
             description: ''
             use_operator: false
             operator: authname_op

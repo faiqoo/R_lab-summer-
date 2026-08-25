@@ -14,6 +14,7 @@ module:
   block: 0
   block_content: 0
   breakpoint: 0
+  chatbot: 0
   citation_select: 0
   ckeditor5: 0
   coi: 0
