@@ -66,13 +66,15 @@ async def import_(settings: Settings, file: Path) -> None:
     logger.info(
         "Uploading {} ({} MB) to '{}'...", file, file.stat().st_size // 1_000_000, name
     )
+    # Qdrant's upload endpoint only accepts multipart/form-data with the file in a
+    # "snapshot" field; a raw application/octet-stream body is rejected with 415.
     async with httpx.AsyncClient() as client:
-        r = await client.post(
-            f"{base}/collections/{name}/snapshots/upload?priority=snapshot",
-            content=file.read_bytes(),
-            headers={"Content-Type": "application/octet-stream"},
-            timeout=600,
-        )
+        with file.open("rb") as fh:
+            r = await client.post(
+                f"{base}/collections/{name}/snapshots/upload?priority=snapshot",
+                files={"snapshot": (file.name, fh, "application/octet-stream")},
+                timeout=600,
+            )
         r.raise_for_status()
         logger.info("Collection '{}' restored.", name)
         info = (await client.get(f"{base}/collections/{name}")).json()["result"]
