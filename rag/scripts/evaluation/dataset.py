@@ -20,18 +20,18 @@ from deepeval.synthesizer import Synthesizer
 from loguru import logger
 
 from archival_rag.config import Settings
-from archival_rag.evaluation.judge import HAWKIEvalModel
-from archival_rag.evaluation.models import EvalGolden
 from archival_rag.retrieval.search import HybridSearcher
+from scripts.evaluation.judge import HAWKIEvalModel
+from scripts.evaluation.models import EvalGolden
 
 _DEFAULT_ANCHOR_PATH = (
-    Path(__file__).resolve().parents[3] / "tests/eval_data/goldens_anchor.json"
+    Path(__file__).resolve().parents[2] / "tests/eval_data/goldens_anchor.json"
 )
 _DEFAULT_SYNTH_PATH = (
-    Path(__file__).resolve().parents[3] / "tests/eval_data/goldens_synthesized.json"
+    Path(__file__).resolve().parents[2] / "tests/eval_data/goldens_synthesized.json"
 )
 _DEFAULT_BIBB_PATH = (
-    Path(__file__).resolve().parents[3] / "tests/eval_data/goldens_bibb.json"
+    Path(__file__).resolve().parents[2] / "tests/eval_data/goldens_bibb.json"
 )
 
 

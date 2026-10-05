@@ -283,7 +283,7 @@ class RAGComponents:
             for r in results
             if r.payload
         ]
-        # Full retrieved chunk text for archival_rag.evaluation (faithfulness /
+        # Full retrieved chunk text for scripts/evaluation (faithfulness /
         # contextual-* metrics need retrieval_context as list[str]). Populated
         # from the full pre-guard `results`, so it's non-empty even on a
         # decline (a near-miss chunk can score just under rag_min_score) —

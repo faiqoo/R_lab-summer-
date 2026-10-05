@@ -17,10 +17,10 @@ import pytest
 pytest.importorskip("deepeval")
 
 from archival_rag.config import Settings  # noqa: E402
-from archival_rag.evaluation import dataset as dataset_mod  # noqa: E402
-from archival_rag.evaluation import harness as harness_mod  # noqa: E402
-from archival_rag.evaluation.models import EvalGolden  # noqa: E402
 from archival_rag.models import RAGResult  # noqa: E402
+from scripts.evaluation import dataset as dataset_mod  # noqa: E402
+from scripts.evaluation import harness as harness_mod  # noqa: E402
+from scripts.evaluation.models import EvalGolden  # noqa: E402
 
 
 def _settings(**overrides: Any) -> Settings:

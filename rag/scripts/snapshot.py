@@ -2,10 +2,10 @@
 Qdrant collection snapshot export / import.
 
 Export (run once after ingestion, share the .snapshot file with colleagues):
-    uv run python -m archival_rag.ingestion.snapshot export --out chunks.snapshot
+    uv run python scripts/snapshot.py export --out chunks.snapshot
 
 Import (colleagues run this on their machine):
-    uv run python -m archival_rag.ingestion.snapshot import --file chunks.snapshot
+    uv run python scripts/snapshot.py import --file chunks.snapshot
 """
 
 from __future__ import annotations
