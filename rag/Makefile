@@ -20,10 +20,10 @@ test:
 	uv run pytest -v
 
 lint:
-	uv run mypy src/ && uv run ruff check src/ tests/ && uv run black --check src/ tests/
+	uv run mypy src/ scripts/ && uv run ruff check src/ scripts/ tests/ && uv run black --check src/ scripts/ tests/
 
 format:
-	uv run black src/ tests/ && uv run ruff check --fix src/ tests/
+	uv run black src/ scripts/ tests/ && uv run ruff check --fix src/ scripts/ tests/
 
 check: lint test
 
@@ -36,10 +36,10 @@ ingest-recreate:
 	uv run --env-file .env python -m archival_rag.ingestion.ingest --pdf-dir $(PDF_DIR) --recreate
 
 export:
-	uv run --env-file .env python -m archival_rag.ingestion.snapshot export --out $(SNAPSHOT_FILE)
+	uv run --env-file .env python scripts/snapshot.py export --out $(SNAPSHOT_FILE)
 
 import-snapshot:
-	uv run --env-file .env python -m archival_rag.ingestion.snapshot import --file $(SNAPSHOT_FILE)
+	uv run --env-file .env python scripts/snapshot.py import --file $(SNAPSHOT_FILE)
 
 # --- Services ---
 
@@ -100,15 +100,15 @@ flow-test:
 # metrics judged by HAWKI, write a timestamped report to eval_runs/.
 # Cheap smoke check: make eval ARGS="--limit 5"
 eval:
-	uv run --group eval --env-file .env python -m archival_rag.evaluation.harness run $(ARGS)
+	uv run --group eval --env-file .env python -m scripts.evaluation.harness run $(ARGS)
 
 # Regenerate goldens_synthesized.json from the live Qdrant collection.
 # Review the output before committing — synthesized expected_output is
 # LLM-generated and can be wrong.
 eval-dataset:
-	uv run --group eval --env-file .env python -m archival_rag.evaluation.harness synthesize
+	uv run --group eval --env-file .env python -m scripts.evaluation.harness synthesize
 
 # Human-eyeball diff between two eval_runs/*.json reports — not a CI gate.
 # Usage: make eval-compare BASELINE=eval_runs/a.json CANDIDATE=eval_runs/b.json
 eval-compare:
-	uv run --group eval --env-file .env python -m archival_rag.evaluation.harness compare $(BASELINE) $(CANDIDATE)
+	uv run --group eval --env-file .env python -m scripts.evaluation.harness compare $(BASELINE) $(CANDIDATE)

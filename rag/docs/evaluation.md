@@ -6,7 +6,7 @@ answers/context) scored with [deepeval](https://deepeval.com) RAG metrics.
 **Every judge/generation call goes through HAWKI — never OpenAI or any other
 external provider** (data governance: archival data and queries stay on
 EU/university infrastructure). This is enforced by `HAWKIEvalModel`
-(`evaluation/judge.py`), which every metric and the golden synthesizer use.
+(`scripts/evaluation/judge.py`), which every metric and the golden synthesizer use.
 
 ## What gets measured
 
@@ -108,7 +108,7 @@ and **bibb** (below) separately. Don't average them together.
 
   ```bash
   # Go wider than the 500-target default:
-  uv run --group eval --env-file .env python -m archival_rag.evaluation.harness \
+  uv run --group eval --env-file .env python -m scripts.evaluation.harness \
     synthesize --n-groups 400 --chunks-per-group 4
   ```
 

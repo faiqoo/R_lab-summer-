@@ -1,8 +1,8 @@
 """Evaluation harness: run the golden dataset through the real RAG chain,
 score it with deepeval RAG metrics (judged by HAWKI), and report results.
 
-Usage (module: archival_rag.evaluation.harness):
-    uv run --group eval --env-file .env python -m archival_rag.evaluation.harness \\
+Usage (module: scripts.evaluation.harness):
+    uv run --group eval --env-file .env python -m scripts.evaluation.harness \\
         run [--limit N] | synthesize | compare <baseline.json> <candidate.json>
 """
 
@@ -33,18 +33,18 @@ from loguru import logger
 
 from archival_rag.chain import RAGComponents
 from archival_rag.config import Settings
-from archival_rag.evaluation.dataset import load_goldens
-from archival_rag.evaluation.judge import HAWKIEvalModel
-from archival_rag.evaluation.models import (
+from archival_rag.logging_setup import setup_logging
+from scripts.evaluation.dataset import load_goldens
+from scripts.evaluation.judge import HAWKIEvalModel
+from scripts.evaluation.models import (
     EvalGolden,
     EvalReport,
     GoldenResult,
     GuardAccuracy,
     MetricSummary,
 )
-from archival_rag.logging_setup import setup_logging
 
-_REPO_ROOT = Path(__file__).resolve().parents[3]
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_CHECKPOINT_PATH = _REPO_ROOT / "eval_runs" / ".checkpoint.json"
 # Judging is batched (a) so a crash mid-run only loses one batch's worth of
 # work instead of everything since the last checkpoint had no granularity
@@ -468,8 +468,8 @@ def main() -> None:
         path = save_report(report, settings)
         logger.info("Report saved: {}", path)
     elif args.cmd == "synthesize":
-        from archival_rag.evaluation.dataset import synthesize
         from archival_rag.retrieval.search import HybridSearcher
+        from scripts.evaluation.dataset import synthesize
 
         async def _run() -> None:
             searcher = HybridSearcher(settings)

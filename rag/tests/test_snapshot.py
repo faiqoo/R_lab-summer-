@@ -4,7 +4,7 @@ import httpx
 import pytest
 
 from archival_rag.config import Settings
-from archival_rag.ingestion import snapshot
+from scripts import snapshot
 
 
 async def test_import_uploads_snapshot_as_multipart(
