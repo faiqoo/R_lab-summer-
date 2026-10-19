@@ -86,7 +86,7 @@ make import-snapshot SNAPSHOT_FILE=islandora_chunks.snapshot
 | --- | --- |
 | `curl` hangs / connection refused | VPN not connected, or tunnel not running (`make tunnel`) |
 | `401 invalid or missing API key` | `EMBEDDING_API_KEY` missing/wrong in `.env` |
-| Tunnel exits immediately | Another process on local port 8080/16333 — free it first |
+| Tunnel exits immediately | Another process on local port 8000/8080/16333 (e.g. `make api` on 8000), free it first |
 | `/health` down but tunnel fine | Service crashed on the VM: `ssh lab25@<host> 'systemctl --user restart embedsvc'` (Qdrant: `... restart qdrant`) |
 | Slow first request after restart | Model loading (~30 s) — retry |
 

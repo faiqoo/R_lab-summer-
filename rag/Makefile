@@ -74,10 +74,14 @@ embed-service:
 	uv run --env-file .env uvicorn archival_rag.embedding_service:app --host 0.0.0.0 --port 8080
 
 # SSH tunnel to the GPU VM services (needs uni VPN + rag/.env.vm).
-# VM Qdrant -> localhost:16333, embedding service -> localhost:8080.
+# VM Qdrant -> localhost:16333, embedding service -> localhost:8080,
+# ragsvc -> port 8000 (what the isle-dc Drupal calls via host.docker.internal:8000).
+# 8000 binds 0.0.0.0 because on Linux/WSL Docker reaches the host via the bridge,
+# not loopback. Stop `make api` first, it uses the same port.
 tunnel:
 	@. ./.env.vm && exec ssh -N -o ServerAliveInterval=30 -o ExitOnForwardFailure=yes \
-		-L 16333:localhost:6333 -L 8080:localhost:8080 $$GPU_VM_USER@$$GPU_VM_HOST
+		-L 16333:localhost:6333 -L 8080:localhost:8080 -L 0.0.0.0:8000:localhost:8000 \
+		$$GPU_VM_USER@$$GPU_VM_HOST
 
 # --- Node-RED indexing flow (ActiveMQ -> ragsvc /ingest) ---
 

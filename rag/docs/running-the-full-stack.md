@@ -53,15 +53,13 @@ harness, `make ingest`) reaches the VM through one SSH tunnel:
 cd rag && make tunnel   # keep running in its own terminal
 ```
 
-Maps `localhost:16333` → VM Qdrant, `localhost:8080` → VM embedding service.
+Maps `localhost:16333` → VM Qdrant, `localhost:8080` → VM embedding service,
+and port 8000 → VM `ragsvc`. The local isle-dc Drupal calls
+`host.docker.internal:8000`, so this tunnel is all the chatbot needs. Port 8000
+is bound on all interfaces because on Linux/WSL the Drupal container reaches
+the host through the Docker bridge, not loopback. Stop `make api` before
+starting the tunnel, it uses the same port.
 See [gpu-vm-services.md](gpu-vm-services.md) for the full `.env` setup.
-
-**Port 8000 (`ragsvc`) is not in this tunnel by default** — for ad hoc laptop
-testing against the containerized service, add a second forward:
-
-```bash
-ssh -N -L 8000:localhost:8000 lab25@<GPU_VM_HOST>
-```
 
 ## isle-dc side (Drupal + ActiveMQ + Node-RED)
 
@@ -91,5 +89,5 @@ treating this as production-ready end to end.
 # From your laptop, tunnel running:
 curl localhost:16333            && echo "Qdrant OK"
 curl localhost:8080/health      && echo "Embedding service OK"
-ssh lab25@<GPU_VM_HOST> 'curl -s localhost:8000/health' && echo "ragsvc OK"
+curl localhost:8000/health      && echo "ragsvc OK"
 ```
